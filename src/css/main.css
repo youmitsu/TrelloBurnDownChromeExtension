@@ -1,0 +1,15 @@
+body {
+  padding: 10px;
+}
+
+.input {
+  display: block;
+}
+
+button {
+  margin: 15px;
+}
+
+div {
+  margin: 5px;
+}

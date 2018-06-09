@@ -1,0 +1,22 @@
+{
+  "name": "SimpleBurnDownChartForTrello",
+  "description": "Trelloで使える手軽なバーンダウンチャートです",
+  "version": "0.1",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_icon": {
+      "19": "image/icon-16.png"
+    },
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+    "storage",
+    "background",
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+  ]
+}

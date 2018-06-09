@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>BurnDownChart</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" type="text/css" href="semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <script src="jquery-2.2.0.min.js"></script>
+  <script src="semantic.min.js"></script>
+  <script src="Chart.min.js"></script>
+</head>
+
+<body>
+  <h1>Simple Burndown Chart</h1>
+
+  <ul style="list-style:none;">
+    <li>
+      <div class="ui input">
+        <input id="start" type="date" placeholder="開始日"></input>
+      </div>
+    </li>
+    <li>
+      <div class="ui input">
+        <input id="end" type="date" placeholder="終了日"></input>
+      </div>
+    </li>
+    <li>
+      <div class="ui input">
+        <input type="text" placeholder="休日">
+      </div>
+    </li>
+    <ul>
+    <button id="showBtn" type="button" class="ui button">Show</button>
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script src="popup.js"></script>
+</body>
+
+</html>
