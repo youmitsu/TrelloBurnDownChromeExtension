@@ -1,34 +1,42 @@
-var port = chrome.extension.connect({
-  name: "background"
-});
-port.postMessage("test");
-port.onMessage.addListener(function(response) {
-  console.log("Received from event page:  " + response);
-  console.log(response.status);
-  console.log(response.data);
-  var data = JSON.parse(response.data);
-  if (response.status === 'OK') {
-    buildChart(data);
-  }
-});
+// var port = chrome.extension.connect({
+//   name: "background"
+// });
+// port.postMessage("test");
+// port.onMessage.addListener(function(response) {
+//   console.log("Received from event page:  " + response);
+//   console.log(response.status);
+//   console.log(response.data);
+//   var data = JSON.parse(response.data);
+//   if (response.status === 'OK') {
+//     buildChart(data);
+//   }
+// });
 
 $('#showBtn').on('click', function() {
   console.log("clicked");
   $('.spinnerContainer').show();
   $('.chartContainer').hide();
   $('.inputArea').hide();
-  getChartData()
+  getChartData(getParams())
     .then(result => {
       var data = result;
       buildChart(data);
     })
-    .catch(err => {
-    });
+    .catch(err => {});
 });
 
-function getChartData() {
+function getParams() {
+  let start = $('#start').val();
+  let end = $('#end').val();
+  return {
+    "startDate": start,
+    "endDate": end
+  };
+}
+
+function getChartData(params) {
   return new Promise((resolve, reject) => {
-    $.get("https://us-central1-trelloburndownproject.cloudfunctions.net/getSprintPoint", {}, function(data) {
+    $.get("https://us-central1-trelloburndownproject.cloudfunctions.net/getSprintPoint", params, function(data) {
       //TODO: APIリクエストがエラーだった場合のエラーハンドリング
       var result = {
         status: "OK",
@@ -56,10 +64,10 @@ function buildChart(json) {
   }
   obj.data = json;
   var ctx = document.getElementById("myChart").getContext('2d');
-  var myChart = new Chart(ctx, obj);
   $('.spinnerContainer').hide();
   $('.chartContainer').show();
   $('.inputArea').show();
+  var myChart = new Chart(ctx, obj);
 }
 
 //データのラベルや色などの設定を行う

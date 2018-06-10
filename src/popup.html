@@ -15,14 +15,14 @@
 <body>
   <h1>Simple Burndown Chart</h1>
 
-  <div class="spinnerContainer">
+  <div class="spinnerContainer" hidden>
     <i id="spinner" class="spinner loading icon"></i>
   </div>
-  <div class="chartContainer" hidden>
-    <canvas id="myChart"></canvas>
+  <div class="chartContainer">
+    <canvas id="myChart" width="400" height="400"></canvas>
   </div>
 
-  <div class="inputArea" hidden>
+  <div class="inputArea">
     <ul id="inputList" style="list-style:none;">
       <li>
         <div class="ui label">開始日</div>
@@ -45,7 +45,7 @@
     </ul>
   </div>
 
-  <div class="inputArea" hidden>
+  <div class="inputArea">
     <button id="showBtn" type="button" class="ui button">Show</button>
   </div>
   <script src="popup.js "></script>

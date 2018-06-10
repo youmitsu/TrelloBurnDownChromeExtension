@@ -9,9 +9,6 @@
     },
     "default_popup": "popup.html"
   },
-  "background": {
-    "scripts": ["jquery-2.2.0.min.js", "background.js"]
-  },
   "permissions": [
     "storage",
     "background",
