@@ -14,13 +14,15 @@ port.onMessage.addListener(function(response) {
 
 $('#showBtn').on('click', function() {
   console.log("clicked");
+  $('.spinnerContainer').show();
+  $('.chartContainer').hide();
+  $('.inputArea').hide();
   getChartData()
     .then(result => {
-      var data = JSON.parse(result.data);
+      var data = result;
       buildChart(data);
     })
     .catch(err => {
-      console.log(err);
     });
 });
 
@@ -32,13 +34,9 @@ function getChartData() {
         status: "OK",
         "data": data
       };
-      var data;
-      try {
-        data = JSON.parse(result.data);
-        resolve(data);
-      } catch (e) {
-        reject(e);
-      }
+      console.log("apiRequest");
+      var data = JSON.parse(result.data);
+      resolve(data);
     });
   });
 }
@@ -59,6 +57,9 @@ function buildChart(json) {
   obj.data = json;
   var ctx = document.getElementById("myChart").getContext('2d');
   var myChart = new Chart(ctx, obj);
+  $('.spinnerContainer').hide();
+  $('.chartContainer').show();
+  $('.inputArea').show();
 }
 
 //データのラベルや色などの設定を行う

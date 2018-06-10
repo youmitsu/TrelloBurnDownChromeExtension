@@ -33,3 +33,12 @@ h1 {
 #startText {
   vertical-align: middle;
 }
+
+.spinnerContainer {
+  text-align: center;
+  margin-top: 80px;
+}
+
+.chartContainer {
+  text-align: center;
+}
