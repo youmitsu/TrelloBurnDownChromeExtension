@@ -2,6 +2,10 @@ body {
   padding: 10px;
 }
 
+#myChart {
+  padding: 20px;
+}
+
 .input {
   display: block;
 }
@@ -12,4 +16,20 @@ button {
 
 div {
   margin: 5px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.inputArea {
+  text-align: center;
+}
+
+#inputList {
+  padding: 0;
+}
+
+#startText {
+  vertical-align: middle;
 }

@@ -5,6 +5,7 @@
   <title>BurnDownChart</title>
   <meta charset="UTF-8" />
   <link rel="stylesheet" type="text/css" href="semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="icon.min.css">
   <link rel="stylesheet" type="text/css" href="css/main.css">
   <script src="jquery-2.2.0.min.js"></script>
   <script src="semantic.min.js"></script>
@@ -14,26 +15,34 @@
 <body>
   <h1>Simple Burndown Chart</h1>
 
-  <ul style="list-style:none;">
-    <li>
-      <div class="ui input">
-        <input id="start" type="date" placeholder="開始日"></input>
-      </div>
-    </li>
-    <li>
-      <div class="ui input">
-        <input id="end" type="date" placeholder="終了日"></input>
-      </div>
-    </li>
-    <li>
-      <div class="ui input">
-        <input type="text" placeholder="休日">
-      </div>
-    </li>
-    <ul>
+  <div class="inputArea">
+    <ul id="inputList" style="list-style:none;">
+      <li>
+        <div class="ui label">開始日</div>
+        <div class="ui input">
+          <input id="start" type="date" placeholder="開始日" />
+        </div>
+      </li>
+      <li>
+        <div class="ui label">終了日</div>
+        <div class="ui input">
+          <input id="end" type="date" placeholder="終了日" />
+        </div>
+      </li>
+      <li>
+        <div class="ui label">休日</div>
+        <div class="ui input">
+          <input type="text" placeholder="休日をカンマ区切りで入力">
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="inputArea">
     <button id="showBtn" type="button" class="ui button">Show</button>
-    <canvas id="myChart" width="400" height="400"></canvas>
-    <script src="popup.js"></script>
+  </div>
+  <i class="spinner loading icon" hidden></i>
+  <canvas id="myChart" width="400" height="400" hidden></canvas>
+  <script src="popup.js "></script>
 </body>
 
 </html>
