@@ -26,6 +26,10 @@ h1 {
   text-align: center;
 }
 
+#desc {
+  text-align: center;
+}
+
 #inputList {
   padding: 0;
 }

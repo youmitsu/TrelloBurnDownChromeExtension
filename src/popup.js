@@ -11,12 +11,32 @@
 //     buildChart(data);
 //   }
 // });
+$(function() {
+  var defaultStartDate = localStorage.startDate;
+  var defaultEndDate = localStorage.endDate;
+  if (!defaultStartDate || !defaultEndDate) {
+    $('#desc').show();
+  } else {
+    $('#desc').hide();
+    $('#start').val(defaultStartDate);
+    $('#end').val(defaultEndDate);
+    getChartData(getParams())
+      .then(result => {
+        var data = result;
+        buildChart(data);
+      })
+      .catch(err => {});
+  }
+});
 
 $('#showBtn').on('click', function() {
   console.log("clicked");
+  localStorage.startDate = $('#start').val();
+  localStorage.endDate = $('#end').val();
   $('.spinnerContainer').show();
   $('.chartContainer').hide();
   $('.inputArea').hide();
+  $('#desc').hide();
   getChartData(getParams())
     .then(result => {
       var data = result;
