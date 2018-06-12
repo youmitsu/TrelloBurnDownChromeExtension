@@ -20,6 +20,7 @@ $(function() {
     $('#desc').hide();
     $('#start').val(defaultStartDate);
     $('#end').val(defaultEndDate);
+    $('.spinnerContainer').show();
     getChartData(getParams())
       .then(result => {
         var data = result;
