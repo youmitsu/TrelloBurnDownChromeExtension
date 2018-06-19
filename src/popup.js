@@ -14,12 +14,14 @@
 $(function() {
   var defaultStartDate = localStorage.startDate;
   var defaultEndDate = localStorage.endDate;
+  var defaultHolidays = localStorage.holidays;
   if (!defaultStartDate || !defaultEndDate) {
     $('#desc').show();
   } else {
     $('#desc').hide();
     $('#start').val(defaultStartDate);
     $('#end').val(defaultEndDate);
+    $('#holidays').val(defaultHolidays);
     $('.spinnerContainer').show();
     getChartData(getParams())
       .then(result => {
@@ -33,7 +35,9 @@ $(function() {
 $('#showBtn').on('click', function() {
   console.log("clicked");
   localStorage.startDate = $('#start').val();
+  console.log(localStorage.startDate);
   localStorage.endDate = $('#end').val();
+  localStorage.holidays = $('#holidays').val();
   $('.spinnerContainer').show();
   $('.chartContainer').hide();
   $('.inputArea').hide();
@@ -49,9 +53,11 @@ $('#showBtn').on('click', function() {
 function getParams() {
   let start = $('#start').val();
   let end = $('#end').val();
+  let holidays = $('#holidays').val();
   return {
     "startDate": start,
-    "endDate": end
+    "endDate": end,
+    "holidays": holidays
   };
 }
 
