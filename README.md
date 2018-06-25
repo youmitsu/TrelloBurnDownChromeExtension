@@ -1,3 +1,5 @@
+# Trello Burndown Chrome Extension
+
 ## What's this
 
 This repository is a tool which shows Burndown chart for Trello. This is a Google Chrome Extension Plugin.
@@ -21,6 +23,8 @@ This repository is a tool which shows Burndown chart for Trello. This is a Googl
 準備完了です！
 
 ## How to use
+
+右上のアイコンをクリックすると、ポップアップウィンドウが表示されます。
 
 ### 初回
 
