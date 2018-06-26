@@ -14,11 +14,15 @@ This repository is a tool which shows Burndown chart for Trello. This is a Googl
 
 `chrome://extensions/`をGoogleChromeで開いてください。
 
-3. Click "Read the extension that is not packaged" and select `TrelloBurnDownChromeExtension/src/`
+3. Enable the `Developer Mode`.
+
+ディベロッパーモードを有効にしてください。
+
+4. Click "Read the extension that is not packaged" and select `TrelloBurnDownChromeExtension/src/`
 
 パッケージ化されていない拡張機能を読み込むをクリックし、`TrelloBurnDownChromeExtension/src/`のディレクトリを選択。
 
-4. You are Ready to use this tool!
+5. You are Ready to use this tool!
 
 準備完了です！
 
