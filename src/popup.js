@@ -12,13 +12,15 @@
 //   }
 // });
 $(function() {
+  var token = localStorage.token;
   var defaultStartDate = localStorage.startDate;
   var defaultEndDate = localStorage.endDate;
   var defaultHolidays = localStorage.holidays;
-  if (!defaultStartDate || !defaultEndDate) {
+  if (!token || !defaultStartDate || !defaultEndDate) {
     $('#desc').show();
   } else {
     $('#desc').hide();
+    $('#token').val(token);
     $('#start').val(defaultStartDate);
     $('#end').val(defaultEndDate);
     $('#holidays').val(defaultHolidays);
@@ -34,6 +36,7 @@ $(function() {
 
 $('#showBtn').on('click', function() {
   console.log("clicked");
+  localStorage.token=$('#token').val();
   localStorage.startDate = $('#start').val();
   console.log(localStorage.startDate);
   localStorage.endDate = $('#end').val();
@@ -51,10 +54,12 @@ $('#showBtn').on('click', function() {
 });
 
 function getParams() {
+  let token = $('#token').val();
   let start = $('#start').val();
   let end = $('#end').val();
   let holidays = $('#holidays').val();
   return {
+    "token": token,
     "startDate": start,
     "endDate": end,
     "holidays": holidays
