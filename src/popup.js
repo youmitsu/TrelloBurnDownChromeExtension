@@ -54,12 +54,14 @@ $('#showBtn').on('click', function() {
 });
 
 function getParams() {
+  const key = "dGHLVUj3N3";
   let token = $('#token').val();
+  let encryptedToken = CryptoJS.AES.encrypt(token, key).toString();
   let start = $('#start').val();
   let end = $('#end').val();
   let holidays = $('#holidays').val();
   return {
-    "token": token,
+    "token": encryptedToken,
     "startDate": start,
     "endDate": end,
     "holidays": holidays
