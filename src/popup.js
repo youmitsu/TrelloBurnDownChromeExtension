@@ -12,6 +12,7 @@
 //   }
 // });
 $(function() {
+  $('.ui.dropdown').dropdown();
   var token = localStorage.token;
   var devKey = localStorage.devKey;
   var defaultStartDate = localStorage.startDate;
