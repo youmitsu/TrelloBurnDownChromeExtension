@@ -28,7 +28,16 @@ $(function() {
     $('#end').val(defaultEndDate);
     $('#holidays').val(defaultHolidays);
     $('.spinnerContainer').show();
-    getChartData(getParams())
+
+    let params = getParams();
+    getUser(params.userParams)
+      .then(user => {
+        getBoards(user.username, params.boardParams)
+        .then(boards => {
+          console.log(boards);
+        });
+      });
+    getChartData(params.chartParams)
       .then(result => {
         var data = result;
         buildChart(data);
@@ -38,8 +47,8 @@ $(function() {
 });
 
 $('#showBtn').on('click', function() {
-  localStorage.token=$('#token').val();
-  localStorage.devKey=$('#devKey').val();
+  localStorage.token = $('#token').val();
+  localStorage.devKey = $('#devKey').val();
   localStorage.startDate = $('#start').val();
   localStorage.endDate = $('#end').val();
   localStorage.holidays = $('#holidays').val();
@@ -47,13 +56,33 @@ $('#showBtn').on('click', function() {
   $('.chartContainer').hide();
   $('.inputArea').hide();
   $('#desc').hide();
-  getChartData(getParams())
+  getChartData(getParams().chartParams)
     .then(result => {
       var data = result;
       buildChart(data);
     })
     .catch(err => {});
 });
+
+function getUser(params) {
+  console.log(params);
+  return new Promise((resolve, reject) => {
+    $.get(`https://api.trello.com/1/tokens/${params.token}/member`, params, function(data) {
+      //TODO: APIリクエストがエラーだった場合のエラーハンドリング
+      resolve(data);
+    });
+  });
+}
+
+function getBoards(username, params) {
+  return new Promise((resolve, reject) => {
+    $.get(`https://api.trello.com/1/members/${username}/boards`, params, function(data) {
+      //TODO: APIリクエストがエラーだった場合のエラーハンドリング
+      console.log("apiRequest");
+      resolve(data);
+    });
+  });
+}
 
 function getParams() {
   const KEY = "dGHLVUj3N3";
@@ -65,11 +94,26 @@ function getParams() {
   let end = $('#end').val();
   let holidays = $('#holidays').val();
   return {
-    "token": encryptedToken,
-    "key": encryptedKey,
-    "startDate": start,
-    "endDate": end,
-    "holidays": holidays
+    chartParams: {
+      "token": encryptedToken,
+      "key": encryptedKey,
+      "startDate": start,
+      "endDate": end,
+      "holidays": holidays
+    },
+    boardParams: {
+      "token": token,
+      "key": devKey,
+      "filter": "open",
+      "fields": "name",
+      "lists": "none",
+      "memberships":" none"
+    },
+    userParams: {
+      "token": token,
+      "key": devKey,
+      "fields": "username"
+    }
   };
 }
 
