@@ -13,14 +13,16 @@
 // });
 $(function() {
   var token = localStorage.token;
+  var key = localStorage.key;
   var defaultStartDate = localStorage.startDate;
   var defaultEndDate = localStorage.endDate;
   var defaultHolidays = localStorage.holidays;
-  if (!token || !defaultStartDate || !defaultEndDate) {
+  if (!token || !key || !defaultStartDate || !defaultEndDate) {
     $('#desc').show();
   } else {
     $('#desc').hide();
     $('#token').val(token);
+    $('#key').val(key);
     $('#start').val(defaultStartDate);
     $('#end').val(defaultEndDate);
     $('#holidays').val(defaultHolidays);
@@ -35,10 +37,9 @@ $(function() {
 });
 
 $('#showBtn').on('click', function() {
-  console.log("clicked");
   localStorage.token=$('#token').val();
+  localStorage.key=$('#key').val();
   localStorage.startDate = $('#start').val();
-  console.log(localStorage.startDate);
   localStorage.endDate = $('#end').val();
   localStorage.holidays = $('#holidays').val();
   $('.spinnerContainer').show();
@@ -54,14 +55,17 @@ $('#showBtn').on('click', function() {
 });
 
 function getParams() {
-  const key = "dGHLVUj3N3";
+  const KEY = "dGHLVUj3N3";
   let token = $('#token').val();
-  let encryptedToken = CryptoJS.AES.encrypt(token, key).toString();
+  let key = $('#key').val();
+  let encryptedToken = CryptoJS.AES.encrypt(token, KEY).toString();
+  let encryptedKey = CryptoJS.AES.encrypt(key, KEY).toString();
   let start = $('#start').val();
   let end = $('#end').val();
   let holidays = $('#holidays').val();
   return {
     "token": encryptedToken,
+    "key": encryptedKey,
     "startDate": start,
     "endDate": end,
     "holidays": holidays
