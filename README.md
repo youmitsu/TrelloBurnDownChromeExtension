@@ -32,13 +32,24 @@ This repository is a tool which shows Burndown chart for Trello. This is a Googl
 
 ### 初回
 
-1. 開始日と終了日を入力
+1. 以下のURLからTrelloのAPIKEYを取得
 
-2. (土日以外の休日があれば)休日をカンマ区切りで入力(形式: YYYY/MM/DD)
+https://trello.com/app-key/
 
-3. Showをクリック
+2. 以下のURLからTrelloのTokenを取得
 
-4. グラフが表示される
+https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key={1で取得したAPIKEY}
+
+3. 本プラグインを開き1で取得したAPIKEYは「Key」に入力。2で取得したTokenは「Token」に入力。
+※Token及びKeyは送信時に暗号化されます。
+
+4. 開始日と終了日を入力
+
+5. (土日以外の休日があれば)休日をカンマ区切りで入力(形式: YYYY/MM/DD)
+
+6. Showをクリック
+
+7. グラフが表示される
 
 ### 2回目以降
 
