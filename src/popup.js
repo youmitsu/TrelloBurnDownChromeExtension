@@ -35,6 +35,9 @@ $(function() {
         getBoards(user.username, params.boardParams)
         .then(boards => {
           console.log(boards);
+          boards.forEach(v => {
+            appendBoardItem(v);
+          });
         });
       });
     getChartData(params.chartParams)
@@ -63,6 +66,13 @@ $('#showBtn').on('click', function() {
     })
     .catch(err => {});
 });
+
+function appendBoardItem(board) {
+  $(`<div>${board.name}</div>`).attr({
+    class: "item",
+    "data-value": board.name
+  }).appendTo('.menu');
+}
 
 function getUser(params) {
   console.log(params);

@@ -15,73 +15,66 @@
 </head>
 
 <body>
-  <div class="ui fluid selection dropdown">
-    <input type="hidden" name="board">
-    <i class="dropdown icon"></i>
-    <div class="default text">ボードを選択</div>
-    <div class="menu">
-      <div class="item" data-value="jenny">
-        hoge
-      </div>
-      <div class="item" data-value="elliot">
-        Elliot Fu
-      </div>
-      <div class="item" data-value="stevie">
-        Stevie Feliciano
-      </div>
-      <div class="item" data-value="christian">
-        Christian
-      </div>
-      <div class="item" data-value="matt">
-        Matt
+  <div id="app" class="ui main container">
+    <div class="ui fluid selection dropdown">
+      <input type="hidden" name="board">
+      <i class="dropdown icon"></i>
+      <div class="default text">ボードを選択</div>
+      <div class="menu">
+    
       </div>
     </div>
-  </div>
-  <div class="spinnerContainer" hidden>
-    <i id="spinner" class="spinner loading icon"></i>
-  </div>
-  <div class="chartContainer">
-    <canvas id="myChart" width="400" height="400"></canvas>
-  </div>
-  <p id="desc" hidden>開始日,終了日を入力し、Showを押してください</p>
 
-  <div class="inputArea">
-    <ul id="inputList" style="list-style:none;">
-      <li>
-        <div class="ui label">開始日</div>
-        <div class="ui input">
-          <input id="start" type="date" placeholder="開始日" />
-        </div>
-      </li>
-      <li>
-        <div class="ui label">終了日</div>
-        <div class="ui input">
-          <input id="end" type="date" placeholder="終了日" />
-        </div>
-      </li>
-      <li>
-        <div class="ui label">休日</div>
-        <div class="ui input">
-          <input id="holidays" type="text" placeholder="休日をカンマ区切りで入力">
-        </div>
-      </li>
-      <li>
-        <div class="ui label">Token</div>
-        <div class="ui input">
-          <input id="token" type="password" placeholder="tokenを入力(暗号化されます)">
-        </div>
-      </li>
-      <li>
-        <div class="ui label">Key</div>
-        <div class="ui input">
-          <input id="devKey" type="password" placeholder="keyを入力(暗号化されます)">
-        </div>
-      </li>
-    </ul>
-  </div>
+    <div class="ui segment">
+      <div class="spinnerContainer" hidden>
+        <i id="spinner" class="spinner loading icon"></i>
+      </div>
+      <div class="chartContainer">
+        <canvas id="myChart" width="400" height="400"></canvas>
+      </div>
+      <p id="desc" hidden>開始日,終了日を入力し、Showを押してください</p>
+    </div>
 
-  <div class="inputArea">
-    <button id="showBtn" type="button" class="ui button">Show</button>
+    <div class="ui segment">
+      <div class="inputArea">
+        <ul id="inputList" style="list-style:none;">
+          <li>
+            <div class="ui label">開始日</div>
+            <div class="ui input">
+              <input id="start" type="date" placeholder="開始日" />
+            </div>
+          </li>
+          <li>
+            <div class="ui label">終了日</div>
+            <div class="ui input">
+              <input id="end" type="date" placeholder="終了日" />
+            </div>
+          </li>
+          <li>
+            <div class="ui label">休日</div>
+            <div class="ui input">
+              <input id="holidays" type="text" placeholder="休日をカンマ区切りで入力">
+            </div>
+          </li>
+          <li>
+            <div class="ui label">Token</div>
+            <div class="ui input">
+              <input id="token" type="password" placeholder="tokenを入力(暗号化されます)">
+            </div>
+          </li>
+          <li>
+            <div class="ui label">Key</div>
+            <div class="ui input">
+              <input id="devKey" type="password" placeholder="keyを入力(暗号化されます)">
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="inputArea">
+        <button id="showBtn" type="button" class="ui button">Show</button>
+      </div>
+    </div>
   </div>
   <script src="popup.js "></script>
 </body>
