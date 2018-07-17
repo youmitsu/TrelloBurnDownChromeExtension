@@ -70,6 +70,7 @@ $('#showBtn').on('click', function() {
 function appendBoardItem(board) {
   $(`<div>${board.name}</div>`).attr({
     class: "item",
+    value: board.id,
     "data-value": board.name
   }).appendTo('.menu');
 }
