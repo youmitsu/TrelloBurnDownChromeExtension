@@ -15,10 +15,13 @@ $(function() {
   $('.ui.dropdown').dropdown();
   var token = localStorage.token;
   var devKey = localStorage.devKey;
+  var boardId = localStorage.boardId;
+  var boardName = localStorage.boardName;
   var defaultStartDate = localStorage.startDate;
   var defaultEndDate = localStorage.endDate;
   var defaultHolidays = localStorage.holidays;
-  if (!token || !devKey || !defaultStartDate || !defaultEndDate) {
+  //TODO: board取得 -> データ設定の直列にする
+  if (!token || !devKey || !boardName || !defaultStartDate || !defaultEndDate) {
     $('#desc').show();
   } else {
     $('#desc').hide();
@@ -27,18 +30,22 @@ $(function() {
     $('#start').val(defaultStartDate);
     $('#end').val(defaultEndDate);
     $('#holidays').val(defaultHolidays);
+    $(`div[value=${boardId}]`).attr({
+      active: true,
+      selected: true
+    });
     $('.spinnerContainer').show();
 
     let params = getParams();
     getUser(params.userParams)
       .then(user => {
         getBoards(user.username, params.boardParams)
-        .then(boards => {
-          console.log(boards);
-          boards.forEach(v => {
-            appendBoardItem(v);
+          .then(boards => {
+            console.log(boards);
+            boards.forEach(v => {
+              appendBoardItem(v);
+            });
           });
-        });
       });
     getChartData(params.chartParams)
       .then(result => {
@@ -52,6 +59,8 @@ $(function() {
 $('#showBtn').on('click', function() {
   localStorage.token = $('#token').val();
   localStorage.devKey = $('#devKey').val();
+  localStorage.boardId = $('.menu > .item.active.selected').attr('value');
+  localStorage.boardName = $('.menu > .item.active.selected').attr('data-value');
   localStorage.startDate = $('#start').val();
   localStorage.endDate = $('#end').val();
   localStorage.holidays = $('#holidays').val();
@@ -101,13 +110,16 @@ function getParams() {
   let devKey = $('#devKey').val();
   let encryptedToken = CryptoJS.AES.encrypt(token, KEY).toString();
   let encryptedKey = CryptoJS.AES.encrypt(devKey, KEY).toString();
+  let boardId = $('.menu > .item.active.selected').attr('value');
   let start = $('#start').val();
   let end = $('#end').val();
   let holidays = $('#holidays').val();
+  console.log(boardId);
   return {
     chartParams: {
       "token": encryptedToken,
       "key": encryptedKey,
+      "boardId": boardId,
       "startDate": start,
       "endDate": end,
       "holidays": holidays
@@ -118,7 +130,7 @@ function getParams() {
       "filter": "open",
       "fields": "name",
       "lists": "none",
-      "memberships":" none"
+      "memberships": " none"
     },
     userParams: {
       "token": token,
