@@ -35,49 +35,42 @@
     </div>
 
     <div id="graphSettingArea" class="ui segment inputArea">
-      <ul id="inputList" style="list-style:none;">
-        <li>
-          <div class="ui label">開始日</div>
+      <form class="ui large form">
+        <div class="field">
           <div class="ui input">
             <input id="start" type="date" placeholder="開始日" />
           </div>
-        </li>
-        <li>
-          <div class="ui label">終了日</div>
+        </div>
+        <div class="field">
           <div class="ui input">
             <input id="end" type="date" placeholder="終了日" />
           </div>
-        </li>
-        <li>
-          <div class="ui label">休日</div>
+        </div>
+        <div class="field">
           <div class="ui input">
-            <input id="holidays" type="text" placeholder="休日をカンマ区切りで入力">
+            <input id="holidays" type="text" placeholder="休日" />
           </div>
-        </li>
-      </ul>
-      <div class="inputArea">
+        </div>
         <button id="showBtn" type="button" class="ui button">Show</button>
-      </div>
+      </form>
     </div>
 
     <div id="initialSettingArea" class="ui segment inputArea">
-      <ul id="inputList" style="list-style:none;">
-        <li>
-          <div class="ui label">Token</div>
+      <form class="ui large form">
+        <div class="field">
           <div class="ui input">
+            <div class="ui label">Token</div>
             <input id="token" type="password" placeholder="tokenを入力(暗号化されます)">
           </div>
-        </li>
-        <li>
-          <div class="ui label">Key</div>
+        </div>
+        <div class="field">
           <div class="ui input">
+            <div class="ui label">Key</div>
             <input id="devKey" type="password" placeholder="keyを入力(暗号化されます)">
           </div>
-        </li>
-      </ul>
-      <div class="inputArea">
+        </div>
         <button id="registerBtn" type="button" class="ui button">登録</button>
-      </div>
+      </form>
     </div>
   </div>
   <script src="popup.js "></script>
