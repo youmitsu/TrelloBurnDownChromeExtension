@@ -65,8 +65,16 @@ $(function() {
       $('#end').val(defaultEndDate);
       $('#holidays').val(defaultHolidays);
       $('.spinnerContainer').show();
-      getChartData(getChartParams())
-        .then(result => {
+      let encryptedToken = CryptoJS.AES.encrypt(token, KEY).toString();
+      let encryptedKey = CryptoJS.AES.encrypt(devKey, KEY).toString();
+      getChartData({
+        "token": encryptedToken,
+        "key": encryptedKey,
+        "boardId": boardId,
+        "startDate": defaultStartDate,
+        "endDate": defaultEndDate,
+        "holidays": defaultHolidays
+      }).then(result => {
           var data = result;
           buildChart(data);
         })
@@ -82,21 +90,24 @@ $('#showBtn').on('click', function() {
   localStorage.devKey = $('#devKey').val();
   localStorage.boardId = $('.menu > .item.active.selected').attr('value');
   localStorage.boardName = $('.menu > .item.active.selected').attr('data-value');
+  console.log(localStorage.boardId);
+  console.log(localStorage.boardName);
   localStorage.startDate = $('#start').val();
   localStorage.endDate = $('#end').val();
   localStorage.holidays = $('#holidays').val();
   location.reload();
-  $('.spinnerContainer').show();
-  $('.chartContainer').hide();
-  $('.inputArea').hide();
-  $('#desc').hide();
-  $('#boardSelectArea').hide();
-  getChartData(getChartParams())
-    .then(result => {
-      var data = result;
-      buildChart(data);
-    })
-    .catch(err => {});
+  $('#app').hide();
+  // $('.spinnerContainer').show();
+  // $('.chartContainer').hide();
+  // $('.inputArea').hide();
+  // $('#desc').hide();
+  // $('#boardSelectArea').hide();
+  // getChartData(getChartParams())
+  //   .then(result => {
+  //     var data = result;
+  //     buildChart(data);
+  //   })
+  //   .catch(err => {});
 });
 
 $('#registerBtn').on('click', function() {
@@ -131,48 +142,6 @@ function getBoards(username, params) {
       resolve(data);
     });
   });
-}
-
-function getChartParams() {
-  let token = $('#token').val();
-  let devKey = $('#devKey').val();
-  let encryptedToken = CryptoJS.AES.encrypt(token, KEY).toString();
-  let encryptedKey = CryptoJS.AES.encrypt(devKey, KEY).toString();
-  let boardId = $('.menu > div.item[active][selected]').attr('value');
-  let start = $('#start').val();
-  let end = $('#end').val();
-  let holidays = $('#holidays').val();
-  return {
-    "token": encryptedToken,
-    "key": encryptedKey,
-    "boardId": boardId,
-    "startDate": start,
-    "endDate": end,
-    "holidays": holidays
-  };
-}
-
-function getBoardParams() {
-  let token = $('#token').val();
-  let devKey = $('#devKey').val();
-  return {
-    "token": token,
-    "key": devKey,
-    "filter": "open",
-    "fields": "name",
-    "lists": "none",
-    "memberships": "none"
-  };
-}
-
-function getUserParams() {
-  let token = $('#token').val();
-  let devKey = $('#devKey').val();
-  return {
-    "token": token,
-    "key": devKey,
-    "fields": "username"
-  };
 }
 
 function getChartData(params) {
