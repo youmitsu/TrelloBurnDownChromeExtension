@@ -11,49 +11,70 @@
 //     buildChart(data);
 //   }
 // });
+const KEY = "dGHLVUj3N3";
 $(function() {
   $('.ui.dropdown').dropdown();
   var token = localStorage.token;
   var devKey = localStorage.devKey;
+  if (!token || !devKey) {
+    $('#boardSelectArea').hide();
+    $('#graphArea').hide();
+    $('#graphSettingArea').hide();
+    return;
+  }
+  $('#token').val(token);
+  $('#devKey').val(devKey);
+
   var boardId = localStorage.boardId;
   var boardName = localStorage.boardName;
   var defaultStartDate = localStorage.startDate;
   var defaultEndDate = localStorage.endDate;
   var defaultHolidays = localStorage.holidays;
-  //TODO: board取得 -> データ設定の直列にする
-  if (!token || !devKey || !boardName || !defaultStartDate || !defaultEndDate) {
-    $('#desc').show();
-  } else {
-    $('#desc').hide();
-    $('#token').val(token);
-    $('#devKey').val(devKey);
-    $('#start').val(defaultStartDate);
-    $('#end').val(defaultEndDate);
-    $('#holidays').val(defaultHolidays);
-    $(`div[value=${boardId}]`).attr({
-      active: true,
-      selected: true
-    });
-    $('.spinnerContainer').show();
 
-    let params = getParams();
-    getUser(params.userParams)
-      .then(user => {
-        getBoards(user.username, params.boardParams)
-          .then(boards => {
-            console.log(boards);
-            boards.forEach(v => {
-              appendBoardItem(v);
-            });
-          });
+  getUser({
+    "token": token,
+    "key": devKey,
+    "fields": "username"
+  }).then(user => {
+    getBoards(user.username, {
+      "token": token,
+      "key": devKey,
+      "filter": "open",
+      "fields": "name",
+      "lists": "none",
+      "memberships": "none"
+    }).then(boards => {
+      boards.forEach(v => {
+        appendBoardItem(v);
       });
-    getChartData(params.chartParams)
-      .then(result => {
-        var data = result;
-        buildChart(data);
-      })
-      .catch(err => {});
-  }
+      if (boardId && boardName) {
+        $(`div[value=${boardId}]`).attr({
+          active: "",
+          selected: ""
+        });
+        $('.text.default').removeClass('default').text(boardName);
+        return boardId;
+      }
+    }).then(boardId => {
+      if (!defaultStartDate || !defaultEndDate) {
+        $('#desc').show();
+        return;
+      }
+      $('#desc').hide();
+      $('#start').val(defaultStartDate);
+      $('#end').val(defaultEndDate);
+      $('#holidays').val(defaultHolidays);
+      $('.spinnerContainer').show();
+      getChartData(getChartParams())
+        .then(result => {
+          var data = result;
+          buildChart(data);
+        })
+        .catch(err => {
+          throw new Error(err);
+        });
+    });
+  });
 });
 
 $('#showBtn').on('click', function() {
@@ -64,16 +85,24 @@ $('#showBtn').on('click', function() {
   localStorage.startDate = $('#start').val();
   localStorage.endDate = $('#end').val();
   localStorage.holidays = $('#holidays').val();
+  location.reload();
   $('.spinnerContainer').show();
   $('.chartContainer').hide();
   $('.inputArea').hide();
   $('#desc').hide();
-  getChartData(getParams().chartParams)
+  $('#boardSelectArea').hide();
+  getChartData(getChartParams())
     .then(result => {
       var data = result;
       buildChart(data);
     })
     .catch(err => {});
+});
+
+$('#registerBtn').on('click', function() {
+  localStorage.token = $('#token').val();
+  localStorage.devKey = $('#devKey').val();
+  location.reload();
 });
 
 function appendBoardItem(board) {
@@ -104,44 +133,51 @@ function getBoards(username, params) {
   });
 }
 
-function getParams() {
-  const KEY = "dGHLVUj3N3";
+function getChartParams() {
   let token = $('#token').val();
   let devKey = $('#devKey').val();
   let encryptedToken = CryptoJS.AES.encrypt(token, KEY).toString();
   let encryptedKey = CryptoJS.AES.encrypt(devKey, KEY).toString();
-  let boardId = $('.menu > .item.active.selected').attr('value');
+  let boardId = $('.menu > div.item[active][selected]').attr('value');
   let start = $('#start').val();
   let end = $('#end').val();
   let holidays = $('#holidays').val();
-  console.log(boardId);
   return {
-    chartParams: {
-      "token": encryptedToken,
-      "key": encryptedKey,
-      "boardId": boardId,
-      "startDate": start,
-      "endDate": end,
-      "holidays": holidays
-    },
-    boardParams: {
-      "token": token,
-      "key": devKey,
-      "filter": "open",
-      "fields": "name",
-      "lists": "none",
-      "memberships": " none"
-    },
-    userParams: {
-      "token": token,
-      "key": devKey,
-      "fields": "username"
-    }
+    "token": encryptedToken,
+    "key": encryptedKey,
+    "boardId": boardId,
+    "startDate": start,
+    "endDate": end,
+    "holidays": holidays
+  };
+}
+
+function getBoardParams() {
+  let token = $('#token').val();
+  let devKey = $('#devKey').val();
+  return {
+    "token": token,
+    "key": devKey,
+    "filter": "open",
+    "fields": "name",
+    "lists": "none",
+    "memberships": "none"
+  };
+}
+
+function getUserParams() {
+  let token = $('#token').val();
+  let devKey = $('#devKey').val();
+  return {
+    "token": token,
+    "key": devKey,
+    "fields": "username"
   };
 }
 
 function getChartData(params) {
   return new Promise((resolve, reject) => {
+    console.log(params);
     $.get("https://us-central1-trelloburndownproject.cloudfunctions.net/getSprintPoint", params, function(data) {
       //TODO: APIリクエストがエラーだった場合のエラーハンドリング
       var result = {
@@ -173,6 +209,7 @@ function buildChart(json) {
   $('.spinnerContainer').hide();
   $('.chartContainer').show();
   $('.inputArea').show();
+  $('#boardSelectArea').show();
   var myChart = new Chart(ctx, obj);
 }
 
