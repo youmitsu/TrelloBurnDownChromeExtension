@@ -48,10 +48,7 @@ $(function() {
         appendBoardItem(v);
       });
       if (boardId && boardName) {
-        $(`div[value=${boardId}]`).attr({
-          active: "",
-          selected: ""
-        });
+        $(`div[value=${boardId}]`).addClass('active selected');
         $('.text.default').removeClass('default').text(boardName);
         return boardId;
       }
@@ -68,13 +65,13 @@ $(function() {
       let encryptedToken = CryptoJS.AES.encrypt(token, KEY).toString();
       let encryptedKey = CryptoJS.AES.encrypt(devKey, KEY).toString();
       getChartData({
-        "token": encryptedToken,
-        "key": encryptedKey,
-        "boardId": boardId,
-        "startDate": defaultStartDate,
-        "endDate": defaultEndDate,
-        "holidays": defaultHolidays
-      }).then(result => {
+          "token": encryptedToken,
+          "key": encryptedKey,
+          "boardId": boardId,
+          "startDate": defaultStartDate,
+          "endDate": defaultEndDate,
+          "holidays": defaultHolidays
+        }).then(result => {
           var data = result;
           buildChart(data);
         })
