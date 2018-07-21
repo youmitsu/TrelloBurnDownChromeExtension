@@ -43,13 +43,17 @@ https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_
 3. 本プラグインを開き1で取得したAPIKEYは「Key」に入力。2で取得したTokenは「Token」に入力。
 ※Token及びKeyは送信時に暗号化されます。
 
-4. 開始日と終了日を入力
+4. 登録を押下
 
-5. (土日以外の休日があれば)休日をカンマ区切りで入力(形式: YYYY/MM/DD)
+5. 上の選択リストからボードを選択
 
-6. Showをクリック
+6. 開始日と終了日を入力
 
-7. グラフが表示される
+7. (土日以外の休日があれば)休日をカンマ区切りで入力(形式: YYYY/MM/DD)
+
+8. Showをクリック
+
+9. グラフが表示される
 
 ### 2回目以降
 
