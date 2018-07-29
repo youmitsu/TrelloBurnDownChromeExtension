@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>BurnDownChart</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" type="text/css" href="semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="icon.min.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <script src="jquery-2.2.0.min.js"></script>
+  <script src="semantic.min.js"></script>
+  <script src="vue.js"></script>
+  <script src="Chart.min.js"></script>
+  <script src="bower_components/crypto-js/crypto-js.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div class="ui secondary pointing blue inverted massive menu">
+      <a class="item" href="./popup.html">
+      Burndown
+    </a>
+      <div class="right menu">
+        <a class="item active" href="./setting.html">
+        Setting
+      </a>
+      </div>
+    </div>
+
+    <label class="ui label left">Trello</label>
+    <div id="initialSettingArea" class="ui segment inputArea">
+      <form class="ui large form">
+        <div class="field">
+          <div class="ui input">
+            <div class="ui label">Token</div>
+            <input id="token" type="password" placeholder="tokenを入力(暗号化されます)">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui input">
+            <div class="ui label">Key</div>
+            <input id="devKey" type="password" placeholder="keyを入力(暗号化されます)">
+          </div>
+        </div>
+        <button id="registerBtn" type="button" class="ui button">登録</button>
+      </form>
+    </div>
+  </div>
+  <script src="menu.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>

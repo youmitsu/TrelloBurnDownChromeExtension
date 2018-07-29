@@ -15,64 +15,59 @@
 </head>
 
 <body>
-  <div id="app" class="ui main container">
-    <div id="boardSelectArea" class="ui fluid selection dropdown">
-      <input type="hidden" name="board">
-      <i class="dropdown icon"></i>
-      <div class="text default">ボードを選択</div>
-      <div class="menu">
+  <div id="app">
+    <div class="ui secondary pointing blue inverted massive menu">
+      <a class="item active" href="./popup.html">
+        Burndown
+      </a>
+      <div class="right menu">
+        <a class="item" href="./setting.html">
+          Setting
+        </a>
       </div>
     </div>
 
-    <div id="graphArea" class="ui segment">
-      <div class="spinnerContainer" hidden>
-        <i id="spinner" class="spinner loading icon"></i>
+    <div class="ui main container">
+      <div id="boardSelectArea" class="ui fluid selection dropdown">
+        <input type="hidden" name="board">
+        <i class="dropdown icon"></i>
+        <div class="text default">ボードを選択</div>
+        <div id="dropmenu" class="menu">
+        </div>
       </div>
-      <div class="chartContainer">
-        <canvas id="myChart" width="400" height="400"></canvas>
+      <div id="graphArea" class="ui segment">
+        <div class="spinnerContainer" hidden>
+          <i id="spinner" class="spinner loading icon"></i>
+        </div>
+        <div class="chartContainer">
+          <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+        <p id="desc" hidden>開始日,終了日を入力し、Showを押してください</p>
       </div>
-      <p id="desc" hidden>開始日,終了日を入力し、Showを押してください</p>
-    </div>
 
-    <div id="graphSettingArea" class="ui segment inputArea">
-      <form class="ui large form">
-        <div class="field">
-          <div class="ui input">
-            <input id="start" type="date" placeholder="開始日" />
+      <div id="graphSettingArea" class="ui segment inputArea">
+        <form class="ui large form">
+          <div class="field">
+            <div class="ui input">
+              <input id="start" type="date" placeholder="開始日" />
+            </div>
           </div>
-        </div>
-        <div class="field">
-          <div class="ui input">
-            <input id="end" type="date" placeholder="終了日" />
+          <div class="field">
+            <div class="ui input">
+              <input id="end" type="date" placeholder="終了日" />
+            </div>
           </div>
-        </div>
-        <div class="field">
-          <div class="ui input">
-            <input id="holidays" type="text" placeholder="休日" />
+          <div class="field">
+            <div class="ui input">
+              <input id="holidays" type="text" placeholder="休日" />
+            </div>
           </div>
-        </div>
-        <button id="showBtn" type="button" class="ui button">Show</button>
-      </form>
-    </div>
-
-    <div id="initialSettingArea" class="ui segment inputArea">
-      <form class="ui large form">
-        <div class="field">
-          <div class="ui input">
-            <div class="ui label">Token</div>
-            <input id="token" type="password" placeholder="tokenを入力(暗号化されます)">
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui input">
-            <div class="ui label">Key</div>
-            <input id="devKey" type="password" placeholder="keyを入力(暗号化されます)">
-          </div>
-        </div>
-        <button id="registerBtn" type="button" class="ui button">登録</button>
-      </form>
+          <button id="showBtn" type="button" class="ui button">Show</button>
+        </form>
+      </div>
     </div>
   </div>
+  <script src="menu.js "></script>
   <script src="popup.js "></script>
 </body>
 

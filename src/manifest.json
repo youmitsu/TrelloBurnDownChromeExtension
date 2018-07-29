@@ -15,5 +15,6 @@
     "tabs",
     "http://*/*",
     "https://*/*"
-  ]
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval' 'unsafe_inline'; object-src 'self'"
 }

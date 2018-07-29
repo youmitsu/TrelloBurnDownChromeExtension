@@ -11,6 +11,17 @@
 //     buildChart(data);
 //   }
 // });
+var vm = new Vue({
+  el: "#app",
+  data: {
+  },
+  created: function() {
+  },
+  computed: {
+  }
+});
+
+
 const KEY = "dGHLVUj3N3";
 $(function() {
   $('.ui.dropdown').dropdown();
@@ -85,8 +96,8 @@ $(function() {
 $('#showBtn').on('click', function() {
   localStorage.token = $('#token').val();
   localStorage.devKey = $('#devKey').val();
-  localStorage.boardId = $('.menu > .item.active.selected').attr('value');
-  localStorage.boardName = $('.menu > .item.active.selected').attr('data-value');
+  localStorage.boardId = $('#dropmenu.menu > .item.active.selected').attr('value');
+  localStorage.boardName = $('#dropmenu.menu > .item.active.selected').attr('data-value');
   console.log(localStorage.boardId);
   console.log(localStorage.boardName);
   localStorage.startDate = $('#start').val();
@@ -118,7 +129,7 @@ function appendBoardItem(board) {
     class: "item",
     value: board.id,
     "data-value": board.name
-  }).appendTo('.menu');
+  }).appendTo('#dropmenu.menu');
 }
 
 function getUser(params) {
