@@ -11,20 +11,48 @@
 //     buildChart(data);
 //   }
 // });
+const KEY = "dGHLVUj3N3";
 var vm = new Vue({
   el: "#app",
   data: {
+    loading: false,
+    trelloAuth: {
+      token: localStorage.token,
+      devKey: localStorage.devKey
+    },
+    boards: {
+      boardId: localStorage.boardId,
+      boardName: localStorage.boardName
+    },
+    graphInput: {
+      startDate: null,
+      endDate: null,
+      holidays: []
+    }
   },
   created: function() {
+    $('.ui.dropdown').dropdown();
+    this.loading = true;
+    //TODO: localStorage内の要素確認
+
+    console.log(tok);
   },
   computed: {
+    isInputed: function() {
+      return !this.loading;
+    }
+  },
+  methods: {
+    load: function() {
+      return true;
+    },
+    trelloAuthenticated: function() {
+      return vm.trelloAuth.token && vm.trelloAuth.devKey
+    }
   }
 });
 
-
-const KEY = "dGHLVUj3N3";
 $(function() {
-  $('.ui.dropdown').dropdown();
   var token = localStorage.token;
   var devKey = localStorage.devKey;
   if (!token || !devKey) {

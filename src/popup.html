@@ -28,6 +28,7 @@
     </div>
 
     <div class="ui main container">
+
       <div id="boardSelectArea" class="ui fluid selection dropdown">
         <input type="hidden" name="board">
         <i class="dropdown icon"></i>
@@ -35,26 +36,29 @@
         <div id="dropmenu" class="menu">
         </div>
       </div>
-      <div id="graphArea" class="ui segment">
-        <div class="spinnerContainer" hidden>
-          <i id="spinner" class="spinner loading icon"></i>
-        </div>
+
+      <div class="spinnerContainer" v-if="loading">
+        <i id="spinner" class="spinner loading icon"></i>
+      </div>
+
+      <div id="graphArea" class="ui segment" v-if="!loading">
         <div class="chartContainer">
           <canvas id="myChart" width="400" height="400"></canvas>
         </div>
-        <p id="desc" hidden>開始日,終了日を入力し、Showを押してください</p>
       </div>
+
+      <p id="desc" v-if="!loading">開始日,終了日を入力し、Showを押してください</p>
 
       <div id="graphSettingArea" class="ui segment inputArea">
         <form class="ui large form">
           <div class="field">
             <div class="ui input">
-              <input id="start" type="date" placeholder="開始日" />
+              <input id="start" type="date" placeholder="開始日" required/>
             </div>
           </div>
           <div class="field">
             <div class="ui input">
-              <input id="end" type="date" placeholder="終了日" />
+              <input id="end" type="date" placeholder="終了日" required />
             </div>
           </div>
           <div class="field">
@@ -65,6 +69,7 @@
           <button id="showBtn" type="button" class="ui button">Show</button>
         </form>
       </div>
+
     </div>
   </div>
   <script src="menu.js "></script>
