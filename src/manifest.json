@@ -1,5 +1,5 @@
 {
-  "name": "SimpleBurnDownChartForTrello",
+  "name": "TrelloBurnDownChromeExtension",
   "description": "Trelloで使える手軽なバーンダウンチャートです",
   "version": "0.1",
   "manifest_version": 2,
