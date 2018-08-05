@@ -27,8 +27,19 @@
       </div>
     </div>
 
+    <h2 class="ui dividing header">Backend Settings</h2>
+    <div id="backendSettingArea" class="ui segment inputArea">
+      <form class="ui large form">
+        <div class="field">
+          <div class="ui input">
+            <input id="url" type="password" placeholder="Server URL" required>
+          </div>
+        </div>
+      </form>
+    </div>
+
     <h2 class="ui dividing header">Trello Authentication</h2>
-    <div id="initialSettingArea" class="ui segment inputArea">
+    <div id="trelloSettingArea" class="ui segment inputArea">
       <form class="ui large form">
         <div class="field">
           <div class="ui input">
@@ -42,9 +53,10 @@
             <input id="devKey" type="password" placeholder="keyを入力(暗号化されます)" v-model="trelloAuth.devKey" required>
           </div>
         </div>
-        <button id="registerBtn" type="submit" class="ui button" v-on:click.prevent="register">登録</button>
       </form>
     </div>
+    <button id="registerBtn" type="submit" class="ui button center fluid" v-on:click.prevent="register">登録</button>
+
   </div>
   <script src="menu.js"></script>
   <script src="setting.js"></script>

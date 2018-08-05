@@ -27,12 +27,14 @@
       </div>
     </div>
 
-    <div class="ui main container">
-      <div class="ui segment error" v-if="error.status">
-        エラーが発生しました。
-        <p>{{error.discription}}</p>
-      </div>
-      <div class="ui segments" v-if="trelloAuthenticated">
+    <div class="ui segment error" v-if="error.status">
+      エラーが発生しました。
+      <p>{{error.discription}}</p>
+    </div>
+
+    <div class="ui main container" v-if="trelloAuthenticated">
+
+      <div class="ui segment">
         <div id="boardSelectArea" class="ui fluid selection dropdown">
           <input type="hidden" name="board">
           <i class="dropdown icon"></i>
@@ -40,43 +42,45 @@
           <div id="dropmenu" class="menu">
           </div>
         </div>
+      </div>
 
-        <div class="spinnerContainer" v-if="loading">
-          <i id="spinner" class="spinner loading icon"></i>
-        </div>
-
-        <div id="graphArea" class="ui segment" v-if="!loading">
+      <div class="spinnerContainer" v-if="loading">
+        <i id="spinner" class="spinner loading icon"></i>
+      </div>
+      <div class="ui segment" v-if="!loading">
+        <div id="graphArea">
           <div class="chartContainer">
             <canvas id="myChart" width="400" height="400"></canvas>
           </div>
         </div>
-
-        <p id="desc" v-if="!loading">開始日,終了日を入力し、Showを押してください</p>
-
-        <div id="graphSettingArea" class="ui segment inputArea">
-          <form class="ui large form">
-            <div class="field">
-              <div class="ui input">
-                <input id="start" type="date" placeholder="開始日" required v-bind:value="graph.startDate" />
-              </div>
-            </div>
-            <div class="field">
-              <div class="ui input">
-                <input id="end" type="date" placeholder="終了日" required v-bind:value="graph.endDate" />
-              </div>
-            </div>
-            <div class="field">
-              <div class="ui input">
-                <input id="holidays" type="text" placeholder="休日" v-bind:value="graph.holidays" />
-              </div>
-            </div>
-            <button id="showBtn" type="button" class="ui button">Show</button>
-          </form>
-        </div>
       </div>
-      <div class="ui segment" v-if="!trelloAuthenticated">
-        <i class="ui left icon red ban"></i> SettingからTrelloのAPIKey,Tokenを入力させてください。
+
+      <p id="desc" v-if="isCalendarInputed">開始日,終了日を入力し、Showを押してください</p>
+
+      <div id="graphSettingArea" class="ui segment inputArea">
+        <form class="ui large form">
+          <div class="field">
+            <div class="ui input">
+              <input id="start" type="date" placeholder="開始日" required v-bind:value="graph.startDate" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui input">
+              <input id="end" type="date" placeholder="終了日" required v-bind:value="graph.endDate" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui input">
+              <input id="holidays" type="text" placeholder="休日" v-bind:value="graph.holidays" />
+            </div>
+          </div>
+          <button id="showBtn" type="button" class="ui button">Show</button>
+        </form>
       </div>
+    </div>
+
+    <div class="ui segment" v-if="!trelloAuthenticated">
+      <i class="ui left icon red ban"></i> SettingからTrelloのAPIKey,Tokenを入力してください。
     </div>
     <script src="menu.js "></script>
     <script src="popup.js "></script>

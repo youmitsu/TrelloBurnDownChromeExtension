@@ -44,8 +44,8 @@ var vm = new Vue({
     this.initialLoad();
   },
   computed: {
-    isInputed: function() {
-      return !this.loading;
+    isCalendarInputed: function() {
+      return !this.loading && (!this.graph.startDate || !this.graph.endDate);
     },
     trelloAuthenticated: function() {
       return localStorage.getItem('token') && localStorage.getItem('devKey')
