@@ -16,109 +16,112 @@ var vm = new Vue({
   el: "#app",
   data: {
     loading: false,
+    error: {
+      status: false,
+      discription: null
+    },
     trelloAuth: {
-      token: localStorage.token,
-      devKey: localStorage.devKey
+      token: localStorage.getItem('token'),
+      devKey: localStorage.getItem('devKey')
     },
-    boards: {
-      boardId: localStorage.boardId,
-      boardName: localStorage.boardName
+    board: {
+      boardId: localStorage.getItem('boardId'),
+      boardName: localStorage.getItem('boardName')
     },
-    graphInput: {
-      startDate: null,
-      endDate: null,
-      holidays: []
+    graph: {
+      startDate: localStorage.getItem('startDate'),
+      endDate: localStorage.getItem('endDate'),
+      holidays: localStorage.getItem('holidays'),
+      data: null
     }
   },
   created: function() {
     $('.ui.dropdown').dropdown();
     this.loading = true;
     //TODO: localStorage内の要素確認
-
-    console.log(tok);
+  },
+  mounted() {
+    this.initialLoad();
   },
   computed: {
     isInputed: function() {
       return !this.loading;
+    },
+    trelloAuthenticated: function() {
+      return localStorage.getItem('token') && localStorage.getItem('devKey')
     }
   },
   methods: {
-    load: function() {
-      return true;
-    },
-    trelloAuthenticated: function() {
-      return vm.trelloAuth.token && vm.trelloAuth.devKey
+    initialLoad: function() {
+      getUser({
+        "token": this.trelloAuth.token,
+        "key": this.trelloAuth.devKey,
+        "fields": "username"
+      }).then(user => {
+        getBoards(user.username, {
+          "token": this.trelloAuth.token,
+          "key": this.trelloAuth.devKey,
+          "filter": "open",
+          "fields": "name",
+          "lists": "none",
+          "memberships": "none"
+        }).then(boards => {
+          boards.forEach(v => {
+            appendBoardItem(v);
+          });
+          if (this.board.boardId && this.board.boardName) {
+            //TODO: v-for, v-bindを使う
+            $(`div[value=${this.board.boardId}]`).addClass('active selected');
+            $('.text.default').removeClass('default').text(this.board.boardName);
+            return;
+          }
+        }).then(() => {
+          if (!this.graph.startDate || !this.graph.endDate) {
+            //TODO: 入力してね文言の表示
+            return;
+          }
+          this.loading = true;
+          //TODO: 暗号化いらない
+          let encryptedToken = CryptoJS.AES.encrypt(this.trelloAuth.token, KEY).toString();
+          let encryptedKey = CryptoJS.AES.encrypt(this.trelloAuth.devKey, KEY).toString();
+          getChartData({
+              "token": encryptedToken,
+              "key": encryptedKey,
+              "boardId": this.board.boardId,
+              "startDate": this.graph.startDate,
+              "endDate": this.graph.endDate,
+              "holidays": this.graph.holidays
+            }).then(json => {
+              vm.loading = false;
+              setConfigData(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148)'); //理想線
+              setConfigData(json, 1, "実績線", 'rgb(251, 224, 0, 0.4)', 'rgb(251, 224, 0)'); //実績線
+              var obj = {
+                type: 'line',
+                options: {
+                  elements: {
+                    line: {
+                      tension: 0
+                    }
+                  }
+                }
+              }
+              obj.data = json;
+              vm.graph.data = obj;
+              vm.$nextTick(() => {
+                const ctx = this.$el.querySelector('#myChart').getContext('2d')
+                var myChart = new Chart(ctx, vm.graph.data);
+              });
+            })
+            .catch(err => {
+              //TODO: エラーハンドリング
+              vm.error.status = true;
+              vm.error.discription = err;
+              vm.loading = false;
+            });
+        });
+      });
     }
   }
-});
-
-$(function() {
-  var token = localStorage.token;
-  var devKey = localStorage.devKey;
-  if (!token || !devKey) {
-    $('#boardSelectArea').hide();
-    $('#graphArea').hide();
-    $('#graphSettingArea').hide();
-    return;
-  }
-  $('#token').val(token);
-  $('#devKey').val(devKey);
-
-  var boardId = localStorage.boardId;
-  var boardName = localStorage.boardName;
-  var defaultStartDate = localStorage.startDate;
-  var defaultEndDate = localStorage.endDate;
-  var defaultHolidays = localStorage.holidays;
-
-  getUser({
-    "token": token,
-    "key": devKey,
-    "fields": "username"
-  }).then(user => {
-    getBoards(user.username, {
-      "token": token,
-      "key": devKey,
-      "filter": "open",
-      "fields": "name",
-      "lists": "none",
-      "memberships": "none"
-    }).then(boards => {
-      boards.forEach(v => {
-        appendBoardItem(v);
-      });
-      if (boardId && boardName) {
-        $(`div[value=${boardId}]`).addClass('active selected');
-        $('.text.default').removeClass('default').text(boardName);
-        return boardId;
-      }
-    }).then(boardId => {
-      if (!defaultStartDate || !defaultEndDate) {
-        $('#desc').show();
-        return;
-      }
-      $('#desc').hide();
-      $('#start').val(defaultStartDate);
-      $('#end').val(defaultEndDate);
-      $('#holidays').val(defaultHolidays);
-      $('.spinnerContainer').show();
-      let encryptedToken = CryptoJS.AES.encrypt(token, KEY).toString();
-      let encryptedKey = CryptoJS.AES.encrypt(devKey, KEY).toString();
-      getChartData({
-          "token": encryptedToken,
-          "key": encryptedKey,
-          "boardId": boardId,
-          "startDate": defaultStartDate,
-          "endDate": defaultEndDate,
-          "holidays": defaultHolidays
-        }).then(result => {
-          var data = result;
-          buildChart(data);
-        })
-        .catch(err => {
-          throw new Error(err);
-        });
-    });
-  });
 });
 
 $('#showBtn').on('click', function() {
@@ -161,7 +164,6 @@ function appendBoardItem(board) {
 }
 
 function getUser(params) {
-  console.log(params);
   return new Promise((resolve, reject) => {
     $.get(`https://api.trello.com/1/tokens/${params.token}/member`, params, function(data) {
       //TODO: APIリクエストがエラーだった場合のエラーハンドリング
@@ -174,7 +176,6 @@ function getBoards(username, params) {
   return new Promise((resolve, reject) => {
     $.get(`https://api.trello.com/1/members/${username}/boards`, params, function(data) {
       //TODO: APIリクエストがエラーだった場合のエラーハンドリング
-      console.log("apiRequest");
       resolve(data);
     });
   });
@@ -182,40 +183,16 @@ function getBoards(username, params) {
 
 function getChartData(params) {
   return new Promise((resolve, reject) => {
-    console.log(params);
     $.get("https://us-central1-trelloburndownproject.cloudfunctions.net/getSprintPoint", params, function(data) {
       //TODO: APIリクエストがエラーだった場合のエラーハンドリング
       var result = {
         status: "OK",
         "data": data
       };
-      console.log("apiRequest");
       var data = JSON.parse(result.data);
       resolve(data);
     });
   });
-}
-
-function buildChart(json) {
-  setConfigData(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148)'); //理想線
-  setConfigData(json, 1, "実績線", 'rgb(251, 224, 0, 0.4)', 'rgb(251, 224, 0)'); //実績線
-  var obj = {
-    type: 'line',
-    options: {
-      elements: {
-        line: {
-          tension: 0
-        }
-      }
-    }
-  }
-  obj.data = json;
-  var ctx = document.getElementById("myChart").getContext('2d');
-  $('.spinnerContainer').hide();
-  $('.chartContainer').show();
-  $('.inputArea').show();
-  $('#boardSelectArea').show();
-  var myChart = new Chart(ctx, obj);
 }
 
 //データのラベルや色などの設定を行う
