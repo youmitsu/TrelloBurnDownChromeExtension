@@ -36,11 +36,10 @@ var vm = new Vue({
     }
   },
   created: function() {
-    $('.ui.dropdown').dropdown();
-    this.loading = true;
-    //TODO: localStorage内の要素確認
   },
   mounted() {
+    $('.ui.dropdown').dropdown();
+    this.loading = true;
     this.initialLoad();
   },
   computed: {

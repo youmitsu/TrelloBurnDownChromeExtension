@@ -43,14 +43,12 @@
       <form class="ui large form">
         <div class="field">
           <div class="ui input">
-            <div class="ui label">Token</div>
-            <input id="token" type="password" placeholder="tokenを入力(暗号化されます)" v-model="trelloAuth.token" required>
+            <input id="token" type="password" placeholder="Token" v-model="trelloAuth.token" required>
           </div>
         </div>
         <div class="field">
           <div class="ui input">
-            <div class="ui label">Key</div>
-            <input id="devKey" type="password" placeholder="keyを入力(暗号化されます)" v-model="trelloAuth.devKey" required>
+            <input id="devKey" type="password" placeholder="Key" v-model="trelloAuth.devKey" required>
           </div>
         </div>
       </form>

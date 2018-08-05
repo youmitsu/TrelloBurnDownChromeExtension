@@ -34,30 +34,31 @@
 
     <div class="ui main container" v-if="trelloAuthenticated">
 
-      <div class="ui segment">
-        <div id="boardSelectArea" class="ui fluid selection dropdown">
-          <input type="hidden" name="board">
-          <i class="dropdown icon"></i>
-          <div class="text default">ボードを選択</div>
-          <div id="dropmenu" class="menu">
+      <div class="ui segment grid">
+        <div class="sixteen wide column">
+          <div id="boardSelectArea" class="ui fluid selection dropdown">
+            <input type="hidden" name="board">
+            <i class="dropdown icon"></i>
+            <div class="text default">ボードを選択</div>
+            <div id="dropmenu" class="menu">
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="spinnerContainer" v-if="loading">
-        <i id="spinner" class="spinner loading icon"></i>
-      </div>
-      <div class="ui segment" v-if="!loading">
-        <div id="graphArea">
-          <div class="chartContainer">
-            <canvas id="myChart" width="400" height="400"></canvas>
-          </div>
+        <!-- <div class="three wide column">
+          <button id="showBtn" type="button" class="ui fluid button">Show</button>
+        </div> -->
+        <div class="ui input five wide column">
+          <input id="start" type="date" placeholder="開始日" required v-bind:value="graph.startDate" />
         </div>
+        <div class="ui input five wide column">
+          <input id="end" type="date" placeholder="終了日" required v-bind:value="graph.endDate" />
+        </div>
+        <div class="ui input five wide column">
+          <input id="holidays" type="text" placeholder="休日" v-bind:value="graph.holidays" />
+        </div>
+        <p id="desc" v-if="isCalendarInputed">開始日,終了日を入力し、Showを押してください</p>
       </div>
-
-      <p id="desc" v-if="isCalendarInputed">開始日,終了日を入力し、Showを押してください</p>
-
-      <div id="graphSettingArea" class="ui segment inputArea">
+      <!-- <div id="graphSettingArea" class="ui segment inputArea">
         <form class="ui large form">
           <div class="field">
             <div class="ui input">
@@ -74,8 +75,19 @@
               <input id="holidays" type="text" placeholder="休日" v-bind:value="graph.holidays" />
             </div>
           </div>
-          <button id="showBtn" type="button" class="ui button">Show</button>
         </form>
+        <p id="desc" v-if="isCalendarInputed">開始日,終了日を入力し、Showを押してください</p>
+      </div> -->
+
+      <div class="spinnerContainer" v-if="loading">
+        <i id="spinner" class="spinner loading icon"></i>
+      </div>
+      <div class="ui segment" v-if="!loading">
+        <div id="graphArea">
+          <div class="chartContainer">
+            <canvas id="myChart" width="400" height="400"></canvas>
+          </div>
+        </div>
       </div>
     </div>
 
