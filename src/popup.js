@@ -100,7 +100,8 @@ var vm = new Vue({
             }).then(json => {
               vm.loading = false;
               setConfigData(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148)'); //理想線
-              setConfigData(json, 1, "実績線", 'rgb(251, 224, 0, 0.4)', 'rgb(251, 224, 0)'); //実績線
+              setConfigData(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0)'); //実績線
+              setConfigData(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53)'); //実績線
               var obj = {
                 type: 'line',
                 options: {
@@ -158,7 +159,7 @@ function getBoards(username, params) {
 
 function getChartData(params) {
   return new Promise((resolve, reject) => {
-    $.get("https://us-central1-trelloburndownproject.cloudfunctions.net/getSprintPoint", params, function(data) {
+    $.get(localStorage.getItem('baseUrl'), params, function(data) {
       //TODO: APIリクエストがエラーだった場合のエラーハンドリング
       var result = {
         status: "OK",
