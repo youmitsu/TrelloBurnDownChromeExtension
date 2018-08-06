@@ -24,10 +24,11 @@ var vm = new Vue({
       token: localStorage.getItem('token'),
       devKey: localStorage.getItem('devKey')
     },
-    board: {
+    selectedBoard: {
       boardId: localStorage.getItem('boardId'),
       boardName: localStorage.getItem('boardName')
     },
+    boardItems: [],
     graph: {
       startDate: localStorage.getItem('startDate'),
       endDate: localStorage.getItem('endDate'),
@@ -48,6 +49,9 @@ var vm = new Vue({
     },
     trelloAuthenticated: function() {
       return localStorage.getItem('token') && localStorage.getItem('devKey')
+    },
+    boardDefaultText: function() {
+      return this.selectedBoard.boardName || "ボードを選択";
     }
   },
   methods: {
@@ -66,12 +70,14 @@ var vm = new Vue({
           "memberships": "none"
         }).then(boards => {
           boards.forEach(v => {
-            appendBoardItem(v);
+            this.boardItems.push({
+              boardId: v.id,
+              boardName: v.name,
+              isActive: v.id === this.selectedBoard.boardId
+            });
           });
-          if (this.board.boardId && this.board.boardName) {
-            //TODO: v-for, v-bindを使う
-            $(`div[value=${this.board.boardId}]`).addClass('active selected');
-            $('.text.default').removeClass('default').text(this.board.boardName);
+          if (this.selectedBoard.boardId && this.selectedBoard.boardName) {
+            $('.text.default').removeClass('default').text(this.selectedBoard.boardName);
             return;
           }
         }).then(() => {
@@ -86,7 +92,7 @@ var vm = new Vue({
           getChartData({
               "token": encryptedToken,
               "key": encryptedKey,
-              "boardId": this.board.boardId,
+              "boardId": this.selectedBoard.boardId,
               "startDate": this.graph.startDate,
               "endDate": this.graph.endDate,
               "holidays": this.graph.holidays
@@ -119,48 +125,17 @@ var vm = new Vue({
             });
         });
       });
+    },
+    reload: function() {
+      localStorage.setItem('boardId', $('#dropmenu.menu > .item.active.selected').attr('value'));
+      localStorage.setItem('boardName', $('#dropmenu.menu > .item.active.selected').attr('data-value'));
+      localStorage.setItem('startDate', $('#start').val());
+      localStorage.setItem('endDate', $('#end').val());
+      localStorage.setItem('holidays', $('#holidays').val());
+      location.reload();
     }
   }
 });
-
-$('#showBtn').on('click', function() {
-  localStorage.token = $('#token').val();
-  localStorage.devKey = $('#devKey').val();
-  localStorage.boardId = $('#dropmenu.menu > .item.active.selected').attr('value');
-  localStorage.boardName = $('#dropmenu.menu > .item.active.selected').attr('data-value');
-  console.log(localStorage.boardId);
-  console.log(localStorage.boardName);
-  localStorage.startDate = $('#start').val();
-  localStorage.endDate = $('#end').val();
-  localStorage.holidays = $('#holidays').val();
-  location.reload();
-  $('#app').hide();
-  // $('.spinnerContainer').show();
-  // $('.chartContainer').hide();
-  // $('.inputArea').hide();
-  // $('#desc').hide();
-  // $('#boardSelectArea').hide();
-  // getChartData(getChartParams())
-  //   .then(result => {
-  //     var data = result;
-  //     buildChart(data);
-  //   })
-  //   .catch(err => {});
-});
-
-$('#registerBtn').on('click', function() {
-  localStorage.token = $('#token').val();
-  localStorage.devKey = $('#devKey').val();
-  location.reload();
-});
-
-function appendBoardItem(board) {
-  $(`<div>${board.name}</div>`).attr({
-    class: "item",
-    value: board.id,
-    "data-value": board.name
-  }).appendTo('#dropmenu.menu');
-}
 
 function getUser(params) {
   return new Promise((resolve, reject) => {
