@@ -39,6 +39,7 @@ var vm = new Vue({
   created: function() {
   },
   mounted() {
+    $('.ui.accordion').accordion();
     $('.ui.dropdown').dropdown();
     this.loading = true;
     this.initialLoad();

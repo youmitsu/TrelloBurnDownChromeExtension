@@ -39,27 +39,34 @@
 
     <div class="ui main container" v-if="trelloAuthenticated">
 
-      <div class="ui segment centered grid">
-        <div class="sixteen wide column">
-          <div id="boardSelectArea" class="ui fluid selection dropdown">
-            <input type="hidden" name="board">
-            <i class="dropdown icon"></i>
-            <div class="text default">{{boardDefaultText}}</div>
-            <div id="dropmenu" class="menu">
-              <div v-for="boardItem in boardItems" v-bind:class="{active: boardItem.isActive, selected: boardItem.isActive}" class="item" v-bind:value="boardItem.boardId" v-bind:data-value="boardItem.boardName" >{{boardItem.boardName}}</div>
+      <div class="ui styled accordion segment centered fluid">
+        <div class="title">
+          <i class="dropdown icon"></i> グラフ設定値の変更
+        </div>
+        <div class="content">
+          <div class="ui centered grid">
+            <div class="sixteen wide column">
+              <div id="boardSelectArea" class="ui fluid selection dropdown">
+                <input type="hidden" name="board">
+                <i class="dropdown icon"></i>
+                <div class="text default">{{boardDefaultText}}</div>
+                <div id="dropmenu" class="menu">
+                  <div v-for="boardItem in boardItems" v-bind:class="{active: boardItem.isActive, selected: boardItem.isActive}" class="item" v-bind:value="boardItem.boardId" v-bind:data-value="boardItem.boardName">{{boardItem.boardName}}</div>
+                </div>
+              </div>
             </div>
+            <div class="ui input five wide column">
+              <input id="start" type="date" placeholder="開始日" required v-bind:value="graph.startDate" />
+            </div>
+            <div class="ui input five wide column">
+              <input id="end" type="date" placeholder="終了日" required v-bind:value="graph.endDate" />
+            </div>
+            <div class="ui input five wide column">
+              <input id="holidays" type="text" placeholder="休日" v-bind:value="graph.holidays" />
+            </div>
+            <p id="desc" v-if="isCalendarInputed">開始日,終了日を入力し、Showを押してください</p>
           </div>
         </div>
-        <div class="ui input five wide column">
-          <input id="start" type="date" placeholder="開始日" required v-bind:value="graph.startDate" />
-        </div>
-        <div class="ui input five wide column">
-          <input id="end" type="date" placeholder="終了日" required v-bind:value="graph.endDate" />
-        </div>
-        <div class="ui input five wide column">
-          <input id="holidays" type="text" placeholder="休日" v-bind:value="graph.holidays" />
-        </div>
-        <p id="desc" v-if="isCalendarInputed">開始日,終了日を入力し、Showを押してください</p>
       </div>
 
       <div class="spinnerContainer" v-if="loading">
