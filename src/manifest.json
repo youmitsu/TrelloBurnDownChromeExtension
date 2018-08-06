@@ -1,7 +1,7 @@
 {
   "name": "TrelloBurnDownChromeExtension",
   "description": "Trelloで使える手軽なバーンダウンチャートです",
-  "version": "0.1",
+  "version": "0.1.1",
   "manifest_version": 2,
   "browser_action": {
     "default_icon": {
