@@ -9,71 +9,85 @@
   <link rel="stylesheet" type="text/css" href="css/main.css">
   <script src="jquery-2.2.0.min.js"></script>
   <script src="semantic.min.js"></script>
-  <script src="vue.js"></script>
   <script src="Chart.min.js"></script>
+  <script src="vue.min.js"></script>
   <script src="bower_components/crypto-js/crypto-js.js"></script>
 </head>
 
 <body>
-  <div id="app" class="ui main container">
-    <div id="boardSelectArea" class="ui fluid selection dropdown">
-      <input type="hidden" name="board">
-      <i class="dropdown icon"></i>
-      <div class="text default">ボードを選択</div>
-      <div class="menu">
+  <div id="app">
+    <div class="ui secondary pointing blue inverted massive menu">
+      <a class="item active" href="./popup.html">
+        Home
+      </a>
+      <a class="item">
+        <i class="ui icon redo" @click="reload"></i>
+      </a>
+      <div class="right menu">
+        <a class="item" href="./setting.html">
+          Setting
+        </a>
       </div>
     </div>
 
-    <div id="graphArea" class="ui segment">
-      <div class="spinnerContainer" hidden>
+    <div class="segment" v-if="error.status" hide>
+      <div class="ui error message">
+        エラーが発生しました。
+        <p>{{error.discription}}</p>
+      </div>
+    </div>
+
+    <div class="ui main container" v-if="trelloAuthenticated">
+
+      <div class="ui styled accordion segment centered fluid">
+        <div class="title">
+          <i class="dropdown icon"></i> グラフ設定値の変更
+        </div>
+        <div class="content">
+          <div class="ui centered grid">
+            <div class="sixteen wide column">
+              <div id="boardSelectArea" class="ui fluid selection dropdown">
+                <input type="hidden" name="board">
+                <i class="dropdown icon"></i>
+                <div class="text default">{{boardDefaultText}}</div>
+                <div id="dropmenu" class="menu">
+                  <div v-for="boardItem in boardItems" v-bind:class="{active: boardItem.isActive, selected: boardItem.isActive}" class="item" v-bind:value="boardItem.boardId" v-bind:data-value="boardItem.boardName">{{boardItem.boardName}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="ui input five wide column">
+              <input id="start" type="date" placeholder="開始日" required v-bind:value="graph.startDate" />
+            </div>
+            <div class="ui input five wide column">
+              <input id="end" type="date" placeholder="終了日" required v-bind:value="graph.endDate" />
+            </div>
+            <div class="ui input five wide column">
+              <input id="holidays" type="text" placeholder="休日" v-bind:value="graph.holidays" />
+            </div>
+            <p id="desc" v-if="isCalendarInputed">開始日,終了日を入力し、Showを押してください</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="spinnerContainer" v-if="loading">
         <i id="spinner" class="spinner loading icon"></i>
       </div>
-      <div class="chartContainer">
-        <canvas id="myChart" width="400" height="400"></canvas>
+
+      <div class="ui segment" v-if="!loading">
+        <div id="graphArea">
+          <div class="chartContainer">
+            <canvas id="myChart" width="400" height="400"></canvas>
+          </div>
+        </div>
       </div>
-      <p id="desc" hidden>開始日,終了日を入力し、Showを押してください</p>
+
     </div>
 
-    <div id="graphSettingArea" class="ui segment inputArea">
-      <form class="ui large form">
-        <div class="field">
-          <div class="ui input">
-            <input id="start" type="date" placeholder="開始日" />
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui input">
-            <input id="end" type="date" placeholder="終了日" />
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui input">
-            <input id="holidays" type="text" placeholder="休日" />
-          </div>
-        </div>
-        <button id="showBtn" type="button" class="ui button">Show</button>
-      </form>
+    <div class="ui segment" v-if="!trelloAuthenticated">
+      <i class="ui left icon red ban"></i> SettingからTrelloのAPIKey,Tokenを入力してください。
     </div>
-
-    <div id="initialSettingArea" class="ui segment inputArea">
-      <form class="ui large form">
-        <div class="field">
-          <div class="ui input">
-            <div class="ui label">Token</div>
-            <input id="token" type="password" placeholder="tokenを入力(暗号化されます)">
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui input">
-            <div class="ui label">Key</div>
-            <input id="devKey" type="password" placeholder="keyを入力(暗号化されます)">
-          </div>
-        </div>
-        <button id="registerBtn" type="button" class="ui button">登録</button>
-      </form>
-    </div>
-  </div>
-  <script src="popup.js "></script>
+    <script src="menu.js "></script>
+    <script src="popup.js "></script>
 </body>
 
 </html>

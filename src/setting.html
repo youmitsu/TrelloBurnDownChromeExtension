@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>BurnDownChart</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" type="text/css" href="semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="icon.min.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <script src="jquery-2.2.0.min.js"></script>
+  <script src="semantic.min.js"></script>
+  <script src="vue.min.js"></script>
+  <script src="Chart.min.js"></script>
+  <script src="bower_components/crypto-js/crypto-js.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div class="ui secondary pointing blue inverted massive menu">
+      <a class="item" href="./popup.html">
+      Home
+      </a>
+      <div class="right menu">
+        <a class="item active" href="./setting.html">
+        Setting
+      </a>
+      </div>
+    </div>
+
+    <h2 class="ui dividing header">Backend Settings</h2>
+    <div id="backendSettingArea" class="ui segment inputArea">
+      <form class="ui large form">
+        <div class="field">
+          <div class="ui input">
+            <input id="url" type="password" placeholder="Server URL" required>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <h2 class="ui dividing header">Trello Authentication</h2>
+    <div id="trelloSettingArea" class="ui segment inputArea">
+      <form class="ui large form">
+        <div class="field">
+          <div class="ui input">
+            <input id="token" type="password" placeholder="Token" v-model="trelloAuth.token" required>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui input">
+            <input id="devKey" type="password" placeholder="Key" v-model="trelloAuth.devKey" required>
+          </div>
+        </div>
+      </form>
+    </div>
+    <button id="registerBtn" type="submit" class="ui button fluid" v-on:click.prevent="register">登録</button>
+
+  </div>
+  <script src="menu.js"></script>
+  <script src="setting.js"></script>
+</body>
+
+</html>

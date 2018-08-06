@@ -1,5 +1,6 @@
 body {
-  padding: 10px;
+  width: 50em;
+  padding: 5px;
 }
 
 #myChart {
@@ -45,4 +46,8 @@ h1 {
 
 .chartContainer {
   text-align: center;
+}
+
+#toolbar {
+  width: 100%;
 }
