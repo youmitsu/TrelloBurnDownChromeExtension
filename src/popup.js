@@ -49,7 +49,11 @@ var vm = new Vue({
       return !this.loading && (!this.graph.startDate || !this.graph.endDate);
     },
     trelloAuthenticated: function() {
-      return localStorage.getItem('token') && localStorage.getItem('devKey')
+      return localStorage.getItem('token') &&
+        localStorage.getItem('devKey');
+    },
+    isValidServerConfig: function() {
+      return localStorage.getItem('baseUrl');
     },
     boardDefaultText: function() {
       return this.selectedBoard.boardName || "ボードを選択";

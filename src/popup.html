@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <div class="ui main container" v-if="trelloAuthenticated">
+    <div class="ui main container" v-if="trelloAuthenticated && isValidServerConfig">
 
       <div class="ui styled accordion segment centered fluid">
         <div class="title">
@@ -83,8 +83,9 @@
 
     </div>
 
-    <div class="ui segment" v-if="!trelloAuthenticated">
-      <i class="ui left icon red ban"></i> SettingからTrelloのAPIKey,Tokenを入力してください。
+    <div class="ui segment" v-if="!trelloAuthenticated || !isValidServerConfig">
+      <i class="ui left icon red ban" v-if="!trelloAuthenticated"></i> SettingからTrelloのAPIKey,Tokenを入力してください。
+      <i class="ui left icon red ban" v-if="!isValidServerConfig"></i> SettingからTrelloのAPIKey,Tokenを入力してください。
     </div>
     <script src="menu.js "></script>
     <script src="popup.js "></script>
