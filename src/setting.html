@@ -38,11 +38,6 @@
       </form>
     </div>
 
-    <h2 class="ui dividing header">Trello Webhook status</h2>
-    <h3>It is possible to save points of there boards.</h3>
-    <div id="backendSettingArea" class="ui segment inputArea">
-    </div>
-
     <h2 class="ui dividing header">Trello Authentication</h2>
     <div id="trelloSettingArea" class="ui segment inputArea">
       <form class="ui large form">
@@ -58,6 +53,21 @@
         </div>
       </form>
     </div>
+
+    <h2 class="ui dividing header" v-show="trelloAuthenticated">Trello Webhook status</h2>
+    <h3 v-show="trelloAuthenticated">It is possible to save points of there boards.</h3>
+    <div class="spinnerContainer" v-if="loading">
+      <i id="spinner" class="spinner loading icon"></i>
+    </div>
+    <div class="ui segments" v-show="!loading && trelloAuthenticated">
+      <div class="ui segment" v-for="board in webhookBoards">
+        <p>{{board.boardName}}</p>
+        <button class="ui button" v-bind:class="{active: board.isRegistered, blue: board.isRegistered}">
+          {{board.isRegistered ? "Registered" : "Register"}}
+        </button>
+      </div>
+    </div>
+
     <button id="registerBtn" type="submit" class="ui button fluid" v-on:click.prevent="register">登録</button>
 
   </div>
