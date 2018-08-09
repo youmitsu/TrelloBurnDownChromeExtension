@@ -54,21 +54,28 @@
       </form>
     </div>
 
-    <h2 class="ui dividing header" v-show="trelloAuthenticated">Trello Webhook status</h2>
-    <h3 v-show="trelloAuthenticated">It is possible to save points of there boards.</h3>
+    <h2 class="ui dividing header" v-show="trelloAuthenticated">The list of boards enabled.</h2>
+    <h3 v-show="trelloAuthenticated">The list of boards you are able to acquired data.</h3>
     <div class="spinnerContainer" v-if="loading">
       <i id="spinner" class="spinner loading icon"></i>
     </div>
-    <div class="ui segments" v-show="!loading && trelloAuthenticated">
-      <div class="ui segment" v-for="board in webhookBoards">
-        <p>{{board.boardName}}</p>
-        <button class="ui button" v-bind:class="{active: board.isRegistered, blue: board.isRegistered}">
-          {{board.isRegistered ? "Registered" : "Register"}}
-        </button>
+    <div class="ui segment">
+      <div class="ui divided items" v-show="!loading && trelloAuthenticated">
+        <div class="item" v-for="board in webhookBoards">
+          <div class="middle aligned content">
+            <p class="header">{{board.boardName}}</p>
+            <div class="extra">
+              <div class="ui right floated button" v-bind:class="{active: board.isRegistered, blue: board.isRegistered}">
+                {{board.isRegistered ? "Registered" : "Register"}}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
 
-    <button id="registerBtn" type="submit" class="ui button fluid" v-on:click.prevent="register">登録</button>
+  <button id="registerBtn" type="submit" class="ui button fluid" v-on:click.prevent="register">登録</button>
 
   </div>
   <script src="menu.js"></script>
