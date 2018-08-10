@@ -65,7 +65,7 @@
           <div class="middle aligned content">
             <p class="header">{{board.boardName}}</p>
             <div class="extra">
-              <div class="ui right floated button" v-bind:class="{active: board.isRegistered, blue: board.isRegistered}" v-on:click="toggleWebhook(board)">
+              <div class="ui right floated button" v-bind:class="{blue: board.isRegistered}" v-on:click="toggleWebhook(board)">
                 {{board.isRegistered ? "Registered" : "Register"}}
               </div>
             </div>

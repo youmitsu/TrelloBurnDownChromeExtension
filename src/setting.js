@@ -153,7 +153,7 @@ var vm = new Vue({
     unregisterWebhook: function(webhookId) {
       return new Promise((resolve, reject) => {
         fetch(`https://api.trello.com/1/webhooks/${webhookId}?token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}`, {
-            method: 'POST'
+            method: 'DELETE'
           })
           .then(res => res.json)
           .then(json => resolve(json))
