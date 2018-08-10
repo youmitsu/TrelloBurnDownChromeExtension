@@ -59,13 +59,13 @@
     <div class="spinnerContainer" v-if="loading">
       <i id="spinner" class="spinner loading icon"></i>
     </div>
-    <div class="ui segment">
-      <div class="ui divided items" v-show="!loading && trelloAuthenticated">
+    <div class="ui segment" v-show="!loading && trelloAuthenticated">
+      <div class="ui divided items">
         <div class="item" v-for="board in webhookBoards">
           <div class="middle aligned content">
             <p class="header">{{board.boardName}}</p>
             <div class="extra">
-              <div class="ui right floated button" v-bind:class="{blue: board.isRegistered}" v-on:click="toggleWebhook(board)">
+              <div class="ui right floated button" v-bind:class="{blue: board.isRegistered, loading: board.isloading}" v-on:click="toggleWebhook(board)">
                 {{board.isRegistered ? "Registered" : "Register"}}
               </div>
             </div>

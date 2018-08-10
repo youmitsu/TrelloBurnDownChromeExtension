@@ -52,11 +52,13 @@ var vm = new Vue({
   },
   methods: {
     toggleWebhook: function(board) {
+      let index = vm.webhookBoards.map(v => v.boardId).indexOf(board.boardId);
+      vm.webhookBoards[index].isloading = true;
       if (board.isRegistered) { //解除処理
         this.unregisterWebhook(board.webhookId)
           .then(res => {
-            let index = vm.webhookBoards.map(v => v.boardId).indexOf(board.boardId);
             vm.webhookBoards[index].isRegistered = false;
+            vm.webhookBoards[index].isloading = false;
           })
           .catch(err => {
 
@@ -64,8 +66,8 @@ var vm = new Vue({
       } else { // 登録処理
         this.registerWebhook(board.boardId)
           .then(res => {
-            let index = vm.webhookBoards.map(v => v.boardId).indexOf(board.boardId);
             vm.webhookBoards[index].isRegistered = true;
+            vm.webhookBoards[index].isloading = false;
           })
           .catch(err => {
 
@@ -130,14 +132,16 @@ var vm = new Vue({
             webhookId: this.getWebhookIdFromboard(board.id),
             boardId: board.id,
             boardName: board.name,
-            isRegistered: true
+            isRegistered: true,
+            isloading: false
           };
         } else {
           return {
             webhookId: null,
             boardId: board.id,
             boardName: board.name,
-            isRegistered: false
+            isRegistered: false,
+            isloading: false
           };
         }
       });
