@@ -55,7 +55,8 @@ var vm = new Vue({
       if (board.isRegistered) { //解除処理
         this.unregisterWebhook(board.webhookId)
           .then(res => {
-            //let index = webhookBoards.map(v => v.boardId).indexOf(board.id);
+            let index = vm.webhookBoards.map(v => v.boardId).indexOf(board.boardId);
+            vm.webhookBoards[index].isRegistered = false;
           })
           .catch(err => {
 
@@ -63,7 +64,8 @@ var vm = new Vue({
       } else { // 登録処理
         this.registerWebhook(board.boardId)
           .then(res => {
-            //let index = webhookBoards.map(v => v.boardId).indexOf(board.id);
+            let index = vm.webhookBoards.map(v => v.boardId).indexOf(board.boardId);
+            vm.webhookBoards[index].isRegistered = true;
           })
           .catch(err => {
 
