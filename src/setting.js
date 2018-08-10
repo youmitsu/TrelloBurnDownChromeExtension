@@ -51,6 +51,25 @@ var vm = new Vue({
     }
   },
   methods: {
+    toggleWebhook: function(board) {
+      if (board.isRegistered) { //解除処理
+        this.unregisterWebhook(board.webhookId)
+          .then(res => {
+            //let index = webhookBoards.map(v => v.boardId).indexOf(board.id);
+          })
+          .catch(err => {
+
+          });
+      } else { // 登録処理
+        this.registerWebhook(board.boardId)
+          .then(res => {
+            //let index = webhookBoards.map(v => v.boardId).indexOf(board.id);
+          })
+          .catch(err => {
+
+          });
+      }
+    },
     register: function() {
       localStorage.setItem('token', this.trelloAuth.token);
       localStorage.setItem('devKey', this.trelloAuth.devKey);
@@ -100,22 +119,56 @@ var vm = new Vue({
       });
     },
     getWebhookStatus: function() {
-      let webhookIds = vm.webhooks.map(v => v.idModel);
-      vm.webhookBoards = vm.boards.map(v => {
-        if (webhookIds.includes(v.id)) {
+      let modelIds = vm.webhooks.map(v => v.idModel);
+      let webhookIds = vm.webhooks.map(v => v.id);
+
+      vm.webhookBoards = vm.boards.map((board, index, a) => {
+        if (modelIds.includes(board.id)) {
           return {
-            boardId: v.id,
-            boardName: v.name,
+            webhookId: this.getWebhookIdFromboard(board.id),
+            boardId: board.id,
+            boardName: board.name,
             isRegistered: true
           };
+        } else {
+          return {
+            webhookId: null,
+            boardId: board.id,
+            boardName: board.name,
+            isRegistered: false
+          };
         }
-        return {
-          boardId: v.id,
-          boardName: v.name,
-          isRegistered: false
-        };
       });
       vm.loading = false;
+    },
+    getWebhookIdFromboard: function(boardId) {
+      let webhookId = "";
+      vm.webhooks.forEach(v => {
+        if(v.idModel == boardId) {
+          webhookId = v.id;
+        }
+      });
+      return webhookId;
+    },
+    unregisterWebhook: function(webhookId) {
+      return new Promise((resolve, reject) => {
+        fetch(`https://api.trello.com/1/webhooks/${webhookId}?token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}`, {
+            method: 'POST'
+          })
+          .then(res => res.json)
+          .then(json => resolve(json))
+          .catch(err => reject(err));
+      });
+    },
+    registerWebhook: function(boardId) {
+      return new Promise((resolve, reject) => {
+        fetch(`https://api.trello.com/1/webhooks/?idModel=${boardId}&callbackURL=https://us-central1-trelloburndownproject.cloudfunctions.net/execRegisterPoint&token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}` , {
+            method: 'POST'
+          })
+          .then(res => res.json)
+          .then(json => resolve(json))
+          .catch(err => reject(err));
+      });
     }
   }
 });
