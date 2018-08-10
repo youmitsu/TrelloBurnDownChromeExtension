@@ -21,35 +21,26 @@ var vm = new Vue({
     if (this.trelloAuth.token && this.trelloAuth.devKey && this.baseUrl) {
       this.loading = true;
       this.getUser()
-        .then(res => {
-          this.getBoards(res.username)
-            .then(boards => {
-              boards.map(v => {
-                vm.boards.push(v);
-              });
-              vm.boards = boards;
-              this.getWebhook()
-                .then(result => {
-                  result.map(v => {
-                    vm.webhooks.push(v);
-                  });
-                  vm.webhooks = result;
-                  this.getWebhookStatus()
-                  this.loading = false;
-                })
-                .catch(err => {
-                  console.error(err);
-                  this.loading = false;
-                });
-            })
-            .catch(err => {
-              console.error(err);
-              this.loading = false;
-            });
+        .then(user => this.getBoards(user.username))
+        .then(boards => {
+          vm.boards = [];
+          boards.map(v => {
+            vm.boards.push(v);
+          });
+          return;
         })
+        .then(() => this.getWebhook())
+        .then(webhooks => {
+          vm.webhooks = [];
+          webhooks.map(v => {
+            vm.webhooks.push(v);
+          });
+          return;
+        })
+        .then(() => this.getWebhookStatus())
         .catch(err => {
-          console.error(err);
           this.loading = false;
+          console.log(err);
         });
     }
   },
@@ -124,6 +115,7 @@ var vm = new Vue({
           isRegistered: false
         };
       });
+      vm.loading = false;
     }
   }
 });
