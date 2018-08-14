@@ -40,20 +40,28 @@ https://trello.com/app-key/
 
 https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key={1で取得したAPIKEY}
 
-3. 本プラグインを開き1で取得したAPIKEYは「Key」に入力。2で取得したTokenは「Token」に入力。
+3. 本プラグインを開き、「Setting」をクリック
+
+  1. 【Backend Settings】ServerURLを入力
+
+  2. 【Trello Authenrication】1で取得したAPIKEYは「Key」に入力。2で取得したTokenは「Token」に入力。
 ※Token及びKeyは送信時に暗号化されます。
 
-4. 登録を押下
+  3. 登録を押下
 
-5. 上の選択リストからボードを選択
+4. HOMEに遷移後Settingで有効にしたいボードの「Register」ボタンを押し、データの保存を有効化する
 
-6. 開始日と終了日を入力
+5. HOMEからグラフ設定値の変更を押下し、以下を入力
 
-7. (土日以外の休日があれば)休日をカンマ区切りで入力(形式: YYYY/MM/DD)
+  1. ボードを選択
 
-8. Showをクリック
+  2. 開始日と終了日を入力
 
-9. グラフが表示される
+  3. (土日以外の休日があれば)休日をカンマ区切りで入力(形式: YYYY/MM/DD)
+
+6. メニューバーの更新アイコンを押下
+
+7. グラフが表示される
 
 ### 2回目以降
 
