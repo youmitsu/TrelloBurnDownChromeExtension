@@ -30,10 +30,17 @@
       </div>
     </div>
 
-    <div class="segment" v-if="error.status" hidden>
+    <div class="ui segment" v-if="error.status" hidden>
       <div class="ui error message">
         エラーが発生しました。
         <p>{{error.discription}}</p>
+      </div>
+    </div>
+
+    <div class="ui segment" v-if="!trelloAuthenticated || !isValidServerConfig || !isCalendarInputed">
+      <div class="ui error message">
+        <p v-if="!trelloAuthenticated">SettingからTrelloのAPIKey,Tokenを入力してください。</p>
+        <p v-if="!isCalendarInputed">グラフの設定値を入力してください。</p>
       </div>
     </div>
 
@@ -64,7 +71,6 @@
             <div class="ui input five wide column">
               <input id="holidays" type="text" placeholder="休日" v-bind:value="graph.holidays" />
             </div>
-            <p id="desc" v-if="isCalendarInputed">開始日,終了日を入力し、Showを押してください</p>
           </div>
         </div>
       </div>
@@ -81,11 +87,6 @@
         </div>
       </div>
 
-    </div>
-
-    <div class="ui segment" v-if="!trelloAuthenticated || !isValidServerConfig">
-      <i class="ui left icon red ban" v-if="!trelloAuthenticated"></i> SettingからTrelloのAPIKey,Tokenを入力してください。
-      <i class="ui left icon red ban" v-if="!isValidServerConfig"></i> SettingからTrelloのAPIKey,Tokenを入力してください。
     </div>
     <script src="menu.js "></script>
     <script src="popup.js "></script>
