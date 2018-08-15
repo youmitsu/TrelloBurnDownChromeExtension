@@ -36,17 +36,15 @@ var vm = new Vue({
       data: null
     }
   },
-  created: function() {
-  },
+  created: function() {},
   mounted() {
     $('.ui.accordion').accordion();
     $('.ui.dropdown').dropdown();
-    this.loading = true;
     this.initialLoad();
   },
   computed: {
     isCalendarInputed: function() {
-      return !this.loading && (!this.graph.startDate || !this.graph.endDate);
+      return this.graph.startDate && this.graph.endDate;
     },
     trelloAuthenticated: function() {
       return localStorage.getItem('token') &&
@@ -61,6 +59,7 @@ var vm = new Vue({
   },
   methods: {
     initialLoad: function() {
+      this.loading = true;
       getUser({
         "token": this.trelloAuth.token,
         "key": this.trelloAuth.devKey,
