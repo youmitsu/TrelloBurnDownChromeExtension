@@ -13,9 +13,14 @@ var vm = new Vue({
     webhookBoards: []
   },
   created: function() {
-    this.trelloAuth.token = localStorage.getItem('token');
-    this.trelloAuth.devKey = localStorage.getItem('devKey');
-    this.baseUrl = localStorage.getItem('baseUrl');
+    this.trelloAuth.token = localStorage.getItem('token') || "";
+    this.trelloAuth.devKey = localStorage.getItem('devKey') || "";
+    this.baseUrl = localStorage.getItem('baseUrl') || "";
+  },
+  updated: function() {
+    localStorage.setItem('baseUrl', this.baseUrl);
+    localStorage.setItem('token', this.trelloAuth.token);
+    localStorage.setItem('devKey', this.trelloAuth.devKey);
   },
   mounted: function() {
     if (this.trelloAuth.token && this.trelloAuth.devKey && this.baseUrl) {
