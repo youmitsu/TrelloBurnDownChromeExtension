@@ -79,13 +79,6 @@ var vm = new Vue({
           });
       }
     },
-    register: function() {
-      localStorage.setItem('token', this.trelloAuth.token);
-      localStorage.setItem('devKey', this.trelloAuth.devKey);
-      localStorage.setItem('baseUrl', this.baseUrl);
-      alert("The registration is completed.");
-      location.href = "./popup.html";
-    },
     getWebhook: function() {
       return new Promise((resolve, reject) => {
         fetch(`https://api.trello.com/1/tokens/${this.trelloAuth.token}/webhooks?key=${this.trelloAuth.devKey}`, {
