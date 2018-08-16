@@ -20,9 +20,6 @@
       <a class="item active" href="./popup.html">
         Home
       </a>
-      <a class="item">
-        <i class="ui icon redo" @click="reload"></i>
-      </a>
       <div class="right menu">
         <a class="item" href="./setting.html">
           Setting
@@ -51,9 +48,10 @@
           <i class="dropdown icon"></i> グラフ設定値の変更
         </div>
         <div class="content">
-          <div class="ui centered grid">
-            <div class="sixteen wide column">
-              <div id="boardSelectArea" class="ui fluid selection dropdown">
+          <div class="ui form">
+            <div class="inline left labeled field">
+              <label class="ui label">Board</label>
+              <div id="boardSelectArea" class="ui selection dropdown">
                 <input type="hidden" name="board">
                 <i class="dropdown icon"></i>
                 <div class="text default">{{boardDefaultText}}</div>
@@ -62,15 +60,28 @@
                 </div>
               </div>
             </div>
-            <div class="ui input five wide column">
-              <input id="start" type="date" placeholder="開始日" required v-bind:value="graph.startDate" />
+            <div class="inline left labeled field">
+              <label class="ui label">StartDate</label>
+              <div class="ui left icon input">
+                <i class="calendar icon"></i>
+                <input id="start" type="date" placeholder="開始日" required v-bind:value="graph.startDate" />
+              </div>
             </div>
-            <div class="ui input five wide column">
-              <input id="end" type="date" placeholder="終了日" required v-bind:value="graph.endDate" />
+            <div class="inline left labeled field">
+              <label class="ui label">EndDate</label>
+              <div class="ui left icon input">
+                <i class="calendar icon"></i>
+                <input id="end" type="date" placeholder="終了日" required v-bind:value="graph.endDate" />
+              </div>
             </div>
-            <div class="ui input five wide column">
-              <input id="holidays" type="text" placeholder="休日" v-bind:value="graph.holidays" />
+            <div class="inline left labeled field">
+              <label class="ui label">Holidays</label>
+              <div class="ui left icon input">
+                <i class="calendar icon"></i>
+                <input id="holidays" type="text" placeholder="休日" v-bind:value="graph.holidays" />
+              </div>
             </div>
+            <div class="ui fluid button" @click="reload">SHOW!!!</div>
           </div>
         </div>
       </div>
