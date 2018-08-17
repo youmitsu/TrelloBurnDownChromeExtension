@@ -20,6 +20,13 @@
       <a class="item active" href="./popup.html">
         Home
       </a>
+      <div id="boardSelectArea" class="ui dropdown item">
+        <i class="dropdown icon"></i>
+        <div class="text default">{{boardDefaultText}}</div>
+        <div id="dropmenu" class="menu">
+          <div v-for="boardItem in boardItems" v-bind:class="{active: boardItem.isActive, selected: boardItem.isActive}" class="item" v-bind:value="boardItem.boardId" v-bind:data-value="boardItem.boardName">{{boardItem.boardName}}</div>
+        </div>
+      </div>
       <div class="right menu">
         <a class="item" href="./setting.html">
           Setting
