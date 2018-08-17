@@ -6,39 +6,6 @@ body {
   padding: 20px;
 }
 
-button {
-  margin: 15px;
-}
-
-div {
-  margin: 5px;
-}
-
-h1 {
-  text-align: center;
-}
-
-#desc {
-  text-align: center;
-}
-
-#inputList {
-  padding: 0;
-}
-
-#startText {
-  vertical-align: middle;
-}
-
-.spinnerContainer {
-  text-align: center;
-  margin-top: 80px;
-}
-
-.chartContainer {
-  text-align: center;
-}
-
-#toolbar {
-  width: 100%;
+#boardSelectArea {
+  margin-bottom: 4px;
 }
