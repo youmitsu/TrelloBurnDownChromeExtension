@@ -2,43 +2,15 @@ body {
   width: 50em;
 }
 
-#myChart {
-  padding: 20px;
+#boardSelectArea {
+  margin-bottom: 4px;
 }
 
-button {
-  margin: 15px;
+.settingItems {
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
-div {
-  margin: 5px;
-}
-
-h1 {
-  text-align: center;
-}
-
-#desc {
-  text-align: center;
-}
-
-#inputList {
-  padding: 0;
-}
-
-#startText {
-  vertical-align: middle;
-}
-
-.spinnerContainer {
-  text-align: center;
-  margin-top: 80px;
-}
-
-.chartContainer {
-  text-align: center;
-}
-
-#toolbar {
-  width: 100%;
+.ui.dividing.header {
+  margin-top: 20px;
 }
