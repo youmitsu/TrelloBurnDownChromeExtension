@@ -79,11 +79,7 @@
 
     <div class="ui main container" v-if="trelloAuthenticated && isValidServerConfig">
 
-      <div class="spinnerContainer" v-if="loading">
-        <i id="spinner" class="spinner loading icon"></i>
-      </div>
-
-      <div class="ui segment" v-if="!loading">
+      <div class="ui segment" v-bind:class="{loading: loading}">
         <div id="graphArea">
           <div class="chartContainer">
             <canvas id="myChart" width="400" height="400"></canvas>
