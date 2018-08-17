@@ -1,14 +1,9 @@
 body {
   width: 50em;
-  padding: 5px;
 }
 
 #myChart {
   padding: 20px;
-}
-
-.input {
-  display: block;
 }
 
 button {
@@ -20,10 +15,6 @@ div {
 }
 
 h1 {
-  text-align: center;
-}
-
-.inputArea {
   text-align: center;
 }
 
