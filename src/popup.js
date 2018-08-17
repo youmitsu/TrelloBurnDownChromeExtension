@@ -142,9 +142,9 @@ var vm = new Vue({
               "holidays": this.graph.holidays
             }).then(json => {
               vm.loading = false;
-              setConfigData(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148)'); //理想線
-              setConfigData(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0)'); //実績線
-              setConfigData(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53)'); //実績線
+              setConfigData(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
+              setConfigData(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
+              setConfigData(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
               var obj = {
                 type: 'line',
                 options: {
@@ -152,7 +152,9 @@ var vm = new Vue({
                     line: {
                       tension: 0
                     }
-                  }
+                  },
+                  responsive: true,
+                  maintainAspectRatio: false,
                 }
               }
               obj.data = json;
@@ -160,10 +162,6 @@ var vm = new Vue({
               vm.$nextTick(() => {
                 const ctx = this.$el.querySelector('#myChart').getContext('2d');
                 ctx.canvas.height = 500;
-                vm.graph.data.options = {
-                  responsive: true,
-                  maintainAspectRatio: false
-                };
                 var myChart = new Chart(ctx, vm.graph.data);
               });
             })
@@ -224,8 +222,10 @@ function getChartData(params) {
 }
 
 //データのラベルや色などの設定を行う
-function setConfigData(json, index, label, backgroundColor, borderColor) {
+function setConfigData(json, index, label, backgroundColor, borderColor, pointColor) {
   json.datasets[index].label = label;
   json.datasets[index].backgroundColor = backgroundColor;
+  json.datasets[index].pointBackgroundColor = pointColor;
+  json.datasets[index].fill = true;
   json.datasets[index].borderColor = borderColor;
 }
