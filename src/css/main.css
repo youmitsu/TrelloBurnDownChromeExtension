@@ -9,3 +9,12 @@ body {
 #boardSelectArea {
   margin-bottom: 4px;
 }
+
+.settingItems {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.ui.dividing.header {
+  margin-top: 20px;
+}
