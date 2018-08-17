@@ -12,16 +12,18 @@
   <script src="Chart.min.js"></script>
   <script src="vue.min.js"></script>
   <script src="bower_components/crypto-js/crypto-js.js"></script>
+  <script src="/bower_components/semantic-ui-calendar/dist/calendar.min.js"></script>
+  <link rel="stylesheet" href="/bower_components/semantic-ui-calendar/dist/calendar.min.css"></link>
 </head>
 
 <body>
   <div id="app">
-    <div class="ui secondary pointing blue massive menu">
+    <div class="ui secondary pointing green inverted massive menu">
       <div id="boardSelectArea" class="ui dropdown item popup">
         <div class="text">{{boardDefaultText}}</div>
         <i class="dropdown icon"></i>
         <div id="dropmenu" class="menu">
-          <div v-for="boardItem in boardItems" v-bind:class="{active: boardItem.isActive, selected: boardItem.isActive}" class="item" v-bind:value="boardItem.boardId" v-bind:data-value="boardItem.boardName">{{boardItem.boardName}}</div>
+          <div v-for="boardItem in boardItems"  @click="registerBoard(boardItem)" v-bind:class="{active: boardItem.isActive, selected: boardItem.isActive}" class="item" v-bind:value="boardItem.boardId" v-bind:data-value="boardItem.boardName">{{boardItem.boardName}}</div>
         </div>
       </div>
       <div class="browse item">
@@ -30,18 +32,18 @@
       </div>
       <div class="ui flowing popup">
         <div class="ui form">
-          <div class="field">
+          <div id="startDate" class="field ui calendar required">
             <label>StartDate</label>
             <div class="ui left icon input">
               <i class="calendar icon"></i>
-              <input id="start" type="date" placeholder="開始日" required v-bind:value="graph.startDate" />
+              <input id="start" type="text" placeholder="開始日" required v-bind:value="graph.startDate" v-model="graph.startDate">
             </div>
           </div>
-          <div class="field">
+          <div id="endDate" class="field ui calendar required">
             <label>EndDate</label>
             <div class="ui left icon input">
               <i class="calendar icon"></i>
-              <input id="end" type="date" placeholder="終了日" required v-bind:value="graph.endDate" />
+              <input id="end" type="text" placeholder="終了日" required v-bind:value="graph.endDate" v-model="graph.endDate"/>
             </div>
           </div>
           <div class="field">
@@ -79,11 +81,7 @@
 
     <div class="ui main container" v-if="trelloAuthenticated && isValidServerConfig">
 
-      <div class="spinnerContainer" v-if="loading">
-        <i id="spinner" class="spinner loading icon"></i>
-      </div>
-
-      <div class="ui segment" v-if="!loading">
+      <div class="ui segment" v-bind:class="{loading: loading}">
         <div id="graphArea">
           <div class="chartContainer">
             <canvas id="myChart" width="400" height="400"></canvas>

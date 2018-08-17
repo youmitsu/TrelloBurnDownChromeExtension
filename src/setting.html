@@ -16,7 +16,7 @@
 
 <body>
   <div id="app">
-    <div class="ui secondary pointing blue massive menu">
+    <div class="ui secondary pointing green inverted massive menu">
       <a class="item" href="./popup.html">
         <i class="ui arrow left icon"></i>
       </a>
@@ -25,8 +25,8 @@
       </div>
     </div>
 
-    <h3 class="ui dividing header">Backend Settings</h3>
-    <div id="backendSettingArea" class="ui segment inputArea">
+    <div class="settingItems">
+      <h3 class="ui dividing header">Backend Settings</h3>
       <form class="ui large form">
         <div class="field">
           <label>baseurl</label>
@@ -37,8 +37,8 @@
       </form>
     </div>
 
-    <h3 class="ui dividing header">Trello Authentication</h3>
-    <div id="trelloSettingArea" class="ui segment inputArea">
+    <div class="settingItems">
+      <h3 class="ui dividing header">Trello Authentication</h3>
       <form class="ui large form">
         <div class="field">
           <label>token</label>
@@ -55,29 +55,31 @@
       </form>
     </div>
 
-    <h3 class="ui dividing header" v-show="trelloAuthenticated">The list of available boards.</h3>
-    <h4 v-show="trelloAuthenticated">
-      The list of boards you are able to acquired data.<br/>
-      You can switch enable or disable by clicking right button.
-    </h4>
-    <div class="spinnerContainer" v-if="loading">
-      <i id="spinner" class="spinner loading icon"></i>
-    </div>
-    <div class="ui segment" v-show="!loading && trelloAuthenticated">
-      <div class="ui divided items">
-        <div class="item" v-for="board in webhookBoards">
-          <div class="middle aligned content">
-            <p class="header">{{board.boardName}}</p>
-            <div class="extra">
-              <div class="ui right floated button" v-bind:class="{blue: board.isRegistered, loading: board.isloading}" v-on:click="toggleWebhook(board)">
-                {{board.isRegistered ? "Registered" : "Register"}}
+    <div class="settingItems">
+      <h3 class="ui dividing header" v-show="trelloAuthenticated">The list of available boards.</h3>
+      <h4 v-show="trelloAuthenticated">
+        The list of boards you are able to acquired data.<br/>
+        You can switch enable or disable by clicking right button.
+      </h4>
+      <div class="spinnerContainer" v-if="loading">
+        <i id="spinner" class="spinner loading icon"></i>
+      </div>
+      <div class="ui segment" v-show="!loading && trelloAuthenticated">
+        <div class="ui divided items">
+          <div class="item" v-for="board in webhookBoards">
+            <div class="middle aligned content">
+              <p class="header">{{board.boardName}}</p>
+              <div class="extra">
+                <div class="ui right floated button" v-bind:class="{blue: board.isRegistered, loading: board.isloading}" v-on:click="toggleWebhook(board)">
+                  {{board.isRegistered ? "Registered" : "Register"}}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+
   </div>
   <script src="menu.js"></script>
   <script src="setting.js"></script>
