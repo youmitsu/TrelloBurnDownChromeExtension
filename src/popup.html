@@ -25,15 +25,40 @@
         </div>
       </div>
       <div class="browse item">
-        <span>{{graph.startDate}}<span/> ~
+        <span class="ui dropdown">{{graph.startDate}}<span/> ~
         <span>{{graph.endDate}}</span>
+      </div>
+      <div class="ui flowing popup">
+        <div class="ui form">
+          <div class="field">
+            <label>StartDate</label>
+            <div class="ui left icon input">
+              <i class="calendar icon"></i>
+              <input id="start" type="date" placeholder="開始日" required v-bind:value="graph.startDate" />
+            </div>
+          </div>
+          <div class="field">
+            <label>EndDate</label>
+            <div class="ui left icon input">
+              <i class="calendar icon"></i>
+              <input id="end" type="date" placeholder="終了日" required v-bind:value="graph.endDate" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Holidays</label>
+            <div class="ui left icon input">
+              <i class="calendar icon"></i>
+              <input id="holidays" type="text" placeholder="休日" v-bind:value="graph.holidays" />
+            </div>
+          </div>
+        </div>
       </div>
       <div class="right menu">
         <a class="item">
           <i class="ui sync icon" @click="reload"></i>
         </a>
         <a class="item" href="./setting.html">
-          Setting
+          <i class="ui cog icon"></i>
         </a>
       </div>
     </div>
@@ -53,49 +78,6 @@
     </div>
 
     <div class="ui main container" v-if="trelloAuthenticated && isValidServerConfig">
-
-      <div class="ui styled accordion segment centered fluid">
-        <div class="title">
-          <i class="dropdown icon"></i> グラフ設定値の変更
-        </div>
-        <div class="content">
-          <div class="ui form">
-            <!-- <div class="field">
-              <label>Board</label>
-              <div id="boardSelectArea" class="ui selection dropdown">
-                <input type="hidden" name="board">
-                <i class="dropdown icon"></i>
-                <div class="text default">{{boardDefaultText}}</div>
-                <div id="dropmenu" class="menu">
-                  <div v-for="boardItem in boardItems" v-bind:class="{active: boardItem.isActive, selected: boardItem.isActive}" class="item" v-bind:value="boardItem.boardId" v-bind:data-value="boardItem.boardName">{{boardItem.boardName}}</div>
-                </div>
-              </div>
-            </div> -->
-            <div class="field">
-              <label>StartDate</label>
-              <div class="ui left icon input">
-                <i class="calendar icon"></i>
-                <input id="start" type="date" placeholder="開始日" required v-bind:value="graph.startDate" />
-              </div>
-            </div>
-            <div class="field">
-              <label>EndDate</label>
-              <div class="ui left icon input">
-                <i class="calendar icon"></i>
-                <input id="end" type="date" placeholder="終了日" required v-bind:value="graph.endDate" />
-              </div>
-            </div>
-            <div class="field">
-              <label>Holidays</label>
-              <div class="ui left icon input">
-                <i class="calendar icon"></i>
-                <input id="holidays" type="text" placeholder="休日" v-bind:value="graph.holidays" />
-              </div>
-            </div>
-            <div class="ui fluid button" @click="reload">SHOW!!!</div>
-          </div>
-        </div>
-      </div>
 
       <div class="spinnerContainer" v-if="loading">
         <i id="spinner" class="spinner loading icon"></i>
