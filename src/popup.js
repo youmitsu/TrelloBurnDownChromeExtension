@@ -45,7 +45,42 @@ var vm = new Vue({
       position: 'bottom center',
       on: 'click'
     });
+    $('#startDate.ui.calendar').calendar({
+      type: 'date',
+      formatter: {
+        date: function(date) {
+          var day = ('0' + date.getDate()).slice(-2);
+          var month = ('0' + (date.getMonth() + 1)).slice(-2);
+          var year = date.getFullYear();
+          return year + '/' + month + '/' + day;
+        }
+      },
+      onChange: function(date, text, mode) {
+        vm.graph.startDate = text;
+      }
+    });
+    $('#endDate.ui.calendar').calendar({
+      type: 'date',
+      formatter: {
+        date: function(date) {
+          var day = ('0' + date.getDate()).slice(-2);
+          var month = ('0' + (date.getMonth() + 1)).slice(-2);
+          var year = date.getFullYear();
+          return year + '/' + month + '/' + day;
+        }
+      },
+      onChange: function(date, text, mode) {
+        vm.graph.endDate = text;
+      }
+    });
     this.initialLoad();
+  },
+  updated: function() {
+    localStorage.setItem('boardId', this.selectedBoard.boardId);
+    localStorage.setItem('boardName', this.selectedBoard.boardName);
+    localStorage.setItem('startDate', this.graph.startDate);
+    localStorage.setItem('endDate', this.graph.endDate);
+    localStorage.setItem('holidays', this.graph.holidays);
   },
   computed: {
     isCalendarInputed: function() {
@@ -143,6 +178,10 @@ var vm = new Vue({
       localStorage.setItem('endDate', $('#end').val());
       localStorage.setItem('holidays', $('#holidays').val());
       location.reload();
+    },
+    registerBoard: function(boardItem) {
+      localStorage.setItem('boardId', boardItem.boardId);
+      localStorage.setItem('boardName', boardItem.boardName);
     }
   }
 });
