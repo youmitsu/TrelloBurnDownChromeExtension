@@ -158,7 +158,12 @@ var vm = new Vue({
               obj.data = json;
               vm.graph.data = obj;
               vm.$nextTick(() => {
-                const ctx = this.$el.querySelector('#myChart').getContext('2d')
+                const ctx = this.$el.querySelector('#myChart').getContext('2d');
+                ctx.canvas.height = 500;
+                vm.graph.data.options = {
+                  responsive: true,
+                  maintainAspectRatio: false
+                };
                 var myChart = new Chart(ctx, vm.graph.data);
               });
             })
