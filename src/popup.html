@@ -17,9 +17,6 @@
 <body>
   <div id="app">
     <div class="ui secondary pointing blue massive menu">
-      <a class="item active" href="./popup.html">
-        Home
-      </a>
       <div id="boardSelectArea" class="ui dropdown item">
         <i class="dropdown icon"></i>
         <div class="text default">{{boardDefaultText}}</div>
@@ -27,10 +24,10 @@
           <div v-for="boardItem in boardItems" v-bind:class="{active: boardItem.isActive, selected: boardItem.isActive}" class="item" v-bind:value="boardItem.boardId" v-bind:data-value="boardItem.boardName">{{boardItem.boardName}}</div>
         </div>
       </div>
+      <div class="browse item">
+        8/13 ~ 8/20
+      </div>
       <div class="right menu">
-        <div class="browse item">
-          8/13~8/20
-        </div>
         <a class="item" href="./setting.html">
           Setting
         </a>
