@@ -40,6 +40,11 @@ var vm = new Vue({
   mounted() {
     $('.ui.accordion').accordion();
     $('.ui.dropdown').dropdown();
+    $('.menu .browse').popup({
+      hoverable: true,
+      position: 'bottom center',
+      on: 'click'
+    });
     this.initialLoad();
   },
   computed: {
