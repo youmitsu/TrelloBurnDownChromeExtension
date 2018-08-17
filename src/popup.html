@@ -49,8 +49,8 @@
         </div>
         <div class="content">
           <div class="ui form">
-            <div class="inline left labeled field">
-              <label class="ui label">Board</label>
+            <div class="field">
+              <label>Board</label>
               <div id="boardSelectArea" class="ui selection dropdown">
                 <input type="hidden" name="board">
                 <i class="dropdown icon"></i>
@@ -60,22 +60,22 @@
                 </div>
               </div>
             </div>
-            <div class="inline left labeled field">
-              <label class="ui label">StartDate</label>
+            <div class="field">
+              <label>StartDate</label>
               <div class="ui left icon input">
                 <i class="calendar icon"></i>
                 <input id="start" type="date" placeholder="開始日" required v-bind:value="graph.startDate" />
               </div>
             </div>
-            <div class="inline left labeled field">
-              <label class="ui label">EndDate</label>
+            <div class="field">
+              <label>EndDate</label>
               <div class="ui left icon input">
                 <i class="calendar icon"></i>
                 <input id="end" type="date" placeholder="終了日" required v-bind:value="graph.endDate" />
               </div>
             </div>
-            <div class="inline left labeled field">
-              <label class="ui label">Holidays</label>
+            <div class="field">
+              <label>Holidays</label>
               <div class="ui left icon input">
                 <i class="calendar icon"></i>
                 <input id="holidays" type="text" placeholder="休日" v-bind:value="graph.holidays" />
