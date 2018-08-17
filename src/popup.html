@@ -25,9 +25,13 @@
         </div>
       </div>
       <div class="browse item">
-        8/13 ~ 8/20
+        <span>{{graph.startDate}}<span/> ~
+        <span>{{graph.endDate}}</span>
       </div>
       <div class="right menu">
+        <a class="item">
+          <i class="ui sync icon" @click="reload"></i>
+        </a>
         <a class="item" href="./setting.html">
           Setting
         </a>
