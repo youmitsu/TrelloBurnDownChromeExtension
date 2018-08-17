@@ -16,21 +16,20 @@
 
 <body>
   <div id="app">
-    <div class="ui secondary pointing blue inverted massive menu">
+    <div class="ui secondary pointing blue massive menu">
       <a class="item" href="./popup.html">
-      Home
+        <i class="ui arrow left icon"></i>
       </a>
-      <div class="right menu">
-        <a class="item active" href="./setting.html">
-        Setting
-      </a>
+      <div class="item">
+        Settings
       </div>
     </div>
 
-    <h2 class="ui dividing header">Backend Settings</h2>
+    <h3 class="ui dividing header">Backend Settings</h3>
     <div id="backendSettingArea" class="ui segment inputArea">
       <form class="ui large form">
         <div class="field">
+          <label>baseurl</label>
           <div class="ui input">
             <input id="url" type="text" placeholder="Server URL" v-model="baseUrl" required>
           </div>
@@ -38,15 +37,17 @@
       </form>
     </div>
 
-    <h2 class="ui dividing header">Trello Authentication</h2>
+    <h3 class="ui dividing header">Trello Authentication</h3>
     <div id="trelloSettingArea" class="ui segment inputArea">
       <form class="ui large form">
         <div class="field">
+          <label>token</label>
           <div class="ui input">
             <input id="token" type="password" placeholder="Token" v-model="trelloAuth.token" required>
           </div>
         </div>
         <div class="field">
+          <label>devKey</label>
           <div class="ui input">
             <input id="devKey" type="password" placeholder="Key" v-model="trelloAuth.devKey" required>
           </div>
@@ -54,11 +55,11 @@
       </form>
     </div>
 
-    <h2 class="ui dividing header" v-show="trelloAuthenticated">The list of available boards.</h2>
-    <h3 v-show="trelloAuthenticated">
+    <h3 class="ui dividing header" v-show="trelloAuthenticated">The list of available boards.</h3>
+    <h4 v-show="trelloAuthenticated">
       The list of boards you are able to acquired data.<br/>
       You can switch enable or disable by clicking right button.
-    </h3>
+    </h4>
     <div class="spinnerContainer" v-if="loading">
       <i id="spinner" class="spinner loading icon"></i>
     </div>
@@ -76,8 +77,6 @@
         </div>
       </div>
     </div>
-    <div id="registerBtn" class="ui button fluid" v-on:click="register">登録</div>
-
   </div>
   </div>
   <script src="menu.js"></script>
