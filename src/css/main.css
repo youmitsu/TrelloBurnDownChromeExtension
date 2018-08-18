@@ -14,3 +14,7 @@ body {
 .ui.dividing.header {
   margin-top: 20px;
 }
+
+.ui.secondary.pointing.massive.menu {
+  background-color: #1976d2;
+}
