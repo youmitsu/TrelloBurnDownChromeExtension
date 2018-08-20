@@ -47,7 +47,7 @@
             <input id="devKey" type="password" placeholder="Key" v-model="trelloAuth.devKey" required>
           </div>
         </div>
-        <div class="field">
+        <div class="field" v-if="trelloAuth.devKey">
           <label>token</label>
           <div class="ui button" v-if="!trelloAuth.token" v-on:click="openTokenPage">Get the token</div>
           <div class="ui input">
