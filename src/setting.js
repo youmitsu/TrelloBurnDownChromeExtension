@@ -94,7 +94,7 @@ var vm = new Vue({
     },
     getBoards: function(username) {
       return new Promise((resolve, reject) => {
-        fetch(`https://api.trello.com/1/members/${username}/boards?token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}&filter=open&fields=name&lists=none&memberships=none`, {
+        fetch(`https://api.trello.com/1/members/${username}/boards?token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}&filter=open&lists=none&memberships=none`, {
             method: 'GET'
           })
           .then(res => res.json())
@@ -124,12 +124,14 @@ var vm = new Vue({
       let modelIds = vm.webhooks.map(v => v.idModel);
       let webhookIds = vm.webhooks.map(v => v.id);
 
+      console.log(vm.boards);
       vm.webhookBoards = vm.boards.map((board, index, a) => {
         if (modelIds.includes(board.id)) {
           return {
             webhookId: this.getWebhookIdFromboard(board.id),
             boardId: board.id,
             boardName: board.name,
+            backgroundImage: board.prefs.backgroundImage,
             isRegistered: true,
             isloading: false
           };
@@ -138,6 +140,7 @@ var vm = new Vue({
             webhookId: null,
             boardId: board.id,
             boardName: board.name,
+            backgroundImage: board.prefs.backgroundImage,
             isRegistered: false,
             isloading: false
           };
@@ -148,7 +151,7 @@ var vm = new Vue({
     getWebhookIdFromboard: function(boardId) {
       let webhookId = "";
       vm.webhooks.forEach(v => {
-        if(v.idModel == boardId) {
+        if (v.idModel == boardId) {
           webhookId = v.id;
         }
       });
@@ -166,13 +169,24 @@ var vm = new Vue({
     },
     registerWebhook: function(boardId) {
       return new Promise((resolve, reject) => {
-        fetch(`https://api.trello.com/1/webhooks/?idModel=${boardId}&callbackURL=https://us-central1-trelloburndownproject.cloudfunctions.net/execRegisterPoint&token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}` , {
+        fetch(`https://api.trello.com/1/webhooks/?idModel=${boardId}&callbackURL=${vm.baseUrl}/execRegisterPoint&token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}`, {
             method: 'POST'
           })
           .then(res => res.json)
           .then(json => resolve(json))
           .catch(err => reject(err));
       });
+    },
+    openOuterBrowser: function(url) {
+      chrome.tabs.create({
+        "url": url
+      });
+    },
+    openKeyPage: function() {
+      this.openOuterBrowser("https://trello.com/1/appKey/generate");
+    },
+    openTokenPage: function() {
+      this.openOuterBrowser(`https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key=${this.trelloAuth.devKey}`);
     }
   }
 });
