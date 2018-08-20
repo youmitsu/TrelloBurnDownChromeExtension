@@ -42,12 +42,14 @@
       <form class="ui large form">
         <div class="field">
           <label>token</label>
+          <div class="ui button" v-if="!trelloAuth.token" v-on:click="openTokenPage">Get the token</div>
           <div class="ui input">
             <input id="token" type="password" placeholder="Token" v-model="trelloAuth.token" required>
           </div>
         </div>
         <div class="field">
           <label>devKey</label>
+          <div class="ui button" v-if="!trelloAuth.devKey" v-on:click="openKeyPage">Get the Key</div>
           <div class="ui input">
             <input id="devKey" type="password" placeholder="Key" v-model="trelloAuth.devKey" required>
           </div>
