@@ -209,7 +209,7 @@ function getBoards(username, params) {
 
 function getChartData(params) {
   return new Promise((resolve, reject) => {
-    $.get(localStorage.getItem('baseUrl'), params, function(data) {
+    $.get(`${localStorage.getItem('baseUrl')}/getSprintPoint`, params, function(data) {
       //TODO: APIリクエストがエラーだった場合のエラーハンドリング
       var result = {
         status: "OK",
