@@ -169,7 +169,7 @@ var vm = new Vue({
     },
     registerWebhook: function(boardId) {
       return new Promise((resolve, reject) => {
-        fetch(`https://api.trello.com/1/webhooks/?idModel=${boardId}&callbackURL=https://us-central1-trelloburndownproject.cloudfunctions.net/execRegisterPoint&token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}`, {
+        fetch(`https://api.trello.com/1/webhooks/?idModel=${boardId}&callbackURL=${vm.baseUrl}/execRegisterPoint&token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}`, {
             method: 'POST'
           })
           .then(res => res.json)
