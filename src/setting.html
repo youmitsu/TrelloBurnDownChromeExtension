@@ -41,17 +41,17 @@
       <h3 class="ui dividing header">Trello Authentication</h3>
       <form class="ui large form">
         <div class="field">
-          <label>token</label>
-          <div class="ui button" v-if="!trelloAuth.token" v-on:click="openTokenPage">Get the token</div>
-          <div class="ui input">
-            <input id="token" type="password" placeholder="Token" v-model="trelloAuth.token" required>
-          </div>
-        </div>
-        <div class="field">
           <label>devKey</label>
           <div class="ui button" v-if="!trelloAuth.devKey" v-on:click="openKeyPage">Get the Key</div>
           <div class="ui input">
             <input id="devKey" type="password" placeholder="Key" v-model="trelloAuth.devKey" required>
+          </div>
+        </div>
+        <div class="field">
+          <label>token</label>
+          <div class="ui button" v-if="!trelloAuth.token" v-on:click="openTokenPage">Get the token</div>
+          <div class="ui input">
+            <input id="token" type="password" placeholder="Token" v-model="trelloAuth.token" required>
           </div>
         </div>
       </form>
@@ -67,15 +67,15 @@
         <i id="spinner" class="spinner loading icon"></i>
       </div>
       <div class="ui segment" v-show="!loading && trelloAuthenticated">
-        <div class="ui divided items">
+        <div class="ui middle aligned divided list">
           <div class="item" v-for="board in webhookBoards">
-            <div class="middle aligned content">
-              <p class="header">{{board.boardName}}</p>
-              <div class="extra">
-                <div class="ui right floated button" v-bind:class="{blue: board.isRegistered, loading: board.isloading}" v-on:click="toggleWebhook(board)">
-                  {{board.isRegistered ? "Registered" : "Register"}}
-                </div>
+            <div class="right floated content">
+              <div class="ui button" v-bind:class="{basic: !board.isRegistered, blue: board.isRegistered, loading: board.isloading}" v-on:click="toggleWebhook(board)">
+                {{board.isRegistered ? "Registered" : "Register"}}
               </div>
+            </div>
+            <div class="content header">
+              {{board.boardName}}
             </div>
           </div>
         </div>
