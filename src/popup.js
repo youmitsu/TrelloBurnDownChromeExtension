@@ -101,18 +101,19 @@ var vm = new Vue({
     initialLoad: function() {
       this.loading = true;
       getUser({
-        "token": this.trelloAuth.token,
-        "key": this.trelloAuth.devKey,
-        "fields": "username"
-      }).then(user => {
-        getBoards(user.username, {
+          "token": this.trelloAuth.token,
+          "key": this.trelloAuth.devKey,
+          "fields": "username"
+        })
+        .then(user => getBoards(user.username, {
           "token": this.trelloAuth.token,
           "key": this.trelloAuth.devKey,
           "filter": "open",
           "fields": "name",
           "lists": "none",
           "memberships": "none"
-        }).then(boards => {
+        }))
+        .then(boards => {
           boards.forEach(v => {
             this.boardItems.push({
               boardId: v.id,
@@ -124,55 +125,50 @@ var vm = new Vue({
             $('.text.default').removeClass('default').text(this.selectedBoard.boardName);
             return;
           }
-        }).then(() => {
           if (!this.graph.startDate || !this.graph.endDate) {
             //TODO: 入力してね文言の表示
             return;
           }
-          this.loading = true;
-          //TODO: 暗号化いらない
-          let encryptedToken = CryptoJS.AES.encrypt(this.trelloAuth.token, KEY).toString();
-          let encryptedKey = CryptoJS.AES.encrypt(this.trelloAuth.devKey, KEY).toString();
-          getChartData({
-              "token": encryptedToken,
-              "key": encryptedKey,
-              "boardId": this.selectedBoard.boardId,
-              "startDate": this.graph.startDate,
-              "endDate": this.graph.endDate,
-              "holidays": this.graph.holidays
-            }).then(json => {
-              vm.loading = false;
-              setConfigData(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
-              setConfigData(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
-              setConfigData(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
-              var obj = {
-                type: 'line',
-                options: {
-                  elements: {
-                    line: {
-                      tension: 0
-                    }
-                  },
-                  responsive: true,
-                  maintainAspectRatio: false,
+        })
+        .then(() => getChartData({
+          "token": CryptoJS.AES.encrypt(this.trelloAuth.token, KEY).toString(),
+          "key": CryptoJS.AES.encrypt(this.trelloAuth.devKey, KEY).toString(),
+          "boardId": this.selectedBoard.boardId,
+          "startDate": this.graph.startDate,
+          "endDate": this.graph.endDate,
+          "holidays": this.graph.holidays
+        }))
+        .then(json => {
+          vm.loading = false;
+          setConfigData(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
+          setConfigData(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
+          setConfigData(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
+          var obj = {
+            type: 'line',
+            options: {
+              elements: {
+                line: {
+                  tension: 0
                 }
-              }
-              obj.data = json;
-              vm.graph.data = obj;
-              vm.$nextTick(() => {
-                const ctx = this.$el.querySelector('#myChart').getContext('2d');
-                ctx.canvas.height = 500;
-                var myChart = new Chart(ctx, vm.graph.data);
-              });
-            })
-            .catch(err => {
-              //TODO: エラーハンドリング
-              vm.error.status = true;
-              vm.error.discription = err;
-              vm.loading = false;
-            });
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+            }
+          }
+          obj.data = json;
+          vm.graph.data = obj;
+          vm.$nextTick(() => {
+            const ctx = this.$el.querySelector('#myChart').getContext('2d');
+            ctx.canvas.height = 500;
+            var myChart = new Chart(ctx, vm.graph.data);
+          });
+        })
+        .catch(err => {
+          //TODO: エラーハンドリング
+          vm.error.status = true;
+          vm.error.discription = err;
+          vm.loading = false;
         });
-      });
     },
     reload: function() {
       localStorage.setItem('boardId', $('#dropmenu.menu > .item.active.selected').attr('value'));
