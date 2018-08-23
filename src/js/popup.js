@@ -11,6 +11,9 @@
 //     buildChart(data);
 //   }
 // });
+'use strict';
+import * as apiClient from './apiClient.js';
+
 const KEY = "dGHLVUj3N3";
 var vm = new Vue({
   el: "#app",
@@ -100,12 +103,12 @@ var vm = new Vue({
   methods: {
     initialLoad: function() {
       this.loading = true;
-      getUser({
+      apiClient.getUser({
           "token": this.trelloAuth.token,
           "key": this.trelloAuth.devKey,
           "fields": "username"
         })
-        .then(user => getBoards(user.username, {
+        .then(user => apiClient.getBoards(user.username, {
           "token": this.trelloAuth.token,
           "key": this.trelloAuth.devKey,
           "filter": "open",
@@ -130,7 +133,7 @@ var vm = new Vue({
             return;
           }
         })
-        .then(() => getChartData({
+        .then(() => apiClient.getChartData({
           "token": CryptoJS.AES.encrypt(this.trelloAuth.token, KEY).toString(),
           "key": CryptoJS.AES.encrypt(this.trelloAuth.devKey, KEY).toString(),
           "boardId": this.selectedBoard.boardId,
@@ -184,38 +187,6 @@ var vm = new Vue({
     }
   }
 });
-
-function getUser(params) {
-  return new Promise((resolve, reject) => {
-    $.get(`https://api.trello.com/1/tokens/${params.token}/member`, params, function(data) {
-      //TODO: APIリクエストがエラーだった場合のエラーハンドリング
-      resolve(data);
-    });
-  });
-}
-
-function getBoards(username, params) {
-  return new Promise((resolve, reject) => {
-    $.get(`https://api.trello.com/1/members/${username}/boards`, params, function(data) {
-      //TODO: APIリクエストがエラーだった場合のエラーハンドリング
-      resolve(data);
-    });
-  });
-}
-
-function getChartData(params) {
-  return new Promise((resolve, reject) => {
-    $.get(`${localStorage.getItem('baseUrl')}/getSprintPoint`, params, function(data) {
-      //TODO: APIリクエストがエラーだった場合のエラーハンドリング
-      var result = {
-        status: "OK",
-        "data": data
-      };
-      var data = JSON.parse(result.data);
-      resolve(data);
-    });
-  });
-}
 
 //データのラベルや色などの設定を行う
 function setConfigData(json, index, label, backgroundColor, borderColor, pointColor) {
