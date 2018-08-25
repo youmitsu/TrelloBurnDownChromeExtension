@@ -63,3 +63,17 @@ export function unregisterWebhook(webhookId, token, devKey) {
       .catch(err => reject(err));
   });
 }
+
+export function getWebhook(token, devKey) {
+  return new Promise((resolve, reject) => {
+    fetch(`https://api.trello.com/1/tokens/${token}/webhooks?key=${devKey}`, {
+      method: 'GET'
+    }).then(res => {
+      return res.json();
+    }).then(response => {
+      resolve(response);
+    }).catch(error => {
+      reject(error);
+    });
+  });
+}

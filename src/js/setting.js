@@ -37,7 +37,7 @@ var vm = new Vue({
           });
           return;
         })
-        .then(() => this.getWebhook())
+        .then(() => apiClient.getWebhook(this.trelloAuth.token, this.trelloAuth.devKey))
         .then(webhooks => {
           vm.webhooks = [];
           webhooks.map(v => {
@@ -81,19 +81,6 @@ var vm = new Vue({
 
           });
       }
-    },
-    getWebhook: function() {
-      return new Promise((resolve, reject) => {
-        fetch(`https://api.trello.com/1/tokens/${this.trelloAuth.token}/webhooks?key=${this.trelloAuth.devKey}`, {
-          method: 'GET'
-        }).then(res => {
-          return res.json();
-        }).then(response => {
-          resolve(response);
-        }).catch(error => {
-          reject(error);
-        });
-      });
     },
     getWebhookStatus: function() {
       let modelIds = vm.webhooks.map(v => v.idModel);
