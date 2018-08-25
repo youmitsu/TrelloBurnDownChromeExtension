@@ -86,7 +86,6 @@ var vm = new Vue({
       let modelIds = vm.webhooks.map(v => v.idModel);
       let webhookIds = vm.webhooks.map(v => v.id);
 
-      console.log(vm.boards);
       vm.webhookBoards = vm.boards.map((board, index, a) => {
         if (modelIds.includes(board.id)) {
           return {
