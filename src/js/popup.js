@@ -13,8 +13,8 @@
 // });
 'use strict';
 import * as apiClient from './apiClient.js';
+import {encrypt} from './cryptUtil.js';
 
-const KEY = "dGHLVUj3N3";
 var vm = new Vue({
   el: "#app",
   data: {
@@ -134,8 +134,8 @@ var vm = new Vue({
           }
         })
         .then(() => apiClient.getChartData({
-          "token": CryptoJS.AES.encrypt(this.trelloAuth.token, KEY).toString(),
-          "key": CryptoJS.AES.encrypt(this.trelloAuth.devKey, KEY).toString(),
+          "token": encrypt(this.trelloAuth.token),
+          "key": encrypt(this.trelloAuth.devKey),
           "boardId": this.selectedBoard.boardId,
           "startDate": this.graph.startDate,
           "endDate": this.graph.endDate,

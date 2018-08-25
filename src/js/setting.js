@@ -1,3 +1,6 @@
+'use strict';
+import * as apiClient from './apiClient.js';
+
 var vm = new Vue({
   el: "#app",
   data: {
