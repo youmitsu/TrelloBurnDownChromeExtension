@@ -11,7 +11,10 @@
 //     buildChart(data);
 //   }
 // });
-const KEY = "dGHLVUj3N3";
+'use strict';
+import * as apiClient from './apiClient.js';
+import {encrypt} from './cryptUtil.js';
+
 var vm = new Vue({
   el: "#app",
   data: {
@@ -100,19 +103,9 @@ var vm = new Vue({
   methods: {
     initialLoad: function() {
       this.loading = true;
-      getUser({
-        "token": this.trelloAuth.token,
-        "key": this.trelloAuth.devKey,
-        "fields": "username"
-      }).then(user => {
-        getBoards(user.username, {
-          "token": this.trelloAuth.token,
-          "key": this.trelloAuth.devKey,
-          "filter": "open",
-          "fields": "name",
-          "lists": "none",
-          "memberships": "none"
-        }).then(boards => {
+      apiClient.getUser(this.trelloAuth.token, this.trelloAuth.devKey)
+        .then(user => apiClient.getBoards(user.username, this.trelloAuth.token, this.trelloAuth.devKey))
+        .then(boards => {
           boards.forEach(v => {
             this.boardItems.push({
               boardId: v.id,
@@ -124,55 +117,45 @@ var vm = new Vue({
             $('.text.default').removeClass('default').text(this.selectedBoard.boardName);
             return;
           }
-        }).then(() => {
           if (!this.graph.startDate || !this.graph.endDate) {
             //TODO: 入力してね文言の表示
             return;
           }
-          this.loading = true;
-          //TODO: 暗号化いらない
-          let encryptedToken = CryptoJS.AES.encrypt(this.trelloAuth.token, KEY).toString();
-          let encryptedKey = CryptoJS.AES.encrypt(this.trelloAuth.devKey, KEY).toString();
-          getChartData({
-              "token": encryptedToken,
-              "key": encryptedKey,
-              "boardId": this.selectedBoard.boardId,
-              "startDate": this.graph.startDate,
-              "endDate": this.graph.endDate,
-              "holidays": this.graph.holidays
-            }).then(json => {
-              vm.loading = false;
-              setConfigData(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
-              setConfigData(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
-              setConfigData(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
-              var obj = {
-                type: 'line',
-                options: {
-                  elements: {
-                    line: {
-                      tension: 0
-                    }
-                  },
-                  responsive: true,
-                  maintainAspectRatio: false,
+        })
+        .then(() => apiClient.getChartData(encrypt(this.trelloAuth.token), encrypt(this.trelloAuth.devKey),
+          this.selectedBoard.boardId, this.graph.startDate,
+          this.graph.endDate, this.graph.holidays))
+        .then(json => {
+          vm.loading = false;
+          setConfigData(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
+          setConfigData(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
+          setConfigData(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
+          var obj = {
+            type: 'line',
+            options: {
+              elements: {
+                line: {
+                  tension: 0
                 }
-              }
-              obj.data = json;
-              vm.graph.data = obj;
-              vm.$nextTick(() => {
-                const ctx = this.$el.querySelector('#myChart').getContext('2d');
-                ctx.canvas.height = 500;
-                var myChart = new Chart(ctx, vm.graph.data);
-              });
-            })
-            .catch(err => {
-              //TODO: エラーハンドリング
-              vm.error.status = true;
-              vm.error.discription = err;
-              vm.loading = false;
-            });
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+            }
+          }
+          obj.data = json;
+          vm.graph.data = obj;
+          vm.$nextTick(() => {
+            const ctx = this.$el.querySelector('#myChart').getContext('2d');
+            ctx.canvas.height = 500;
+            var myChart = new Chart(ctx, vm.graph.data);
+          });
+        })
+        .catch(err => {
+          //TODO: エラーハンドリング
+          vm.error.status = true;
+          vm.error.discription = err;
+          vm.loading = false;
         });
-      });
     },
     reload: function() {
       localStorage.setItem('boardId', $('#dropmenu.menu > .item.active.selected').attr('value'));
@@ -188,38 +171,6 @@ var vm = new Vue({
     }
   }
 });
-
-function getUser(params) {
-  return new Promise((resolve, reject) => {
-    $.get(`https://api.trello.com/1/tokens/${params.token}/member`, params, function(data) {
-      //TODO: APIリクエストがエラーだった場合のエラーハンドリング
-      resolve(data);
-    });
-  });
-}
-
-function getBoards(username, params) {
-  return new Promise((resolve, reject) => {
-    $.get(`https://api.trello.com/1/members/${username}/boards`, params, function(data) {
-      //TODO: APIリクエストがエラーだった場合のエラーハンドリング
-      resolve(data);
-    });
-  });
-}
-
-function getChartData(params) {
-  return new Promise((resolve, reject) => {
-    $.get(`${localStorage.getItem('baseUrl')}/getSprintPoint`, params, function(data) {
-      //TODO: APIリクエストがエラーだった場合のエラーハンドリング
-      var result = {
-        status: "OK",
-        "data": data
-      };
-      var data = JSON.parse(result.data);
-      resolve(data);
-    });
-  });
-}
 
 //データのラベルや色などの設定を行う
 function setConfigData(json, index, label, backgroundColor, borderColor, pointColor) {
