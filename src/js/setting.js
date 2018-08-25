@@ -72,7 +72,7 @@ var vm = new Vue({
 
           });
       } else { // 登録処理
-        this.registerWebhook(board.boardId)
+        apiClient.registerWebhook(board.boardId, this.baseUrl, this.trelloAuth.token, this.trelloAuth.devKey)
           .then(res => {
             vm.webhookBoards[index].isRegistered = true;
             vm.webhookBoards[index].isloading = false;
@@ -164,16 +164,6 @@ var vm = new Vue({
       return new Promise((resolve, reject) => {
         fetch(`https://api.trello.com/1/webhooks/${webhookId}?token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}`, {
             method: 'DELETE'
-          })
-          .then(res => res.json)
-          .then(json => resolve(json))
-          .catch(err => reject(err));
-      });
-    },
-    registerWebhook: function(boardId) {
-      return new Promise((resolve, reject) => {
-        fetch(`https://api.trello.com/1/webhooks/?idModel=${boardId}&callbackURL=${vm.baseUrl}/execRegisterPoint&token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}`, {
-            method: 'POST'
           })
           .then(res => res.json)
           .then(json => resolve(json))

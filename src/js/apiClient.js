@@ -29,3 +29,14 @@ export function getChartData(params) {
     });
   });
 }
+
+export function registerWebhook(boardId, baseUrl, token, devKey) {
+  return new Promise((resolve, reject) => {
+    fetch(`https://api.trello.com/1/webhooks/?idModel=${boardId}&callbackURL=${baseUrl}/execRegisterPoint&token=${token}&key=${devKey}`, {
+        method: 'POST'
+      })
+      .then(res => res.json)
+      .then(json => resolve(json))
+      .catch(err => reject(err));
+  });
+}
