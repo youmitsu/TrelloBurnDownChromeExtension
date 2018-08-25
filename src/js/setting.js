@@ -63,7 +63,7 @@ var vm = new Vue({
       let index = vm.webhookBoards.map(v => v.boardId).indexOf(board.boardId);
       vm.webhookBoards[index].isloading = true;
       if (board.isRegistered) { //解除処理
-        this.unregisterWebhook(board.webhookId)
+        apiClient.unregisterWebhook(board.webhookId, this.trelloAuth.token, this.trelloAuth.devKey)
           .then(res => {
             vm.webhookBoards[index].isRegistered = false;
             vm.webhookBoards[index].isloading = false;
@@ -159,16 +159,6 @@ var vm = new Vue({
         }
       });
       return webhookId;
-    },
-    unregisterWebhook: function(webhookId) {
-      return new Promise((resolve, reject) => {
-        fetch(`https://api.trello.com/1/webhooks/${webhookId}?token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}`, {
-            method: 'DELETE'
-          })
-          .then(res => res.json)
-          .then(json => resolve(json))
-          .catch(err => reject(err));
-      });
     },
     openOuterBrowser: function(url) {
       chrome.tabs.create({

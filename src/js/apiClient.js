@@ -40,3 +40,14 @@ export function registerWebhook(boardId, baseUrl, token, devKey) {
       .catch(err => reject(err));
   });
 }
+
+export function unregisterWebhook(webhookId, token, devKey) {
+  return new Promise((resolve, reject) => {
+    fetch(`https://api.trello.com/1/webhooks/${webhookId}?token=${token}&key=${devKey}`, {
+        method: 'DELETE'
+      })
+      .then(res => res.json)
+      .then(json => resolve(json))
+      .catch(err => reject(err));
+  });
+}
