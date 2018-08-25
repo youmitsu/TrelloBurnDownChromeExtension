@@ -74,6 +74,7 @@ var vm = new Vue({
       } else { // 登録処理
         apiClient.registerWebhook(board.boardId, this.baseUrl, this.trelloAuth.token, this.trelloAuth.devKey)
           .then(res => {
+            vm.webhookBoards[index].webhookId = res.id;
             vm.webhookBoards[index].isRegistered = true;
             vm.webhookBoards[index].isloading = false;
           })
@@ -92,7 +93,7 @@ var vm = new Vue({
             webhookId: this.getWebhookIdFromboard(board.id),
             boardId: board.id,
             boardName: board.name,
-            backgroundImage: board.prefs.backgroundImage,
+            backgroundImage: board.prefs.backgroundImageScaled ? board.prefs.backgroundImageScaled[0].url : null,
             isRegistered: true,
             isloading: false
           };
@@ -101,7 +102,7 @@ var vm = new Vue({
             webhookId: null,
             boardId: board.id,
             boardName: board.name,
-            backgroundImage: board.prefs.backgroundImage,
+            backgroundImage: board.prefs.backgroundImageScaled ? board.prefs.backgroundImageScaled[0].url : null,
             isRegistered: false,
             isloading: false
           };
