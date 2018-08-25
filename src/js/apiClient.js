@@ -28,17 +28,18 @@ export function getBoards(username, token, devKey) {
   });
 }
 
-export function getChartData(params) {
+export function getChartData(token, key, boardId, startDate, endDate, holidays) {
   return new Promise((resolve, reject) => {
-    $.get(`${localStorage.getItem('baseUrl')}/getSprintPoint`, params, function(data) {
-      //TODO: APIリクエストがエラーだった場合のエラーハンドリング
-      var result = {
-        status: "OK",
-        "data": data
-      };
-      var data = JSON.parse(result.data);
-      resolve(data);
-    });
+    fetch(`${localStorage.getItem('baseUrl')}/getSprintPoint?token=${encodeURIComponent(token)}&key=${encodeURIComponent(key)}&boardId=${boardId}&startDate=${startDate}&endDate=${endDate}&holidays=${holidays}`, {
+        method: 'GET'
+      })
+      .then(res => res.json())
+      .then(json => {
+        resolve(json);
+      })
+      .catch(err => {
+        reject(err);
+      });
   });
 }
 

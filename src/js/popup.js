@@ -122,14 +122,9 @@ var vm = new Vue({
             return;
           }
         })
-        .then(() => apiClient.getChartData({
-          "token": encrypt(this.trelloAuth.token),
-          "key": encrypt(this.trelloAuth.devKey),
-          "boardId": this.selectedBoard.boardId,
-          "startDate": this.graph.startDate,
-          "endDate": this.graph.endDate,
-          "holidays": this.graph.holidays
-        }))
+        .then(() => apiClient.getChartData(encrypt(this.trelloAuth.token), encrypt(this.trelloAuth.devKey),
+          this.selectedBoard.boardId, this.graph.startDate,
+          this.graph.endDate, this.graph.holidays))
         .then(json => {
           vm.loading = false;
           setConfigData(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
