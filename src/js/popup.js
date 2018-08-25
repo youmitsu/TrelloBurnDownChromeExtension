@@ -104,14 +104,7 @@ var vm = new Vue({
     initialLoad: function() {
       this.loading = true;
       apiClient.getUser(this.trelloAuth.token, this.trelloAuth.devKey)
-        .then(user => apiClient.getBoards(user.username, {
-          "token": this.trelloAuth.token,
-          "key": this.trelloAuth.devKey,
-          "filter": "open",
-          "fields": "name",
-          "lists": "none",
-          "memberships": "none"
-        }))
+        .then(user => apiClient.getBoards(user.username, this.trelloAuth.token, this.trelloAuth.devKey))
         .then(boards => {
           boards.forEach(v => {
             this.boardItems.push({

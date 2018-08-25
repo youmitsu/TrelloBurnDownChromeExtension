@@ -29,7 +29,7 @@ var vm = new Vue({
     if (this.trelloAuth.token && this.trelloAuth.devKey && this.baseUrl) {
       this.loading = true;
       apiClient.getUser(this.trelloAuth.token, this.trelloAuth.devKey)
-        .then(user => this.getBoards(user.username))
+        .then(user => apiClient.getBoards(user.username, this.trelloAuth.token, this.trelloAuth.devKey))
         .then(boards => {
           vm.boards = [];
           boards.map(v => {
@@ -93,20 +93,6 @@ var vm = new Vue({
         }).catch(error => {
           reject(error);
         });
-      });
-    },
-    getBoards: function(username) {
-      return new Promise((resolve, reject) => {
-        fetch(`https://api.trello.com/1/members/${username}/boards?token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}&filter=open&lists=none&memberships=none`, {
-            method: 'GET'
-          })
-          .then(res => res.json())
-          .then(json => {
-            resolve(json);
-          })
-          .catch(err => {
-            reject(err);
-          });
       });
     },
     getWebhookStatus: function() {

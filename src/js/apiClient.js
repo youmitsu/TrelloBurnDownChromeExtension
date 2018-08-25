@@ -13,12 +13,18 @@ export function getUser(token, devKey) {
   });
 }
 
-export function getBoards(username, params) {
+export function getBoards(username, token, devKey) {
   return new Promise((resolve, reject) => {
-    $.get(`https://api.trello.com/1/members/${username}/boards`, params, function(data) {
-      //TODO: APIリクエストがエラーだった場合のエラーハンドリング
-      resolve(data);
-    });
+    fetch(`https://api.trello.com/1/members/${username}/boards?token=${token}&key=${devKey}&filter=open&lists=none&memberships=none`, {
+        method: 'GET'
+      })
+      .then(res => res.json())
+      .then(json => {
+        resolve(json);
+      })
+      .catch(err => {
+        reject(err);
+      });
   });
 }
 
