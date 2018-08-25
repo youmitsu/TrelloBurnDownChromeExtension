@@ -103,11 +103,7 @@ var vm = new Vue({
   methods: {
     initialLoad: function() {
       this.loading = true;
-      apiClient.getUser({
-          "token": this.trelloAuth.token,
-          "key": this.trelloAuth.devKey,
-          "fields": "username"
-        })
+      apiClient.getUser(this.trelloAuth.token, this.trelloAuth.devKey)
         .then(user => apiClient.getBoards(user.username, {
           "token": this.trelloAuth.token,
           "key": this.trelloAuth.devKey,

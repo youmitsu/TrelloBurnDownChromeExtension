@@ -1,9 +1,15 @@
-export function getUser(params) {
+export function getUser(token, devKey) {
   return new Promise((resolve, reject) => {
-    $.get(`https://api.trello.com/1/tokens/${params.token}/member`, params, function(data) {
-      //TODO: APIリクエストがエラーだった場合のエラーハンドリング
-      resolve(data);
-    });
+    fetch(`https://api.trello.com/1/tokens/${token}/member?token=${token}&key=${devKey}&field=username`, {
+        method: 'GET'
+      })
+      .then(res => res.json())
+      .then(json => {
+        resolve(json);
+      })
+      .catch(err => {
+        reject(err);
+      });
   });
 }
 

@@ -28,7 +28,7 @@ var vm = new Vue({
   mounted: function() {
     if (this.trelloAuth.token && this.trelloAuth.devKey && this.baseUrl) {
       this.loading = true;
-      this.getUser()
+      apiClient.getUser(this.trelloAuth.token, this.trelloAuth.devKey)
         .then(user => this.getBoards(user.username))
         .then(boards => {
           vm.boards = [];
@@ -98,20 +98,6 @@ var vm = new Vue({
     getBoards: function(username) {
       return new Promise((resolve, reject) => {
         fetch(`https://api.trello.com/1/members/${username}/boards?token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}&filter=open&lists=none&memberships=none`, {
-            method: 'GET'
-          })
-          .then(res => res.json())
-          .then(json => {
-            resolve(json);
-          })
-          .catch(err => {
-            reject(err);
-          });
-      });
-    },
-    getUser: function() {
-      return new Promise((resolve, reject) => {
-        fetch(`https://api.trello.com/1/tokens/${this.trelloAuth.token}/member?token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}&field=username`, {
             method: 'GET'
           })
           .then(res => res.json())
