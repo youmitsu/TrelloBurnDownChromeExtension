@@ -78,3 +78,18 @@ export function getWebhook(token, devKey) {
     });
   });
 }
+
+export function checkServerUrl() {
+  return new Promise((resolve, reject) => {
+    fetch(`${localStorage.getItem('baseUrl')}/execRegisterPoint`, {
+        method: 'HEAD'
+      })
+      .then(json => {
+        console.log(json);
+        resolve(json);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}

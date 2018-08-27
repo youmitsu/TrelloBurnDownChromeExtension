@@ -13,22 +13,26 @@ var vm = new Vue({
     },
     boards: [],
     webhooks: [],
-    baseUrl: null,
+    serverAuth: {
+      baseUrl: null,
+      isError: false,
+      loadState: "notStarted"
+    },
     webhookStatus: [],
     webhookBoards: []
   },
   created: function() {
     this.trelloAuth.token = localStorage.getItem('token') || "";
     this.trelloAuth.devKey = localStorage.getItem('devKey') || "";
-    this.baseUrl = localStorage.getItem('baseUrl') || "";
+    this.serverAuth.baseUrl = localStorage.getItem('baseUrl') || "";
   },
   updated: function() {
-    localStorage.setItem('baseUrl', this.baseUrl);
+    localStorage.setItem('baseUrl', this.serverAuth.baseUrl);
     localStorage.setItem('token', this.trelloAuth.token);
     localStorage.setItem('devKey', this.trelloAuth.devKey);
   },
   mounted: function() {
-    if (this.trelloAuth.token && this.trelloAuth.devKey && this.baseUrl) {
+    if (this.trelloAuth.token && this.trelloAuth.devKey && this.serverAuth.baseUrl) {
       this.loading = true;
       apiClient.getUser(this.trelloAuth.token, this.trelloAuth.devKey)
         .then(user => apiClient.getBoards(user.username, this.trelloAuth.token, this.trelloAuth.devKey))
@@ -74,7 +78,7 @@ var vm = new Vue({
 
           });
       } else { // 登録処理
-        apiClient.registerWebhook(board.boardId, this.baseUrl, this.trelloAuth.token, this.trelloAuth.devKey)
+        apiClient.registerWebhook(board.boardId, this.serverAuth.baseUrl, this.trelloAuth.token, this.trelloAuth.devKey)
           .then(res => {
             vm.webhookBoards[index].webhookId = res.id;
             vm.webhookBoards[index].isRegistered = true;
@@ -132,7 +136,7 @@ var vm = new Vue({
     openTokenPage: function() {
       this.openOuterBrowser(`https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key=${this.trelloAuth.devKey}`);
     },
-    validate: function() {
+    validateTrello: function() {
       if(this.trelloAuth.token && this.trelloAuth.devKey){
         this.trelloAuth.loadState = "loading";
         apiClient.getUser(this.trelloAuth.token, this.trelloAuth.devKey)
@@ -143,6 +147,20 @@ var vm = new Vue({
           .catch(err => {
             vm.trelloAuth.loadState = "completed";
             vm.trelloAuth.isError = true;
+          });
+      }
+    },
+    validateServer: function() {
+      if(this.serverAuth.baseUrl){
+        this.serverAuth.loadState = "loading";
+        apiClient.checkServerUrl()
+          .then(res => {
+            vm.serverAuth.loadState = "completed";
+            vm.serverAuth.isError = false;
+          })
+          .catch(err => {
+            vm.serverAuth.loadState = "completed";
+            vm.serverAuth.isError = true;
           });
       }
     }
