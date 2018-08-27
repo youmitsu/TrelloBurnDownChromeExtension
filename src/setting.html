@@ -39,19 +39,26 @@
 
     <div class="settingItems">
       <h3 class="ui dividing header">Trello Authentication</h3>
+      <div class="ui error message" v-if="trelloAuth.isError && trelloAuth.loadState == 'completed'">
+        Trello Authentication is not completed.
+      </div>
+      <div class="ui success message" v-if="!trelloAuth.isError && trelloAuth.loadState == 'completed'">
+        Trello Authentication is completed.
+      </div>
+      <i class="ui notched circle loading icon" v-if="trelloAuth.loadState == 'loading'"></i>
       <form class="ui large form">
         <div class="field">
           <label>devKey</label>
           <div class="ui button" v-if="!trelloAuth.devKey" v-on:click="openKeyPage">Get the Key</div>
           <div class="ui input">
-            <input id="devKey" type="password" placeholder="Key" v-model="trelloAuth.devKey" required>
+            <input id="devKey" type="password" placeholder="Key" v-model="trelloAuth.devKey" @change="validate" required>
           </div>
         </div>
         <div class="field" v-if="trelloAuth.devKey">
           <label>token</label>
           <div class="ui button" v-if="!trelloAuth.token" v-on:click="openTokenPage">Get the token</div>
           <div class="ui input">
-            <input id="token" type="password" placeholder="Token" v-model="trelloAuth.token" required>
+            <input id="token" type="password" placeholder="Token" v-model="trelloAuth.token" @change="validate" required>
           </div>
         </div>
       </form>

@@ -7,7 +7,9 @@ var vm = new Vue({
     loading: false,
     trelloAuth: {
       token: null,
-      devKey: null
+      devKey: null,
+      isError: false,
+      loadState: "notStarted"
     },
     boards: [],
     webhooks: [],
@@ -129,6 +131,20 @@ var vm = new Vue({
     },
     openTokenPage: function() {
       this.openOuterBrowser(`https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key=${this.trelloAuth.devKey}`);
+    },
+    validate: function() {
+      if(this.trelloAuth.token && this.trelloAuth.devKey){
+        this.trelloAuth.loadState = "loading";
+        apiClient.getUser(this.trelloAuth.token, this.trelloAuth.devKey)
+          .then(res => {
+            vm.trelloAuth.loadState = "completed";
+            vm.trelloAuth.isError = false;
+          })
+          .catch(err => {
+            vm.trelloAuth.loadState = "completed";
+            vm.trelloAuth.isError = true;
+          });
+      }
     }
   }
 });
