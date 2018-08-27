@@ -1,32 +1,41 @@
+'use strict';
+import * as apiClient from './apiClient.js';
+
 var vm = new Vue({
   el: "#app",
   data: {
     loading: false,
     trelloAuth: {
       token: null,
-      devKey: null
+      devKey: null,
+      isError: false,
+      loadState: "notStarted"
     },
     boards: [],
     webhooks: [],
-    baseUrl: null,
+    serverAuth: {
+      baseUrl: null,
+      isError: false,
+      loadState: "notStarted"
+    },
     webhookStatus: [],
     webhookBoards: []
   },
   created: function() {
     this.trelloAuth.token = localStorage.getItem('token') || "";
     this.trelloAuth.devKey = localStorage.getItem('devKey') || "";
-    this.baseUrl = localStorage.getItem('baseUrl') || "";
+    this.serverAuth.baseUrl = localStorage.getItem('baseUrl') || "";
   },
   updated: function() {
-    localStorage.setItem('baseUrl', this.baseUrl);
+    localStorage.setItem('baseUrl', this.serverAuth.baseUrl);
     localStorage.setItem('token', this.trelloAuth.token);
     localStorage.setItem('devKey', this.trelloAuth.devKey);
   },
   mounted: function() {
-    if (this.trelloAuth.token && this.trelloAuth.devKey && this.baseUrl) {
+    if (this.trelloAuth.token && this.trelloAuth.devKey && this.serverAuth.baseUrl) {
       this.loading = true;
-      this.getUser()
-        .then(user => this.getBoards(user.username))
+      apiClient.getUser(this.trelloAuth.token, this.trelloAuth.devKey)
+        .then(user => apiClient.getBoards(user.username, this.trelloAuth.token, this.trelloAuth.devKey))
         .then(boards => {
           vm.boards = [];
           boards.map(v => {
@@ -34,7 +43,7 @@ var vm = new Vue({
           });
           return;
         })
-        .then(() => this.getWebhook())
+        .then(() => apiClient.getWebhook(this.trelloAuth.token, this.trelloAuth.devKey))
         .then(webhooks => {
           vm.webhooks = [];
           webhooks.map(v => {
@@ -60,7 +69,7 @@ var vm = new Vue({
       let index = vm.webhookBoards.map(v => v.boardId).indexOf(board.boardId);
       vm.webhookBoards[index].isloading = true;
       if (board.isRegistered) { //解除処理
-        this.unregisterWebhook(board.webhookId)
+        apiClient.unregisterWebhook(board.webhookId, this.trelloAuth.token, this.trelloAuth.devKey)
           .then(res => {
             vm.webhookBoards[index].isRegistered = false;
             vm.webhookBoards[index].isloading = false;
@@ -69,8 +78,9 @@ var vm = new Vue({
 
           });
       } else { // 登録処理
-        this.registerWebhook(board.boardId)
+        apiClient.registerWebhook(board.boardId, this.serverAuth.baseUrl, this.trelloAuth.token, this.trelloAuth.devKey)
           .then(res => {
+            vm.webhookBoards[index].webhookId = res.id;
             vm.webhookBoards[index].isRegistered = true;
             vm.webhookBoards[index].isloading = false;
           })
@@ -79,59 +89,17 @@ var vm = new Vue({
           });
       }
     },
-    getWebhook: function() {
-      return new Promise((resolve, reject) => {
-        fetch(`https://api.trello.com/1/tokens/${this.trelloAuth.token}/webhooks?key=${this.trelloAuth.devKey}`, {
-          method: 'GET'
-        }).then(res => {
-          return res.json();
-        }).then(response => {
-          resolve(response);
-        }).catch(error => {
-          reject(error);
-        });
-      });
-    },
-    getBoards: function(username) {
-      return new Promise((resolve, reject) => {
-        fetch(`https://api.trello.com/1/members/${username}/boards?token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}&filter=open&lists=none&memberships=none`, {
-            method: 'GET'
-          })
-          .then(res => res.json())
-          .then(json => {
-            resolve(json);
-          })
-          .catch(err => {
-            reject(err);
-          });
-      });
-    },
-    getUser: function() {
-      return new Promise((resolve, reject) => {
-        fetch(`https://api.trello.com/1/tokens/${this.trelloAuth.token}/member?token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}&field=username`, {
-            method: 'GET'
-          })
-          .then(res => res.json())
-          .then(json => {
-            resolve(json);
-          })
-          .catch(err => {
-            reject(err);
-          });
-      });
-    },
     getWebhookStatus: function() {
       let modelIds = vm.webhooks.map(v => v.idModel);
       let webhookIds = vm.webhooks.map(v => v.id);
 
-      console.log(vm.boards);
       vm.webhookBoards = vm.boards.map((board, index, a) => {
         if (modelIds.includes(board.id)) {
           return {
             webhookId: this.getWebhookIdFromboard(board.id),
             boardId: board.id,
             boardName: board.name,
-            backgroundImage: board.prefs.backgroundImage,
+            backgroundImage: board.prefs.backgroundImageScaled ? board.prefs.backgroundImageScaled[0].url : null,
             isRegistered: true,
             isloading: false
           };
@@ -140,7 +108,7 @@ var vm = new Vue({
             webhookId: null,
             boardId: board.id,
             boardName: board.name,
-            backgroundImage: board.prefs.backgroundImage,
+            backgroundImage: board.prefs.backgroundImageScaled ? board.prefs.backgroundImageScaled[0].url : null,
             isRegistered: false,
             isloading: false
           };
@@ -157,26 +125,6 @@ var vm = new Vue({
       });
       return webhookId;
     },
-    unregisterWebhook: function(webhookId) {
-      return new Promise((resolve, reject) => {
-        fetch(`https://api.trello.com/1/webhooks/${webhookId}?token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}`, {
-            method: 'DELETE'
-          })
-          .then(res => res.json)
-          .then(json => resolve(json))
-          .catch(err => reject(err));
-      });
-    },
-    registerWebhook: function(boardId) {
-      return new Promise((resolve, reject) => {
-        fetch(`https://api.trello.com/1/webhooks/?idModel=${boardId}&callbackURL=${vm.baseUrl}/execRegisterPoint&token=${this.trelloAuth.token}&key=${this.trelloAuth.devKey}`, {
-            method: 'POST'
-          })
-          .then(res => res.json)
-          .then(json => resolve(json))
-          .catch(err => reject(err));
-      });
-    },
     openOuterBrowser: function(url) {
       chrome.tabs.create({
         "url": url
@@ -187,6 +135,34 @@ var vm = new Vue({
     },
     openTokenPage: function() {
       this.openOuterBrowser(`https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key=${this.trelloAuth.devKey}`);
+    },
+    validateTrello: function() {
+      if(this.trelloAuth.token && this.trelloAuth.devKey){
+        this.trelloAuth.loadState = "loading";
+        apiClient.getUser(this.trelloAuth.token, this.trelloAuth.devKey)
+          .then(res => {
+            vm.trelloAuth.loadState = "completed";
+            vm.trelloAuth.isError = false;
+          })
+          .catch(err => {
+            vm.trelloAuth.loadState = "completed";
+            vm.trelloAuth.isError = true;
+          });
+      }
+    },
+    validateServer: function() {
+      if(this.serverAuth.baseUrl){
+        this.serverAuth.loadState = "loading";
+        apiClient.checkServerUrl()
+          .then(res => {
+            vm.serverAuth.loadState = "completed";
+            vm.serverAuth.isError = false;
+          })
+          .catch(err => {
+            vm.serverAuth.loadState = "completed";
+            vm.serverAuth.isError = true;
+          });
+      }
     }
   }
 });
