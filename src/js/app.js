@@ -71,7 +71,6 @@ var store = new Vuex.Store({
                 isActive: v.id === state.selectedBoard.boardId
               });
             });
-            //すでにボードが選択済みの場合、ボードのデフォルト値を設定する
             if (getters.isInputedBoard) {
               return;
             }
@@ -182,7 +181,7 @@ new Vue({
         }
       },
       onChange: function(date, text, mode) {
-        this.$store.state.commit('SET_START_DATE', text);
+        store.commit('SET_START_DATE', text);
       }
     });
     $('#endDate.ui.calendar').calendar({
@@ -196,7 +195,7 @@ new Vue({
         }
       },
       onChange: function(date, text, mode) {
-        this.$store.state.commit('SET_END_DATE', text);
+        store.commit('SET_END_DATE', text);
       }
     });
   },

@@ -427,7 +427,6 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
                 isActive: v.id === state.selectedBoard.boardId
               });
             });
-            //すでにボードが選択済みの場合、ボードのデフォルト値を設定する
             if (getters.isInputedBoard) {
               return;
             }
@@ -521,7 +520,6 @@ new __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_dist_vue_js___default.a({
       });
   },
   mounted: function() {
-    $('.ui.accordion').accordion();
     $('.ui.dropdown').dropdown();
     $('.menu .browse').popup({
       hoverable: true,
@@ -539,7 +537,7 @@ new __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_dist_vue_js___default.a({
         }
       },
       onChange: function(date, text, mode) {
-        this.$store.state.commit('SET_START_DATE', text);
+        store.commit('SET_START_DATE', text);
       }
     });
     $('#endDate.ui.calendar').calendar({
@@ -553,7 +551,7 @@ new __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_dist_vue_js___default.a({
         }
       },
       onChange: function(date, text, mode) {
-        this.$store.state.commit('SET_END_DATE', text);
+        store.commit('SET_END_DATE', text);
       }
     });
   },
