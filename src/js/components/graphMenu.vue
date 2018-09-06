@@ -51,6 +51,7 @@
 export default {
   computed: {
     boardDefaultText() {
+      console.log(this.$store.getters.boardDefaultText);
       return this.$store.getters.boardDefaultText;
     },
     boardList() {

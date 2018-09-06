@@ -1,6 +1,7 @@
 import Vue from '../node_modules/vue/dist/vue.js';
 import Vuex from '../node_modules/vuex/dist/vuex.js';
 import * as ApiClient from './lib/apiClient.js';
+import * as DataStore from './lib/dataStore.js';
 import {
   encrypt
 } from './lib/cryptUtil.js';
@@ -48,14 +49,10 @@ var store = new Vuex.Store({
     }
   },
   actions: {
-    setSelectBoard({
-      commit
-    }, boardItem) {
+    setSelectBoard({ commit }, boardItem) {
       commit('SET_SELECT_BOARD', boardItem);
     },
-    setBoardItems({
-      commit
-    }, boardItems) {
+    setBoardItems({ commit }, boardItems) {
       commit('SET_BOARD_ITEMS', boardItems);
     },
     reload(context) {
@@ -123,15 +120,20 @@ var store = new Vuex.Store({
   mutations: {
     SET_SELECT_BOARD(state, boardItem) {
       state.selectedBoard = boardItem;
+      DataStore.set('boardId', store.selectedBoard.boardId);
+      DataStore.set('boardName', store.selectedBoard.boardName);
     },
     SET_START_DATE(state, startDate) {
       state.graph.startDate = startDate;
+      DataStore.set('startDate', state.graph.startDate);
     },
     SET_END_DATE(state, endDate) {
       state.graph.endDate = endDate;
+      DataStore.set('endDate', state.graph.endDate);
     },
     SET_HOLIDAYS(state, holidays) {
       state.graph.holidays = holidays;
+      DataStore.set('holidays', state.graph.holidays);
     },
     START_LOADING(state) {
       state.loadState.loading = true;

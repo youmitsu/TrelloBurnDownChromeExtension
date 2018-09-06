@@ -257,6 +257,7 @@ module.exports = function normalizeComponent (
 /* harmony default export */ __webpack_exports__["a"] = ({
   computed: {
     boardDefaultText() {
+      console.log(this.$store.getters.boardDefaultText);
       return this.$store.getters.boardDefaultText;
     },
     boardList() {
@@ -355,6 +356,12 @@ module.exports = function normalizeComponent (
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   computed: {
@@ -363,6 +370,9 @@ module.exports = function normalizeComponent (
     },
     isLoading() {
       return this.$store.state.loadState.loading
+    },
+    isError() {
+      return this.$store.state.loadState.status == "FAILED";
     }
   }
 });
@@ -379,10 +389,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_cryptUtil_js__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_graphMenu_vue__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_graph_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_dataStore_js__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_cryptUtil_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_chartUtil_js__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_graphMenu_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_graph_vue__ = __webpack_require__(16);
+
 
 
 
@@ -429,14 +441,10 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
     }
   },
   actions: {
-    setSelectBoard({
-      commit
-    }, boardItem) {
+    setSelectBoard({ commit }, boardItem) {
       commit('SET_SELECT_BOARD', boardItem);
     },
-    setBoardItems({
-      commit
-    }, boardItems) {
+    setBoardItems({ commit }, boardItems) {
       commit('SET_BOARD_ITEMS', boardItems);
     },
     reload(context) {
@@ -467,13 +475,13 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
             //   return;
             // }
           })
-          .then(() => __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["b" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_3__lib_cryptUtil_js__["a" /* encrypt */])(store.state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_3__lib_cryptUtil_js__["a" /* encrypt */])(store.state.trelloAuth.devKey),
+          .then(() => __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["b" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_4__lib_cryptUtil_js__["a" /* encrypt */])(store.state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_4__lib_cryptUtil_js__["a" /* encrypt */])(store.state.trelloAuth.devKey),
             store.state.selectedBoard.boardId, store.state.graph.startDate,
             store.state.graph.endDate, store.state.graph.holidays))
           .then(json => {
-            Object(__WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__["a" /* setConfigData */])(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
-            Object(__WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__["a" /* setConfigData */])(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
-            Object(__WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__["a" /* setConfigData */])(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
+            Object(__WEBPACK_IMPORTED_MODULE_5__lib_chartUtil_js__["a" /* setConfigData */])(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
+            Object(__WEBPACK_IMPORTED_MODULE_5__lib_chartUtil_js__["a" /* setConfigData */])(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
+            Object(__WEBPACK_IMPORTED_MODULE_5__lib_chartUtil_js__["a" /* setConfigData */])(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
             let obj = {
               type: 'line',
               options: {
@@ -494,7 +502,6 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
             resolve();
           })
           .catch(err => {
-            //TODO: エラーハンドリング
             store.commit('END_LOADING', {
               status: "ERROR"
             });
@@ -505,15 +512,20 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
   mutations: {
     SET_SELECT_BOARD(state, boardItem) {
       state.selectedBoard = boardItem;
+      __WEBPACK_IMPORTED_MODULE_3__lib_dataStore_js__["a" /* set */]('boardId', store.selectedBoard.boardId);
+      __WEBPACK_IMPORTED_MODULE_3__lib_dataStore_js__["a" /* set */]('boardName', store.selectedBoard.boardName);
     },
     SET_START_DATE(state, startDate) {
       state.graph.startDate = startDate;
+      __WEBPACK_IMPORTED_MODULE_3__lib_dataStore_js__["a" /* set */]('startDate', state.graph.startDate);
     },
     SET_END_DATE(state, endDate) {
       state.graph.endDate = endDate;
+      __WEBPACK_IMPORTED_MODULE_3__lib_dataStore_js__["a" /* set */]('endDate', state.graph.endDate);
     },
     SET_HOLIDAYS(state, holidays) {
       state.graph.holidays = holidays;
+      __WEBPACK_IMPORTED_MODULE_3__lib_dataStore_js__["a" /* set */]('holidays', state.graph.holidays);
     },
     START_LOADING(state) {
       state.loadState.loading = true;
@@ -538,6 +550,7 @@ new __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_dist_vue_js___default.a({
   created: function() {
     store.dispatch('initialLoad')
       .then(() => {
+        //TODO: できれば子Componentに持っていく
         this.$nextTick(() => {
           const ctx = this.$el.querySelector('#myChart').getContext('2d');
           ctx.canvas.height = 500;
@@ -546,8 +559,8 @@ new __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_dist_vue_js___default.a({
       });
   },
   components: {
-    "graph-menu": __WEBPACK_IMPORTED_MODULE_5__components_graphMenu_vue__["a" /* default */],
-    "graph-content": __WEBPACK_IMPORTED_MODULE_6__components_graph_vue__["a" /* default */]
+    "graph-menu": __WEBPACK_IMPORTED_MODULE_6__components_graphMenu_vue__["a" /* default */],
+    "graph-content": __WEBPACK_IMPORTED_MODULE_7__components_graph_vue__["a" /* default */]
   }
 })
 
@@ -13017,6 +13030,29 @@ function checkServerUrl() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = set;
+/* unused harmony export get */
+function set(key, value) {
+  return new Promise((resolve, reject) => {
+    if(!value) {
+      reject();
+      return;
+    }
+    localStorage.setItem(key, value);
+    resolve();
+  });
+}
+
+function get(key) {
+  return localStorage.getItem(key);
+}
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = encrypt;
 const key = "dGHLVUj3N3";
 function encrypt(text) {
@@ -13025,7 +13061,7 @@ function encrypt(text) {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13041,13 +13077,13 @@ function setConfigData(json, index, label, backgroundColor, borderColor, pointCo
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_graphMenu_vue__ = __webpack_require__(2);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2e0374fc_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graphMenu_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2e0374fc_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graphMenu_vue__ = __webpack_require__(15);
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -13093,7 +13129,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13306,13 +13342,13 @@ if (false) {
 }
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_graph_vue__ = __webpack_require__(3);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_95708506_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graph_vue__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_95708506_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graph_vue__ = __webpack_require__(17);
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -13358,7 +13394,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13368,6 +13404,14 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.isGraphDisplayed
     ? _c("div", { staticClass: "ui main container" }, [
+        _vm.isError
+          ? _c("div", { staticClass: "ui segment", attrs: { hidden: "" } }, [
+              _c("div", { staticClass: "ui error message" }, [
+                _vm._v("\n      エラーが発生しました。\n      ")
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _c(
           "div",
           { staticClass: "ui segment", class: { loading: _vm.isLoading } },
