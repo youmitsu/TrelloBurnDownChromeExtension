@@ -429,72 +429,77 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
     }
   },
   actions: {
-    setSelectBoard({commit}, boardItem) {
+    setSelectBoard({
+      commit
+    }, boardItem) {
       commit('SET_SELECT_BOARD', boardItem);
     },
-    setBoardItems({commit}, boardItems) {
+    setBoardItems({
+      commit
+    }, boardItems) {
       commit('SET_BOARD_ITEMS', boardItems);
     },
     reload(context) {
       location.reload();
     },
     initialLoad(context) {
-      console.log('hoge');
-      store.commit('START_LOADING');
-      __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["c" /* getUser */](store.state.trelloAuth.token, store.state.trelloAuth.devKey)
-        .then(user => __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["a" /* getBoards */](user.username, store.state.trelloAuth.token, store.state.trelloAuth.devKey))
-        .then(boards => {
-          boards.forEach(v => {
-            store.commit('ADD_BOARD', {
-              boardId: v.id,
-              boardName: v.name,
-              isActive: v.id === store.state.selectedBoard.boardId
+      return new Promise((resolve, reject) => {
+        store.commit('START_LOADING');
+        __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["c" /* getUser */](store.state.trelloAuth.token, store.state.trelloAuth.devKey)
+          .then(user => __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["a" /* getBoards */](user.username, store.state.trelloAuth.token, store.state.trelloAuth.devKey))
+          .then(boards => {
+            boards.forEach(v => {
+              store.commit('ADD_BOARD', {
+                boardId: v.id,
+                boardName: v.name,
+                isActive: v.id === store.state.selectedBoard.boardId
+              });
+            });
+            //すでにボードが選択済みの場合、ボードのデフォルト値を設定する
+            if (store.getters.isInputedBoard) {
+              //TODO: jquery排除
+              $('.text.default').removeClass('default').text(store.state.selectedBoard.boardName);
+              return;
+            }
+            //
+            // if (!this.graph.startDate || !this.graph.endDate) {
+            //   //TODO: 入力してね文言の表示
+            //   return;
+            // }
+          })
+          .then(() => __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["b" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_3__lib_cryptUtil_js__["a" /* encrypt */])(store.state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_3__lib_cryptUtil_js__["a" /* encrypt */])(store.state.trelloAuth.devKey),
+            store.state.selectedBoard.boardId, store.state.graph.startDate,
+            store.state.graph.endDate, store.state.graph.holidays))
+          .then(json => {
+            Object(__WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__["a" /* setConfigData */])(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
+            Object(__WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__["a" /* setConfigData */])(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
+            Object(__WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__["a" /* setConfigData */])(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
+            let obj = {
+              type: 'line',
+              options: {
+                elements: {
+                  line: {
+                    tension: 0
+                  }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+              }
+            }
+            obj.data = json;
+            store.commit('SET_GRAPH_DATA', obj);
+            store.commit('END_LOADING', {
+              status: "SUCCESS"
+            });
+            resolve();
+          })
+          .catch(err => {
+            //TODO: エラーハンドリング
+            store.commit('END_LOADING', {
+              status: "ERROR"
             });
           });
-          //すでにボードが選択済みの場合、ボードのデフォルト値を設定する
-          if (store.getters.isInputedBoard) {
-            //TODO: jquery排除
-            //$('.text.default').removeClass('default').text(this.selectedBoard.boardName);
-            return;
-          }
-          //
-          // if (!this.graph.startDate || !this.graph.endDate) {
-          //   //TODO: 入力してね文言の表示
-          //   return;
-          // }
-        })
-        .then(() => __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["b" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_3__lib_cryptUtil_js__["a" /* encrypt */])(store.state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_3__lib_cryptUtil_js__["a" /* encrypt */])(store.state.trelloAuth.devKey),
-          store.state.selectedBoard.boardId, store.state.graph.startDate,
-          store.state.graph.endDate, store.state.graph.holidays))
-        .then(json => {
-          Object(__WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__["a" /* setConfigData */])(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
-          Object(__WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__["a" /* setConfigData */])(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
-          Object(__WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__["a" /* setConfigData */])(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
-          let obj = {
-            type: 'line',
-            options: {
-              elements: {
-                line: {
-                  tension: 0
-                }
-              },
-              responsive: true,
-              maintainAspectRatio: false,
-            }
-          }
-          obj.data = json;
-          store.commit('SET_GRAPH_DATA', obj);
-          // vm.$nextTick(() => {
-          //   const ctx = this.$el.querySelector('#myChart').getContext('2d');
-          //   ctx.canvas.height = 500;
-          //   var myChart = new Chart(ctx, vm.graph.data);
-          // });
-          store.commit('END_LOADING', {status: "SUCCESS"});
-        })
-        .catch(err => {
-          //TODO: エラーハンドリング
-          store.commit('END_LOADING', {status: "ERROR"});
-        });
+      });
     }
   },
   mutations: {
@@ -531,7 +536,14 @@ new __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_dist_vue_js___default.a({
   el: '#app',
   store,
   created: function() {
-    store.dispatch('initialLoad');
+    store.dispatch('initialLoad')
+      .then(() => {
+        this.$nextTick(() => {
+          const ctx = this.$el.querySelector('#myChart').getContext('2d');
+          ctx.canvas.height = 500;
+          var myChart = new Chart(ctx, store.state.graph.data);
+        });
+      });
   },
   components: {
     "graph-menu": __WEBPACK_IMPORTED_MODULE_5__components_graphMenu_vue__["a" /* default */],
