@@ -240,7 +240,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_dist_vue_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_dist_vue_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_graphMenu_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_cryptUtil_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_graphMenu_vue__ = __webpack_require__(11);
+
+
+
 
 
 
@@ -251,6 +257,10 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
     loadState: {
       loading: false,
       status: "", // status: "" or "SUCCESS" or "FAILED"
+    },
+    trelloAuth: {
+      token: localStorage.getItem('token'),
+      devKey: localStorage.getItem('devKey')
     },
     selectedBoard: {
       boardId: localStorage.getItem('boardId'),
@@ -270,6 +280,9 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
     },
     boardList: state => {
       return state.boardItems.length <= 0 ? ["ボードがありません"] : state.boardItems;
+    },
+    isInputedBoard: state => {
+      return state.selectedBoard.boardId && state.selectedBoard.boardName;
     }
   },
   actions: {
@@ -281,6 +294,64 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
     },
     reload(context) {
       location.reload();
+    },
+    initialLoad(context) {
+      console.log('hoge');
+      store.commit('START_LOADING');
+      __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["c" /* getUser */](store.state.trelloAuth.token, store.state.trelloAuth.devKey)
+        .then(user => __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["a" /* getBoards */](user.username, store.state.trelloAuth.token, store.state.trelloAuth.devKey))
+        .then(boards => {
+          boards.forEach(v => {
+            store.commit('ADD_BOARD', {
+              boardId: v.id,
+              boardName: v.name,
+              isActive: v.id === store.state.selectedBoard.boardId
+            });
+          });
+          //すでにボードが選択済みの場合、ボードのデフォルト値を設定する
+          if (store.getters.isInputedBoard) {
+            //TODO: jquery排除
+            //$('.text.default').removeClass('default').text(this.selectedBoard.boardName);
+            return;
+          }
+          //
+          // if (!this.graph.startDate || !this.graph.endDate) {
+          //   //TODO: 入力してね文言の表示
+          //   return;
+          // }
+        })
+        .then(() => __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["b" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_3__lib_cryptUtil_js__["a" /* encrypt */])(store.state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_3__lib_cryptUtil_js__["a" /* encrypt */])(store.state.trelloAuth.devKey),
+          store.state.selectedBoard.boardId, store.state.graph.startDate,
+          store.state.graph.endDate, store.state.graph.holidays))
+        .then(json => {
+          Object(__WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__["a" /* setConfigData */])(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
+          Object(__WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__["a" /* setConfigData */])(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
+          Object(__WEBPACK_IMPORTED_MODULE_4__lib_chartUtil_js__["a" /* setConfigData */])(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
+          let obj = {
+            type: 'line',
+            options: {
+              elements: {
+                line: {
+                  tension: 0
+                }
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+            }
+          }
+          obj.data = json;
+          store.commit('SET_GRAPH_DATA', obj);
+          // vm.$nextTick(() => {
+          //   const ctx = this.$el.querySelector('#myChart').getContext('2d');
+          //   ctx.canvas.height = 500;
+          //   var myChart = new Chart(ctx, vm.graph.data);
+          // });
+          store.commit('END_LOADING', {status: "SUCCESS"});
+        })
+        .catch(err => {
+          //TODO: エラーハンドリング
+          store.commit('END_LOADING', {status: "ERROR"});
+        });
     }
   },
   mutations: {
@@ -295,6 +366,20 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
     },
     SET_HOLIDAYS(state, holidays) {
       state.graph.holidays = holidays;
+    },
+    START_LOADING(state) {
+      state.loadState.loading = true;
+      state.loadState.status = "";
+    },
+    END_LOADING(state, result) {
+      state.loadState.loading = false;
+      state.loadState.status = result.status;
+    },
+    ADD_BOARD(state, board) {
+      state.boardItems.push(board);
+    },
+    SET_GRAPH_DATA(state, data) {
+      state.graph.data = data;
     }
   }
 });
@@ -303,10 +388,10 @@ new __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_dist_vue_js___default.a({
   el: '#app',
   store,
   created: function() {
-    console.log("parent");
+    store.dispatch('initialLoad');
   },
   components: {
-    "graph-menu": __WEBPACK_IMPORTED_MODULE_2__components_graphMenu_vue__["a" /* default */]
+    "graph-menu": __WEBPACK_IMPORTED_MODULE_5__components_graphMenu_vue__["a" /* default */]
   }
 })
 
@@ -12667,11 +12752,148 @@ return index;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (immutable) */ __webpack_exports__["c"] = getUser;
+/* harmony export (immutable) */ __webpack_exports__["a"] = getBoards;
+/* harmony export (immutable) */ __webpack_exports__["b"] = getChartData;
+/* unused harmony export registerWebhook */
+/* unused harmony export unregisterWebhook */
+/* unused harmony export getWebhook */
+/* unused harmony export checkServerUrl */
+function getUser(token, devKey) {
+  return new Promise((resolve, reject) => {
+    fetch(`https://api.trello.com/1/tokens/${token}/member?token=${token}&key=${devKey}&field=username`, {
+        method: 'GET'
+      })
+      .then(res => res.json())
+      .then(json => {
+        resolve(json);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
+
+function getBoards(username, token, devKey) {
+  return new Promise((resolve, reject) => {
+    fetch(`https://api.trello.com/1/members/${username}/boards?token=${token}&key=${devKey}&filter=open&lists=none&memberships=none`, {
+        method: 'GET'
+      })
+      .then(res => res.json())
+      .then(json => {
+        resolve(json);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
+
+function getChartData(token, key, boardId, startDate, endDate, holidays) {
+  return new Promise((resolve, reject) => {
+    fetch(`${localStorage.getItem('baseUrl')}/getSprintPoint?token=${encodeURIComponent(token)}&key=${encodeURIComponent(key)}&boardId=${boardId}&startDate=${startDate}&endDate=${endDate}&holidays=${holidays}`, {
+        method: 'GET'
+      })
+      .then(res => res.json())
+      .then(json => {
+        resolve(json);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
+
+function registerWebhook(boardId, baseUrl, token, devKey) {
+  return new Promise((resolve, reject) => {
+    fetch(`https://api.trello.com/1/webhooks/?idModel=${boardId}&callbackURL=${baseUrl}/execRegisterPoint&token=${token}&key=${devKey}`, {
+        method: 'POST'
+      })
+      .then(res => res.json())
+      .then(json => resolve(json))
+      .catch(err => reject(err));
+  });
+}
+
+function unregisterWebhook(webhookId, token, devKey) {
+  return new Promise((resolve, reject) => {
+    fetch(`https://api.trello.com/1/webhooks/${webhookId}?token=${token}&key=${devKey}`, {
+        method: 'DELETE'
+      })
+      .then(res => res.json)
+      .then(json => resolve(json))
+      .catch(err => reject(err));
+  });
+}
+
+function getWebhook(token, devKey) {
+  return new Promise((resolve, reject) => {
+    fetch(`https://api.trello.com/1/tokens/${token}/webhooks?key=${devKey}`, {
+      method: 'GET'
+    }).then(res => {
+      return res.json();
+    }).then(response => {
+      resolve(response);
+    }).catch(error => {
+      reject(error);
+    });
+  });
+}
+
+function checkServerUrl() {
+  return new Promise((resolve, reject) => {
+    fetch(`${localStorage.getItem('baseUrl')}/execRegisterPoint`, {
+        method: 'HEAD'
+      })
+      .then(json => {
+        console.log(json);
+        resolve(json);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = encrypt;
+const key = "dGHLVUj3N3";
+function encrypt(text) {
+  return CryptoJS.AES.encrypt(text, key).toString();
+}
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = setConfigData;
+//データのラベルや色などの設定を行う
+function setConfigData(json, index, label, backgroundColor, borderColor, pointColor) {
+  json.datasets[index].label = label;
+  json.datasets[index].backgroundColor = backgroundColor;
+  json.datasets[index].pointBackgroundColor = pointColor;
+  json.datasets[index].fill = true;
+  json.datasets[index].borderColor = borderColor;
+}
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_graphMenu_vue__ = __webpack_require__(1);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2e0374fc_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graphMenu_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2e0374fc_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graphMenu_vue__ = __webpack_require__(13);
 var disposed = false
-var normalizeComponent = __webpack_require__(9)
+var normalizeComponent = __webpack_require__(12)
 /* script */
 
 
@@ -12715,7 +12937,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 9 */
+/* 12 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -12824,7 +13046,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 10 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
