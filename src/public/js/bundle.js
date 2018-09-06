@@ -272,6 +272,9 @@ module.exports = function normalizeComponent (
     isLoading() {
       return this.$store.state.loadState.loading;
     },
+    isLoadingError() {
+      return !this.$store.state.loadState.loading && (this.$store.state.loadState.status == 'FAILED');
+    },
     startDate: {
       get() {
         return this.$store.state.graph.startDate;
@@ -13146,6 +13149,7 @@ var render = function() {
         "div",
         {
           staticClass: "ui dropdown item",
+          class: { disabled: _vm.isLoading || _vm.isLoadingError },
           staticStyle: { "padding-left": "0px" }
         },
         [

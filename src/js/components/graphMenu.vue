@@ -1,6 +1,6 @@
 <template>
 <div class="ui secondary pointing inverted massive menu">
-  <div class="ui dropdown item" style="padding-left: 0px;">
+  <div class="ui dropdown item" style="padding-left: 0px;" v-bind:class="{disabled: isLoading || isLoadingError}">
     <input type="hidden" name="board">
     <i class="dropdown icon"></i>
     <div class="text" v-bind:class="{default:isLoading}">{{boardText || 'ボードを選択'}}</div>
@@ -65,6 +65,9 @@ export default {
     },
     isLoading() {
       return this.$store.state.loadState.loading;
+    },
+    isLoadingError() {
+      return !this.$store.state.loadState.loading && (this.$store.state.loadState.status == 'FAILED');
     },
     startDate: {
       get() {
