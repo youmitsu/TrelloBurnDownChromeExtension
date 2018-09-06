@@ -256,8 +256,10 @@ module.exports = function normalizeComponent (
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   computed: {
-    boardDefaultText() {
-      console.log(this.$store.getters.boardDefaultText);
+    isInputedBoard() {
+      return this.$store.getters.isInputedBoard;
+    },
+    boardText() {
       return this.$store.getters.boardDefaultText;
     },
     boardList() {
@@ -298,44 +300,6 @@ module.exports = function normalizeComponent (
     registerBoard(boardItem) {
       this.$store.commit('SET_SELECT_BOARD', boardItem);
     }
-  },
-  mounted: function() {
-    console.log("child");
-    $('.ui.accordion').accordion();
-    $('.ui.dropdown').dropdown();
-    $('.menu .browse').popup({
-      hoverable: true,
-      position: 'bottom center',
-      on: 'click'
-    });
-    $('#startDate.ui.calendar').calendar({
-      type: 'date',
-      formatter: {
-        date: function(date) {
-          var day = ('0' + date.getDate()).slice(-2);
-          var month = ('0' + (date.getMonth() + 1)).slice(-2);
-          var year = date.getFullYear();
-          return year + '/' + month + '/' + day;
-        }
-      },
-      onChange: function(date, text, mode) {
-        this.$store.state.commit('SET_START_DATE', text);
-      }
-    });
-    $('#endDate.ui.calendar').calendar({
-      type: 'date',
-      formatter: {
-        date: function(date) {
-          var day = ('0' + date.getDate()).slice(-2);
-          var month = ('0' + (date.getMonth() + 1)).slice(-2);
-          var year = date.getFullYear();
-          return year + '/' + month + '/' + day;
-        }
-      },
-      onChange: function(date, text, mode) {
-        this.$store.state.commit('SET_END_DATE', text);
-      }
-    });
   }
 });
 
@@ -450,23 +414,21 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
     reload(context) {
       location.reload();
     },
-    initialLoad(context) {
+    initialLoad({commit, state, getters}) {
       return new Promise((resolve, reject) => {
-        store.commit('START_LOADING');
-        __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["c" /* getUser */](store.state.trelloAuth.token, store.state.trelloAuth.devKey)
-          .then(user => __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["a" /* getBoards */](user.username, store.state.trelloAuth.token, store.state.trelloAuth.devKey))
+        commit('START_LOADING');
+        __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["c" /* getUser */](state.trelloAuth.token, state.trelloAuth.devKey)
+          .then(user => __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["a" /* getBoards */](user.username, state.trelloAuth.token, state.trelloAuth.devKey))
           .then(boards => {
             boards.forEach(v => {
-              store.commit('ADD_BOARD', {
+              commit('ADD_BOARD', {
                 boardId: v.id,
                 boardName: v.name,
-                isActive: v.id === store.state.selectedBoard.boardId
+                isActive: v.id === state.selectedBoard.boardId
               });
             });
             //すでにボードが選択済みの場合、ボードのデフォルト値を設定する
-            if (store.getters.isInputedBoard) {
-              //TODO: jquery排除
-              $('.text.default').removeClass('default').text(store.state.selectedBoard.boardName);
+            if (getters.isInputedBoard) {
               return;
             }
             //
@@ -475,9 +437,9 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
             //   return;
             // }
           })
-          .then(() => __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["b" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_4__lib_cryptUtil_js__["a" /* encrypt */])(store.state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_4__lib_cryptUtil_js__["a" /* encrypt */])(store.state.trelloAuth.devKey),
-            store.state.selectedBoard.boardId, store.state.graph.startDate,
-            store.state.graph.endDate, store.state.graph.holidays))
+          .then(() => __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["b" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_4__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_4__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.devKey),
+            state.selectedBoard.boardId, state.graph.startDate,
+            state.graph.endDate, state.graph.holidays))
           .then(json => {
             Object(__WEBPACK_IMPORTED_MODULE_5__lib_chartUtil_js__["a" /* setConfigData */])(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
             Object(__WEBPACK_IMPORTED_MODULE_5__lib_chartUtil_js__["a" /* setConfigData */])(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
@@ -495,14 +457,14 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
               }
             }
             obj.data = json;
-            store.commit('SET_GRAPH_DATA', obj);
-            store.commit('END_LOADING', {
+            commit('SET_GRAPH_DATA', obj);
+            commit('END_LOADING', {
               status: "SUCCESS"
             });
             resolve();
           })
           .catch(err => {
-            store.commit('END_LOADING', {
+            commit('END_LOADING', {
               status: "ERROR"
             });
           });
@@ -512,8 +474,8 @@ var store = new __WEBPACK_IMPORTED_MODULE_1__node_modules_vuex_dist_vuex_js___de
   mutations: {
     SET_SELECT_BOARD(state, boardItem) {
       state.selectedBoard = boardItem;
-      __WEBPACK_IMPORTED_MODULE_3__lib_dataStore_js__["a" /* set */]('boardId', store.selectedBoard.boardId);
-      __WEBPACK_IMPORTED_MODULE_3__lib_dataStore_js__["a" /* set */]('boardName', store.selectedBoard.boardName);
+      __WEBPACK_IMPORTED_MODULE_3__lib_dataStore_js__["a" /* set */]('boardId', state.selectedBoard.boardId);
+      __WEBPACK_IMPORTED_MODULE_3__lib_dataStore_js__["a" /* set */]('boardName', state.selectedBoard.boardName);
     },
     SET_START_DATE(state, startDate) {
       state.graph.startDate = startDate;
@@ -557,6 +519,43 @@ new __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_dist_vue_js___default.a({
           var myChart = new Chart(ctx, store.state.graph.data);
         });
       });
+  },
+  mounted: function() {
+    $('.ui.accordion').accordion();
+    $('.ui.dropdown').dropdown();
+    $('.menu .browse').popup({
+      hoverable: true,
+      position: 'bottom center',
+      on: 'click'
+    });
+    $('#startDate.ui.calendar').calendar({
+      type: 'date',
+      formatter: {
+        date: function(date) {
+          var day = ('0' + date.getDate()).slice(-2);
+          var month = ('0' + (date.getMonth() + 1)).slice(-2);
+          var year = date.getFullYear();
+          return year + '/' + month + '/' + day;
+        }
+      },
+      onChange: function(date, text, mode) {
+        this.$store.state.commit('SET_START_DATE', text);
+      }
+    });
+    $('#endDate.ui.calendar').calendar({
+      type: 'date',
+      formatter: {
+        date: function(date) {
+          var day = ('0' + date.getDate()).slice(-2);
+          var month = ('0' + (date.getMonth() + 1)).slice(-2);
+          var year = date.getFullYear();
+          return year + '/' + month + '/' + day;
+        }
+      },
+      onChange: function(date, text, mode) {
+        this.$store.state.commit('SET_END_DATE', text);
+      }
+    });
   },
   components: {
     "graph-menu": __WEBPACK_IMPORTED_MODULE_6__components_graphMenu_vue__["a" /* default */],
@@ -13149,15 +13148,15 @@ var render = function() {
         },
         [
           _c("div", {
-            staticClass: "text",
-            domProps: { textContent: _vm._s(_vm.boardDefaultText) }
+            staticClass: "text default",
+            domProps: { textContent: _vm._s(_vm.boardText) }
           }),
           _vm._v(" "),
           _c("i", { staticClass: "dropdown icon" }),
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "menu", attrs: { id: "dropmenu" } },
+            { staticClass: "menu" },
             _vm._l(_vm.boardList, function(boardItem) {
               return _c(
                 "div",

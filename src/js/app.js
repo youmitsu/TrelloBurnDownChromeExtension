@@ -58,23 +58,21 @@ var store = new Vuex.Store({
     reload(context) {
       location.reload();
     },
-    initialLoad(context) {
+    initialLoad({commit, state, getters}) {
       return new Promise((resolve, reject) => {
-        store.commit('START_LOADING');
-        ApiClient.getUser(store.state.trelloAuth.token, store.state.trelloAuth.devKey)
-          .then(user => ApiClient.getBoards(user.username, store.state.trelloAuth.token, store.state.trelloAuth.devKey))
+        commit('START_LOADING');
+        ApiClient.getUser(state.trelloAuth.token, state.trelloAuth.devKey)
+          .then(user => ApiClient.getBoards(user.username, state.trelloAuth.token, state.trelloAuth.devKey))
           .then(boards => {
             boards.forEach(v => {
-              store.commit('ADD_BOARD', {
+              commit('ADD_BOARD', {
                 boardId: v.id,
                 boardName: v.name,
-                isActive: v.id === store.state.selectedBoard.boardId
+                isActive: v.id === state.selectedBoard.boardId
               });
             });
             //すでにボードが選択済みの場合、ボードのデフォルト値を設定する
-            if (store.getters.isInputedBoard) {
-              //TODO: jquery排除
-              $('.text.default').removeClass('default').text(store.state.selectedBoard.boardName);
+            if (getters.isInputedBoard) {
               return;
             }
             //
@@ -83,9 +81,9 @@ var store = new Vuex.Store({
             //   return;
             // }
           })
-          .then(() => ApiClient.getChartData(encrypt(store.state.trelloAuth.token), encrypt(store.state.trelloAuth.devKey),
-            store.state.selectedBoard.boardId, store.state.graph.startDate,
-            store.state.graph.endDate, store.state.graph.holidays))
+          .then(() => ApiClient.getChartData(encrypt(state.trelloAuth.token), encrypt(state.trelloAuth.devKey),
+            state.selectedBoard.boardId, state.graph.startDate,
+            state.graph.endDate, state.graph.holidays))
           .then(json => {
             setConfigData(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
             setConfigData(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
@@ -103,14 +101,14 @@ var store = new Vuex.Store({
               }
             }
             obj.data = json;
-            store.commit('SET_GRAPH_DATA', obj);
-            store.commit('END_LOADING', {
+            commit('SET_GRAPH_DATA', obj);
+            commit('END_LOADING', {
               status: "SUCCESS"
             });
             resolve();
           })
           .catch(err => {
-            store.commit('END_LOADING', {
+            commit('END_LOADING', {
               status: "ERROR"
             });
           });
@@ -120,8 +118,8 @@ var store = new Vuex.Store({
   mutations: {
     SET_SELECT_BOARD(state, boardItem) {
       state.selectedBoard = boardItem;
-      DataStore.set('boardId', store.selectedBoard.boardId);
-      DataStore.set('boardName', store.selectedBoard.boardName);
+      DataStore.set('boardId', state.selectedBoard.boardId);
+      DataStore.set('boardName', state.selectedBoard.boardName);
     },
     SET_START_DATE(state, startDate) {
       state.graph.startDate = startDate;
@@ -165,6 +163,42 @@ new Vue({
           var myChart = new Chart(ctx, store.state.graph.data);
         });
       });
+  },
+  mounted: function() {
+    $('.ui.dropdown').dropdown();
+    $('.menu .browse').popup({
+      hoverable: true,
+      position: 'bottom center',
+      on: 'click'
+    });
+    $('#startDate.ui.calendar').calendar({
+      type: 'date',
+      formatter: {
+        date: function(date) {
+          var day = ('0' + date.getDate()).slice(-2);
+          var month = ('0' + (date.getMonth() + 1)).slice(-2);
+          var year = date.getFullYear();
+          return year + '/' + month + '/' + day;
+        }
+      },
+      onChange: function(date, text, mode) {
+        this.$store.state.commit('SET_START_DATE', text);
+      }
+    });
+    $('#endDate.ui.calendar').calendar({
+      type: 'date',
+      formatter: {
+        date: function(date) {
+          var day = ('0' + date.getDate()).slice(-2);
+          var month = ('0' + (date.getMonth() + 1)).slice(-2);
+          var year = date.getFullYear();
+          return year + '/' + month + '/' + day;
+        }
+      },
+      onChange: function(date, text, mode) {
+        this.$store.state.commit('SET_END_DATE', text);
+      }
+    });
   },
   components: {
     "graph-menu": graphMenu,

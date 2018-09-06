@@ -1,9 +1,9 @@
 <template>
 <div class="ui secondary pointing inverted massive menu">
   <div id="boardSelectArea" class="ui dropdown item popup">
-    <div class="text" v-text="boardDefaultText"></div>
+    <div class="text default" v-text="boardText"></div>
     <i class="dropdown icon"></i>
-    <div id="dropmenu" class="menu">
+    <div class="menu">
       <div v-for="boardItem in boardList" @click="registerBoard(boardItem)" v-bind:class="{active: boardItem.isActive, selected: boardItem.isActive}" class="item" v-bind:value="boardItem.boardId" v-bind:data-value="boardItem.boardName">{{boardItem.boardName}}</div>
     </div>
   </div>
@@ -50,8 +50,10 @@
 <script>
 export default {
   computed: {
-    boardDefaultText() {
-      console.log(this.$store.getters.boardDefaultText);
+    isInputedBoard() {
+      return this.$store.getters.isInputedBoard;
+    },
+    boardText() {
       return this.$store.getters.boardDefaultText;
     },
     boardList() {
@@ -92,44 +94,6 @@ export default {
     registerBoard(boardItem) {
       this.$store.commit('SET_SELECT_BOARD', boardItem);
     }
-  },
-  mounted: function() {
-    console.log("child");
-    $('.ui.accordion').accordion();
-    $('.ui.dropdown').dropdown();
-    $('.menu .browse').popup({
-      hoverable: true,
-      position: 'bottom center',
-      on: 'click'
-    });
-    $('#startDate.ui.calendar').calendar({
-      type: 'date',
-      formatter: {
-        date: function(date) {
-          var day = ('0' + date.getDate()).slice(-2);
-          var month = ('0' + (date.getMonth() + 1)).slice(-2);
-          var year = date.getFullYear();
-          return year + '/' + month + '/' + day;
-        }
-      },
-      onChange: function(date, text, mode) {
-        this.$store.state.commit('SET_START_DATE', text);
-      }
-    });
-    $('#endDate.ui.calendar').calendar({
-      type: 'date',
-      formatter: {
-        date: function(date) {
-          var day = ('0' + date.getDate()).slice(-2);
-          var month = ('0' + (date.getMonth() + 1)).slice(-2);
-          var year = date.getFullYear();
-          return year + '/' + month + '/' + day;
-        }
-      },
-      onChange: function(date, text, mode) {
-        this.$store.state.commit('SET_END_DATE', text);
-      }
-    });
   }
 }
 </script>
