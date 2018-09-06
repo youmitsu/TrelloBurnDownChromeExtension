@@ -1,10 +1,11 @@
 <template>
 <div class="ui secondary pointing inverted massive menu">
-  <div id="boardSelectArea" class="ui dropdown item popup">
-    <div class="text default" v-text="boardText"></div>
+  <div class="ui dropdown item" style="padding-left: 0px;">
+    <input type="hidden" name="board">
     <i class="dropdown icon"></i>
+    <div class="text" v-bind:class="{default:isLoading}">{{boardText || 'ボードを選択'}}</div>
     <div class="menu">
-      <div v-for="boardItem in boardList" @click="registerBoard(boardItem)" v-bind:class="{active: boardItem.isActive, selected: boardItem.isActive}" class="item" v-bind:value="boardItem.boardId" v-bind:data-value="boardItem.boardName">{{boardItem.boardName}}</div>
+      <div v-for="boardItem in boardList" class="item" @click="registerBoard(boardItem)">{{boardItem.boardName}}</div>
     </div>
   </div>
   <div class="browse item">
@@ -57,10 +58,13 @@ export default {
       return this.$store.getters.boardDefaultText;
     },
     boardList() {
-      return this.$store.getters.boardList;
+      return this.$store.state.boardItems;
     },
     graph() {
       return this.$store.state.graph;
+    },
+    isLoading() {
+      return this.$store.state.loadState.loading;
     },
     startDate: {
       get() {

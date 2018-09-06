@@ -253,6 +253,7 @@ module.exports = function normalizeComponent (
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   computed: {
@@ -263,10 +264,13 @@ module.exports = function normalizeComponent (
       return this.$store.getters.boardDefaultText;
     },
     boardList() {
-      return this.$store.getters.boardList;
+      return this.$store.state.boardItems;
     },
     graph() {
       return this.$store.state.graph;
+    },
+    isLoading() {
+      return this.$store.state.loadState.loading;
     },
     startDate: {
       get() {
@@ -13141,16 +13145,19 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "ui dropdown item popup",
-          attrs: { id: "boardSelectArea" }
+          staticClass: "ui dropdown item",
+          staticStyle: { "padding-left": "0px" }
         },
         [
-          _c("div", {
-            staticClass: "text default",
-            domProps: { textContent: _vm._s(_vm.boardText) }
-          }),
+          _c("input", { attrs: { type: "hidden", name: "board" } }),
           _vm._v(" "),
           _c("i", { staticClass: "dropdown icon" }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "text", class: { default: _vm.isLoading } },
+            [_vm._v(_vm._s(_vm.boardText || "ボードを選択"))]
+          ),
           _vm._v(" "),
           _c(
             "div",
@@ -13160,14 +13167,6 @@ var render = function() {
                 "div",
                 {
                   staticClass: "item",
-                  class: {
-                    active: boardItem.isActive,
-                    selected: boardItem.isActive
-                  },
-                  attrs: {
-                    value: boardItem.boardId,
-                    "data-value": boardItem.boardName
-                  },
                   on: {
                     click: function($event) {
                       _vm.registerBoard(boardItem)
