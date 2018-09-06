@@ -4,6 +4,7 @@ import * as ApiClient from './lib/apiClient.js';
 import {encrypt} from './lib/cryptUtil.js';
 import {setConfigData} from './lib/chartUtil.js';
 import graphMenu from './components/graphMenu.vue';
+import graphContent from './components/graph.vue';
 Vue.use(Vuex);
 
 var store = new Vuex.Store({
@@ -37,6 +38,9 @@ var store = new Vuex.Store({
     },
     isInputedBoard: state => {
       return state.selectedBoard.boardId && state.selectedBoard.boardName;
+    },
+    isTrelloAuthenticated: state => {
+      return state.trelloAuth.token && state.trelloAuth.devKey;
     }
   },
   actions: {
@@ -145,6 +149,7 @@ new Vue({
     store.dispatch('initialLoad');
   },
   components: {
-    "graph-menu": graphMenu
+    "graph-menu": graphMenu,
+    "graph-content": graphContent
   }
 })
