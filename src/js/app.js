@@ -11,6 +11,7 @@ import { setConfigData } from './lib/chartUtil.js';
 import graphMenu from './components/graphMenu.vue';
 import graphContent from './components/graph.vue';
 import settingMenu from './components/settingMenu.vue';
+import settingBackend from './components/settingBackend.vue';
 Vue.use(Vuex);
 
 var store = new Vuex.Store({
@@ -206,6 +207,7 @@ new Vue({
   components: {
     "graph-menu": graphMenu,
     "graph-content": graphContent,
-    "setting-menu": settingMenu
+    "setting-menu": settingMenu,
+    "setting-backend": settingBackend
   }
 })
