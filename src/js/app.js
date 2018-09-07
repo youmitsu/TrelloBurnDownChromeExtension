@@ -1,13 +1,13 @@
-import Vue from '../node_modules/vue/dist/vue.js';
-import Vuex from '../node_modules/vuex/dist/vuex.js';
+//Vue系
+import Vue from 'vue';
+import Vuex from 'vuex';
+
+//外部ライブラリ
+import Chart from 'chartjs';
 import * as ApiClient from './lib/apiClient.js';
 import * as DataStore from './lib/dataStore.js';
-import {
-  encrypt
-} from './lib/cryptUtil.js';
-import {
-  setConfigData
-} from './lib/chartUtil.js';
+import { encrypt } from './lib/cryptUtil.js';
+import { setConfigData } from './lib/chartUtil.js';
 import graphMenu from './components/graphMenu.vue';
 import graphContent from './components/graph.vue';
 Vue.use(Vuex);
