@@ -50,14 +50,14 @@
       </div>
       <i class="ui notched circle loading icon" v-if="trelloAuth.loadState == 'loading'"></i>
       <form class="ui large form">
-        <div class="field" v-bind:class="{disabled: serverAuth.loadState == 'loading'}">
+        <div class="field" v-bind:class="{disabled:trelloAuth.loadState == 'loading'}">
           <label>devKey</label>
           <div class="ui button" v-if="!trelloAuth.devKey" v-on:click="openKeyPage">Get the Key</div>
           <div class="ui input">
             <input id="devKey" type="password" placeholder="Key" v-model="trelloAuth.devKey" @change="validateTrello" required>
           </div>
         </div>
-        <div class="field" v-if="trelloAuth.devKey" v-bind:class="{disabled: serverAuth.loadState == 'loading'}">
+        <div class="field" v-if="trelloAuth.devKey" v-bind:class="{disabled: trelloAuth.loadState == 'loading'}">
           <label>token</label>
           <div class="ui button" v-if="!trelloAuth.token" v-on:click="openTokenPage">Get the token</div>
           <div class="ui input">
