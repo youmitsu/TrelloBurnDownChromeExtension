@@ -12,7 +12,9 @@
   <div id="app">
     <setting-menu></setting-menu>
 
-    <setting-backend title="test"></setting-backend>
+    <setting-backend
+      title="BackendSettings" success-message="BackendAuthenticationiscompleted." error-message="Backend Authentication is not completed.">
+    </setting-backend>
     <!-- <div class="settingItems">
       <h3 class="ui dividing header">Backend Settings</h3>
       <div class="ui error message" v-if="serverAuth.isError && serverAuth.loadState == 'completed'">
@@ -30,9 +32,9 @@
           </div>
         </div>
       </form>
-    </div>
+    </div> -->
 
-    <div class="settingItems">
+    <!-- <div class="settingItems">
       <h3 class="ui dividing header">Trello Authentication</h3>
       <div class="ui error message" v-if="trelloAuth.isError && trelloAuth.loadState == 'completed'">
         Trello Authentication is not completed.

@@ -23,7 +23,6 @@ export default {
       return this.$store.state.loadState.loading
     },
     isError() {
-      console.log(this.$store.getters.isLoadingError);
       return this.$store.getters.isLoadingError;
     }
   }

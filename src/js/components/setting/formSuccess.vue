@@ -1,5 +1,5 @@
 <template>
-  <div class="ui error message">
+  <div class="ui success message">
     {{message}}
   </div>
 </template>

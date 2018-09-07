@@ -14,7 +14,32 @@ import settingMenu from './components/settingMenu.vue';
 import settingBackend from './components/settingBackend.vue';
 Vue.use(Vuex);
 
-var store = new Vuex.Store({
+const settingStore = {
+  state: {
+    serverAuth: {
+      baseUrl: null,
+      loading: false,
+      status: ""
+    },
+    trelloAuth: {
+      devKey: null,
+      token: null,
+      loading: false,
+      status: ""
+    }
+  },
+  getters: {
+    isLoadingError: state => {
+      return !state.loadState.loading && state.loadState.status === 'FAILED';
+    }
+  },
+  mutations: {
+  },
+  actions: {
+  }
+};
+
+const store = new Vuex.Store({
   state: {
     loadState: {
       loading: false,
@@ -151,6 +176,9 @@ var store = new Vuex.Store({
     SET_GRAPH_DATA(state, data) {
       state.graph.data = data;
     }
+  },
+  modules: {
+    setting: settingStore
   }
 });
 
