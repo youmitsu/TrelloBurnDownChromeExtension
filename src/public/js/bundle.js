@@ -19741,9 +19741,14 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "right menu" }, [
-        _c("a", { staticClass: "item" }, [
-          _c("i", { staticClass: "ui sync icon", on: { click: _vm.reload } })
-        ]),
+        !_vm.isLoading
+          ? _c("a", { staticClass: "item" }, [
+              _c("i", {
+                staticClass: "ui sync icon",
+                on: { click: _vm.reload }
+              })
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _vm._m(0)
       ])

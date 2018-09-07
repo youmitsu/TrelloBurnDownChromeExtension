@@ -38,7 +38,7 @@
     </div>
   </div>
   <div class="right menu">
-    <a class="item">
+    <a class="item" v-if="!isLoading">
         <i class="ui sync icon" @click="reload"></i>
       </a>
     <a class="item" href="./setting.html">
