@@ -2,10 +2,6 @@ body {
   width: 50em;
 }
 
-#boardSelectArea {
-  margin-bottom: 4px;
-}
-
 .settingItems {
   margin-left: 20px;
   margin-right: 20px;
@@ -13,8 +9,4 @@ body {
 
 .ui.dividing.header {
   margin-top: 20px;
-}
-
-.ui.secondary.pointing.massive.menu {
-  background-color: #1976d2;
 }

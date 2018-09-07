@@ -1,6 +1,6 @@
 <template>
 <div class="ui secondary pointing inverted massive menu">
-  <div class="ui dropdown item" style="padding-left: 0px;" v-bind:class="{disabled: isLoading || isLoadingError}">
+  <div id="boardDropdown" class="ui dropdown item" v-bind:class="{disabled: isLoading || isLoadingError}">
     <input type="hidden" name="board">
     <i class="dropdown icon"></i>
     <div class="text" v-bind:class="{default:isLoading}">{{boardText || 'ボードを選択'}}</div>
@@ -47,6 +47,15 @@
   </div>
 </div>
 </template>
+
+<style scoped>
+  #boardDropdown {
+    padding-left: 0px;
+  }
+  .ui.secondary.pointing.massive.menu {
+    background-color: #1976d2;
+  }
+</style>
 
 <script>
 export default {
