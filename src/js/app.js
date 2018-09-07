@@ -46,6 +46,9 @@ var store = new Vuex.Store({
     },
     isTrelloAuthenticated: state => {
       return state.trelloAuth.token && state.trelloAuth.devKey;
+    },
+    isLoadingError: state => {
+      return !state.loadState.loading && state.loadState.status === 'FAILED';
     }
   },
   actions: {
@@ -108,7 +111,7 @@ var store = new Vuex.Store({
           })
           .catch(err => {
             commit('END_LOADING', {
-              status: "ERROR"
+              status: "FAILED"
             });
           });
       });

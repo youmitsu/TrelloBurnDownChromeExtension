@@ -472,7 +472,7 @@ module.exports = function normalizeComponent (
       return this.$store.state.loadState.loading;
     },
     isLoadingError() {
-      return !this.$store.state.loadState.loading && (this.$store.state.loadState.status == 'FAILED');
+      return this.$store.getters.isLoadingError;
     },
     startDate: {
       get() {
@@ -530,8 +530,6 @@ module.exports = function normalizeComponent (
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   computed: {
@@ -542,7 +540,8 @@ module.exports = function normalizeComponent (
       return this.$store.state.loadState.loading
     },
     isError() {
-      return this.$store.state.loadState.status == "FAILED";
+      console.log(this.$store.getters.isLoadingError);
+      return this.$store.getters.isLoadingError;
     }
   }
 });
@@ -613,6 +612,9 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
     },
     isTrelloAuthenticated: state => {
       return state.trelloAuth.token && state.trelloAuth.devKey;
+    },
+    isLoadingError: state => {
+      return !state.loadState.loading && state.loadState.status === 'FAILED';
     }
   },
   actions: {
@@ -675,7 +677,7 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
           })
           .catch(err => {
             commit('END_LOADING', {
-              status: "ERROR"
+              status: "FAILED"
             });
           });
       });
@@ -19583,7 +19585,10 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "text", class: { default: _vm.isLoading } },
+            {
+              staticClass: "text",
+              class: { default: _vm.isLoading || _vm.isLoadingError }
+            },
             [_vm._v(_vm._s(_vm.boardText || "ボードを選択"))]
           ),
           _vm._v(" "),
@@ -19829,18 +19834,18 @@ var render = function() {
   return _vm.isGraphDisplayed
     ? _c("div", { staticClass: "ui main container" }, [
         _vm.isError
-          ? _c("div", { staticClass: "ui segment", attrs: { hidden: "" } }, [
-              _c("div", { staticClass: "ui error message" }, [
-                _vm._v("\n      エラーが発生しました。\n      ")
-              ])
+          ? _c("div", { staticClass: "ui error message" }, [
+              _vm._v("\n    エラーが発生しました。\n    ")
             ])
           : _vm._e(),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "ui segment", class: { loading: _vm.isLoading } },
-          [_vm._m(0)]
-        )
+        !_vm.isError
+          ? _c(
+              "div",
+              { staticClass: "ui segment", class: { loading: _vm.isLoading } },
+              [_vm._m(0)]
+            )
+          : _vm._e()
       ])
     : _vm._e()
 }
