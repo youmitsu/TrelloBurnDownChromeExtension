@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="content">
     <setting-title title="BackendSettings"></setting-title>
     <form-error message="The backend authentication is completed"></form-error>
     <form-success message="The backend authentication is failed."></form-success>
@@ -9,6 +9,12 @@
     </form>
   </div>
 </template>
+<style>
+  #content {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+</style>
 <script>
   import settingTitle from './setting/title.vue';
   import formError from './setting/formError.vue';
