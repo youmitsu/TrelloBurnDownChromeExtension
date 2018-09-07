@@ -12,6 +12,7 @@ import graphMenu from './components/graphMenu.vue';
 import graphContent from './components/graph.vue';
 import settingMenu from './components/settingMenu.vue';
 import settingBackend from './components/settingBackend.vue';
+import settingTrello from './components/settingTrello.vue';
 Vue.use(Vuex);
 
 const settingStore = {
@@ -236,6 +237,7 @@ new Vue({
     "graph-menu": graphMenu,
     "graph-content": graphContent,
     "setting-menu": settingMenu,
-    "setting-backend": settingBackend
+    "setting-backend": settingBackend,
+    "setting-trello": settingTrello
   }
 })
