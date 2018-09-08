@@ -19,7 +19,7 @@ const settingStore = {
   namespaced: true,
   state: {
     serverAuth: {
-      baseUrl: null,
+      baseUrl: DataStore.get('baseUrl'),
       loading: false,
       status: ""
     },
@@ -39,8 +39,38 @@ const settingStore = {
     }
   },
   mutations: {
+    SET_BASEURL(state, baseUrl) {
+      state.serverAuth.baseUrl = baseUrl;
+      DataStore.set('baseUrl', state.serverAuth.baseUrl);
+    },
+    START_SERVER_LOADING(state) {
+      state.serverAuth.loading = true;
+      state.serverAuth.status = "";
+    },
+    END_SERVER_LOADING(state, result) {
+      state.serverAuth.loading = false;
+      state.serverAuth.status = result.status;
+    }
   },
   actions: {
+    validateBaseUrl({ commit, dispatch }, value) {
+      commit('SET_BASEURL', value);
+      dispatch('checkServer', value);
+    },
+    checkServer({ commit }, baseUrl) {
+      commit('START_SERVER_LOADING');
+      ApiClient.checkServerUrl(baseUrl)
+        .then(data => {
+          commit('END_SERVER_LOADING', {
+            status: "SUCCESS"
+          });
+        })
+        .catch(err => {
+          commit('END_SERVER_LOADING', {
+            status: "FAILED"
+          });
+        });
+    }
   }
 };
 

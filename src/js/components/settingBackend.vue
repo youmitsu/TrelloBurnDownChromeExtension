@@ -1,8 +1,8 @@
 <template>
   <div id="content">
     <setting-title title="BackendSettings"></setting-title>
-    <form-error message="The backend authentication is completed" v-if="isLoadingSuccess"></form-error>
-    <form-success message="The backend authentication is failed." v-if="isLoadingError"></form-success>
+    <form-success message="The backend authentication is completed" v-if="isLoadingSuccess"></form-success>
+    <form-error message="The backend authentication is failed." v-if="isLoadingError"></form-error>
     <i class="ui notched circle loading icon" v-if="isLoading"></i>
     <form class="ui large form">
       <form-input formType="baseUrl" v-bind:isLoading="isLoading"></form-input>

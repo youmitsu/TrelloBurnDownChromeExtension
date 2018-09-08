@@ -1,3 +1,5 @@
+import * as DataStore from './dataStore.js';
+
 export function getUser(token, devKey) {
   return new Promise((resolve, reject) => {
     fetch(`https://api.trello.com/1/tokens/${token}/member?token=${token}&key=${devKey}&field=username`, {
@@ -79,13 +81,12 @@ export function getWebhook(token, devKey) {
   });
 }
 
-export function checkServerUrl() {
+export function checkServerUrl(value) {
   return new Promise((resolve, reject) => {
-    fetch(`${localStorage.getItem('baseUrl')}/execRegisterPoint`, {
+    fetch(`${value}/execRegisterPoint`, {
         method: 'HEAD'
       })
       .then(json => {
-        console.log(json);
         resolve(json);
       })
       .catch(err => {
