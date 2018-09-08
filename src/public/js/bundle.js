@@ -261,7 +261,7 @@ function toComment(sourceMap) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["default"] = addStylesClient;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listToStyles__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listToStyles__ = __webpack_require__(32);
 /*
   MIT License http://www.opensource.org/licenses/mit-license.php
   Author Tobias Koppers @sokra
@@ -945,7 +945,7 @@ function get(key) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_title_vue__ = __webpack_require__(10);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_47063188_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_title_vue__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_47063188_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_title_vue__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 /* script */
@@ -1013,7 +1013,7 @@ if (false) {(function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_formError_vue__ = __webpack_require__(12);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2dbbacd4_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_formError_vue__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2dbbacd4_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_formError_vue__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 /* script */
@@ -1083,7 +1083,7 @@ if (false) {(function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_formSuccess_vue__ = __webpack_require__(14);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_33d72f62_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_formSuccess_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_33d72f62_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_formSuccess_vue__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 /* script */
@@ -1153,7 +1153,7 @@ if (false) {(function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_formInput_vue__ = __webpack_require__(16);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7fd58196_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_formInput_vue__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7fd58196_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_formInput_vue__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 /* script */
@@ -1260,8 +1260,6 @@ if (false) {(function () {
 //
 //
 //
-//
-//
 
 
 
@@ -1270,7 +1268,27 @@ if (false) {(function () {
 /* harmony default export */ __webpack_exports__["a"] = ({
   computed: {
     isLoadingError() {
-      return this.$store.getters.setting.isLoadingError;
+      return this.$store.getters['setting/isTrelloLoadingError'];
+    },
+    isLoadingSuccess() {
+      return this.$store.getters['setting/isTrelloLoadingSuccess'];
+    },
+    isLoading() {
+      return this.$store.state.setting.trelloAuth.loading;
+    },
+    devKeyState() {
+      return this.$store.state.setting.trelloAuth.devKey;
+    },
+    tokenState() {
+      return this.$store.state.setting.trelloAuth.token;
+    }
+  },
+  methods: {
+    openKeyPage() {
+      this.$store.dispatch('setting/openKeyPage');
+    },
+    openTokenPage() {
+      this.$store.dispatch('setting/openTokenPage');
     }
   },
   components: {
@@ -1295,18 +1313,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_chartjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_chartjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_cryptUtil_js__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__lib_chartUtil_js__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_graphMenu_vue__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_graph_vue__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_settingMenu_vue__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_settingBackend_vue__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_settingTrello_vue__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_tabUtil_js__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__lib_cryptUtil_js__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__lib_chartUtil_js__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_graphMenu_vue__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_graph_vue__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_settingMenu_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_settingBackend_vue__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_settingTrello_vue__ = __webpack_require__(48);
 //Vue系
 
 
 
 //外部ライブラリ
+
 
 
 
@@ -1328,8 +1348,8 @@ const settingStore = {
       status: ""
     },
     trelloAuth: {
-      devKey: null,
-      token: null,
+      devKey: __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["a" /* get */]('devKey'),
+      token: __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["a" /* get */]('token'),
       loading: false,
       status: ""
     }
@@ -1340,6 +1360,12 @@ const settingStore = {
     },
     isLoadingSuccess: state => {
       return !state.serverAuth.loading && state.serverAuth.status === 'SUCCESS';
+    },
+    isTrelloLoadingError: state => {
+      return !state.trelloAuth.loading && state.trelloAuth.status === 'FAILED';
+    },
+    isTrelloSuccess: state => {
+      return !state.trelloAuth.loading && state.trelloAuth.status === 'SUCCESS';
     }
   },
   mutations: {
@@ -1354,12 +1380,26 @@ const settingStore = {
     END_SERVER_LOADING(state, result) {
       state.serverAuth.loading = false;
       state.serverAuth.status = result.status;
+    },
+    SET_DEVKEY(state, devKey) {
+      state.trelloAuth.devKey = devKey;
+      __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["b" /* set */]('devKey', state.trelloAuth.devKey);
+    },
+    SET_TOKEN(state, token) {
+      state.trelloAuth.token = token;
+      __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["b" /* set */]('token', state.trelloAuth.token);
     }
   },
   actions: {
     validateBaseUrl({ commit, dispatch }, value) {
       commit('SET_BASEURL', value);
       dispatch('checkServer', value);
+    },
+    validateTrelloAuth({ commit, dispatch }, value) {
+      commit('SET_TOKEN', value);
+    },
+    validateDevKey({ commit }, value) {
+      commit('SET_DEVKEY', value);
     },
     checkServer({ commit }, baseUrl) {
       commit('START_SERVER_LOADING');
@@ -1374,14 +1414,12 @@ const settingStore = {
             status: "FAILED"
           });
         });
-    }
-  },
-  modules: {
-    server: {
-
     },
-    trello: {
-
+    openKeyPage(context) {
+      __WEBPACK_IMPORTED_MODULE_5__lib_tabUtil_js__["a" /* openOuterBrowser */]("https://trello.com/1/appKey/generate");
+    },
+    openTokenPage({state}) {
+      __WEBPACK_IMPORTED_MODULE_5__lib_tabUtil_js__["a" /* openOuterBrowser */](`https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key=${state.trelloAuth.devKey}`);
     }
   }
 };
@@ -1457,13 +1495,13 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
             //   return;
             // }
           })
-          .then(() => __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["c" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_5__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_5__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.devKey),
+          .then(() => __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["c" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_6__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_6__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.devKey),
             state.selectedBoard.boardId, state.graph.startDate,
             state.graph.endDate, state.graph.holidays))
           .then(json => {
-            Object(__WEBPACK_IMPORTED_MODULE_6__lib_chartUtil_js__["a" /* setConfigData */])(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
-            Object(__WEBPACK_IMPORTED_MODULE_6__lib_chartUtil_js__["a" /* setConfigData */])(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
-            Object(__WEBPACK_IMPORTED_MODULE_6__lib_chartUtil_js__["a" /* setConfigData */])(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
+            Object(__WEBPACK_IMPORTED_MODULE_7__lib_chartUtil_js__["a" /* setConfigData */])(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
+            Object(__WEBPACK_IMPORTED_MODULE_7__lib_chartUtil_js__["a" /* setConfigData */])(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
+            Object(__WEBPACK_IMPORTED_MODULE_7__lib_chartUtil_js__["a" /* setConfigData */])(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
             let obj = {
               type: 'line',
               options: {
@@ -1580,11 +1618,11 @@ new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
     });
   },
   components: {
-    "graph-menu": __WEBPACK_IMPORTED_MODULE_7__components_graphMenu_vue__["a" /* default */],
-    "graph-content": __WEBPACK_IMPORTED_MODULE_8__components_graph_vue__["a" /* default */],
-    "setting-menu": __WEBPACK_IMPORTED_MODULE_9__components_settingMenu_vue__["a" /* default */],
-    "setting-backend": __WEBPACK_IMPORTED_MODULE_10__components_settingBackend_vue__["a" /* default */],
-    "setting-trello": __WEBPACK_IMPORTED_MODULE_11__components_settingTrello_vue__["a" /* default */]
+    "graph-menu": __WEBPACK_IMPORTED_MODULE_8__components_graphMenu_vue__["a" /* default */],
+    "graph-content": __WEBPACK_IMPORTED_MODULE_9__components_graph_vue__["a" /* default */],
+    "setting-menu": __WEBPACK_IMPORTED_MODULE_10__components_settingMenu_vue__["a" /* default */],
+    "setting-backend": __WEBPACK_IMPORTED_MODULE_11__components_settingBackend_vue__["a" /* default */],
+    "setting-trello": __WEBPACK_IMPORTED_MODULE_12__components_settingTrello_vue__["a" /* default */]
   }
 })
 
@@ -13893,8 +13931,21 @@ function checkServerUrl(value) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = openOuterBrowser;
+function openOuterBrowser(url) {
+  chrome.tabs.create({
+    "url": url
+  });
+}
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = encrypt;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_cryptojs__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_cryptojs__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_cryptojs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_cryptojs__);
 
 const key = "dGHLVUj3N3";
@@ -13904,7 +13955,7 @@ function encrypt(text) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 ;(function (root, factory) {
@@ -19897,7 +19948,7 @@ function encrypt(text) {
 }));
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19913,18 +19964,18 @@ function setConfigData(json, index, label, backgroundColor, borderColor, pointCo
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_graphMenu_vue__ = __webpack_require__(6);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2e0374fc_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graphMenu_vue__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2e0374fc_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graphMenu_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 function injectStyle (context) {
   if (disposed) return
-  __webpack_require__(29)
+  __webpack_require__(30)
 }
 /* script */
 
@@ -19971,13 +20022,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(30);
+var content = __webpack_require__(31);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -19998,7 +20049,7 @@ if(false) {
 }
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -20012,7 +20063,7 @@ exports.push([module.i, "\n#boardDropdown[data-v-2e0374fc] {\n  padding-left: 0p
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20047,7 +20098,7 @@ function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20265,13 +20316,13 @@ if (false) {
 }
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_graph_vue__ = __webpack_require__(7);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_95708506_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graph_vue__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_95708506_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graph_vue__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 /* script */
@@ -20319,7 +20370,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20369,16 +20420,16 @@ if (false) {
 }
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4102b63e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingMenu_vue__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4102b63e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingMenu_vue__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 function injectStyle (context) {
   if (disposed) return
-  __webpack_require__(36)
+  __webpack_require__(37)
 }
 /* script */
 var __vue_script__ = null
@@ -20424,13 +20475,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(37);
+var content = __webpack_require__(38);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -20451,7 +20502,7 @@ if(false) {
 }
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -20465,7 +20516,7 @@ exports.push([module.i, "\n.ui.secondary.pointing.massive.menu[data-v-4102b63e] 
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20505,18 +20556,18 @@ if (false) {
 }
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_settingBackend_vue__ = __webpack_require__(8);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_04a8f005_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingBackend_vue__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_04a8f005_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingBackend_vue__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 function injectStyle (context) {
   if (disposed) return
-  __webpack_require__(40)
+  __webpack_require__(41)
 }
 /* script */
 
@@ -20563,13 +20614,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(41);
+var content = __webpack_require__(42);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -20590,7 +20641,7 @@ if(false) {
 }
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -20604,7 +20655,7 @@ exports.push([module.i, "\n#content {\n  margin-left: 5px;\n  margin-right: 5px;
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20629,7 +20680,7 @@ if (false) {
 }
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20654,7 +20705,7 @@ if (false) {
 }
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20679,7 +20730,7 @@ if (false) {
 }
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20729,7 +20780,7 @@ if (false) {
 }
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20791,18 +20842,18 @@ if (false) {
 }
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_settingTrello_vue__ = __webpack_require__(17);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_26f10a87_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingTrello_vue__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_26f10a87_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingTrello_vue__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 function injectStyle (context) {
   if (disposed) return
-  __webpack_require__(48)
+  __webpack_require__(49)
 }
 /* script */
 
@@ -20849,13 +20900,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(49);
+var content = __webpack_require__(50);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -20876,7 +20927,7 @@ if(false) {
 }
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -20890,7 +20941,7 @@ exports.push([module.i, "\n#content {\n  margin-left: 5px;\n  margin-right: 5px;
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20906,27 +20957,61 @@ var render = function() {
     [
       _c("setting-title", { attrs: { title: "TrelloAuthentication" } }),
       _vm._v(" "),
-      _c("form-error", {
-        attrs: { message: "The Trello authentication is completed" }
-      }),
+      _vm.isLoadingSuccess
+        ? _c("form-success", {
+            attrs: { message: "The Trello authentication is completed" }
+          })
+        : _vm._e(),
       _vm._v(" "),
-      _c("form-success", {
-        attrs: { message: "The Trello authentication is failed." }
-      }),
+      _vm.isLoadingError
+        ? _c("form-error", {
+            attrs: { message: "The Trello authentication is failed." }
+          })
+        : _vm._e(),
       _vm._v(" "),
-      _c("i", { staticClass: "ui notched circle loading icon" }),
+      _vm.isLoading
+        ? _c("i", { staticClass: "ui notched circle loading icon" })
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "form",
         { staticClass: "ui large form" },
         [
-          _c("form-input", { attrs: { formType: "devKey" } }),
+          _c("form-input", {
+            attrs: {
+              formType: "devKey",
+              isLoading: _vm.isLoading,
+              dataState: _vm.devKeyState,
+              actionNameSpace: "setting/validateDevKey"
+            }
+          }),
           _vm._v(" "),
-          _c("div", { staticClass: "ui button" }, [_vm._v("Get the devKey")]),
+          !_vm.devKeyState
+            ? _c(
+                "div",
+                { staticClass: "ui button", on: { click: _vm.openKeyPage } },
+                [_vm._v("Get the developer key")]
+              )
+            : _vm._e(),
           _vm._v(" "),
-          _c("form-input", { attrs: { formType: "token" } }),
+          _vm.devKeyState
+            ? _c("form-input", {
+                attrs: {
+                  formType: "token",
+                  isLoading: _vm.isLoading,
+                  dataState: _vm.tokenState,
+                  actionNameSpace: "setting/validateTrelloAuth"
+                }
+              })
+            : _vm._e(),
           _vm._v(" "),
-          _c("div", { staticClass: "ui button" }, [_vm._v("Get the token")])
+          _vm.devKeyState && !_vm.tokenState
+            ? _c(
+                "div",
+                { staticClass: "ui button", on: { click: _vm.openTokenPage } },
+                [_vm._v("Get the token")]
+              )
+            : _vm._e()
         ],
         1
       )

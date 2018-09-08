@@ -6,6 +6,7 @@ import Vuex from 'vuex';
 import Chart from 'chartjs';
 import * as ApiClient from './lib/apiClient.js';
 import * as DataStore from './lib/dataStore.js';
+import * as Tab from './lib/tabUtil.js';
 import { encrypt } from './lib/cryptUtil.js';
 import { setConfigData } from './lib/chartUtil.js';
 import graphMenu from './components/graphMenu.vue';
@@ -24,8 +25,8 @@ const settingStore = {
       status: ""
     },
     trelloAuth: {
-      devKey: null,
-      token: null,
+      devKey: DataStore.get('devKey'),
+      token: DataStore.get('token'),
       loading: false,
       status: ""
     }
@@ -36,6 +37,12 @@ const settingStore = {
     },
     isLoadingSuccess: state => {
       return !state.serverAuth.loading && state.serverAuth.status === 'SUCCESS';
+    },
+    isTrelloLoadingError: state => {
+      return !state.trelloAuth.loading && state.trelloAuth.status === 'FAILED';
+    },
+    isTrelloSuccess: state => {
+      return !state.trelloAuth.loading && state.trelloAuth.status === 'SUCCESS';
     }
   },
   mutations: {
@@ -50,12 +57,26 @@ const settingStore = {
     END_SERVER_LOADING(state, result) {
       state.serverAuth.loading = false;
       state.serverAuth.status = result.status;
+    },
+    SET_DEVKEY(state, devKey) {
+      state.trelloAuth.devKey = devKey;
+      DataStore.set('devKey', state.trelloAuth.devKey);
+    },
+    SET_TOKEN(state, token) {
+      state.trelloAuth.token = token;
+      DataStore.set('token', state.trelloAuth.token);
     }
   },
   actions: {
     validateBaseUrl({ commit, dispatch }, value) {
       commit('SET_BASEURL', value);
       dispatch('checkServer', value);
+    },
+    validateTrelloAuth({ commit, dispatch }, value) {
+      commit('SET_TOKEN', value);
+    },
+    validateDevKey({ commit }, value) {
+      commit('SET_DEVKEY', value);
     },
     checkServer({ commit }, baseUrl) {
       commit('START_SERVER_LOADING');
@@ -70,14 +91,12 @@ const settingStore = {
             status: "FAILED"
           });
         });
-    }
-  },
-  modules: {
-    server: {
-
     },
-    trello: {
-
+    openKeyPage(context) {
+      Tab.openOuterBrowser("https://trello.com/1/appKey/generate");
+    },
+    openTokenPage({state}) {
+      Tab.openOuterBrowser(`https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key=${state.trelloAuth.devKey}`);
     }
   }
 };
