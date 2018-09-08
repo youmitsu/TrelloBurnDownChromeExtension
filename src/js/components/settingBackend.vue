@@ -5,7 +5,7 @@
     <form-error message="The backend authentication is failed." v-if="isLoadingError"></form-error>
     <i class="ui notched circle loading icon" v-if="isLoading"></i>
     <form class="ui large form">
-      <form-input formType="baseUrl" v-bind:isLoading="isLoading"></form-input>
+      <form-input formType="baseUrl" v-bind:isLoading="isLoading" v-bind:dataState="serverState" actionNameSpace="setting/validateBaseUrl"></form-input>
     </form>
   </div>
 </template>
@@ -30,6 +30,9 @@
       },
       isLoading() {
         return this.$store.state.setting.serverAuth.loading;
+      },
+      serverState() {
+        return this.$store.state.setting.serverAuth.baseUrl;
       }
     },
     components: {
