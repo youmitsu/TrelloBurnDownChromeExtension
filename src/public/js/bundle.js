@@ -890,7 +890,13 @@ process.umask = function() { return 0; };
 /* harmony default export */ __webpack_exports__["a"] = ({
   computed: {
     isLoadingError() {
-      return this.$store.getters.setting.isLoadingError;
+      return this.$store.getters['setting/isLoadingError'];
+    },
+    isLoadingSuccess() {
+      return this.$store.getters['setting/isLoadingSuccess'];
+    },
+    isLoading() {
+      return this.$store.state.setting.serverAuth.loading;
     }
   },
   components: {
@@ -1173,10 +1179,9 @@ if (false) {(function () {
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  props: ["formType"]
+  props: ["formType", "isLoading"]
 });
 
 
@@ -1269,6 +1274,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODULE_1_vuex___default.a);
 
 const settingStore = {
+  namespaced: true,
   state: {
     serverAuth: {
       baseUrl: null,
@@ -1284,7 +1290,10 @@ const settingStore = {
   },
   getters: {
     isLoadingError: state => {
-      return !state.loadState.loading && state.loadState.status === 'FAILED';
+      return !state.serverAuth.loading && state.serverAuth.status === 'FAILED';
+    },
+    isLoadingSuccess: state => {
+      return !state.serverAuth.loading && state.serverAuth.status === 'SUCCESS';
     }
   },
   mutations: {
@@ -20597,7 +20606,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "field" }, [
+    _c("div", { staticClass: "field", class: { disabled: _vm.isLoading } }, [
       _c("label", [_vm._v(_vm._s(_vm.formType))]),
       _vm._v(" "),
       _c("div", { staticClass: "ui input" }, [
@@ -20634,20 +20643,30 @@ var render = function() {
     [
       _c("setting-title", { attrs: { title: "BackendSettings" } }),
       _vm._v(" "),
-      _c("form-error", {
-        attrs: { message: "The backend authentication is completed" }
-      }),
+      _vm.isLoadingSuccess
+        ? _c("form-error", {
+            attrs: { message: "The backend authentication is completed" }
+          })
+        : _vm._e(),
       _vm._v(" "),
-      _c("form-success", {
-        attrs: { message: "The backend authentication is failed." }
-      }),
+      _vm.isLoadingError
+        ? _c("form-success", {
+            attrs: { message: "The backend authentication is failed." }
+          })
+        : _vm._e(),
       _vm._v(" "),
-      _c("i", { staticClass: "ui notched circle loading icon" }),
+      _vm.isLoading
+        ? _c("i", { staticClass: "ui notched circle loading icon" })
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "form",
         { staticClass: "ui large form" },
-        [_c("form-input", { attrs: { formType: "baseUrl" } })],
+        [
+          _c("form-input", {
+            attrs: { formType: "baseUrl", isLoading: _vm.isLoading }
+          })
+        ],
         1
       )
     ],

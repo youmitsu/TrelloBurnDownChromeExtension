@@ -16,6 +16,7 @@ import settingTrello from './components/settingTrello.vue';
 Vue.use(Vuex);
 
 const settingStore = {
+  namespaced: true,
   state: {
     serverAuth: {
       baseUrl: null,
@@ -31,7 +32,10 @@ const settingStore = {
   },
   getters: {
     isLoadingError: state => {
-      return !state.loadState.loading && state.loadState.status === 'FAILED';
+      return !state.serverAuth.loading && state.serverAuth.status === 'FAILED';
+    },
+    isLoadingSuccess: state => {
+      return !state.serverAuth.loading && state.serverAuth.status === 'SUCCESS';
     }
   },
   mutations: {

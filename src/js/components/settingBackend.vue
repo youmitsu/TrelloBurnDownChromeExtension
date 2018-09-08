@@ -1,11 +1,11 @@
 <template>
   <div id="content">
     <setting-title title="BackendSettings"></setting-title>
-    <form-error message="The backend authentication is completed"></form-error>
-    <form-success message="The backend authentication is failed."></form-success>
-    <i class="ui notched circle loading icon"></i>
+    <form-error message="The backend authentication is completed" v-if="isLoadingSuccess"></form-error>
+    <form-success message="The backend authentication is failed." v-if="isLoadingError"></form-success>
+    <i class="ui notched circle loading icon" v-if="isLoading"></i>
     <form class="ui large form">
-      <form-input formType="baseUrl"></form-input>
+      <form-input formType="baseUrl" v-bind:isLoading="isLoading"></form-input>
     </form>
   </div>
 </template>
@@ -23,7 +23,13 @@
   export default {
     computed: {
       isLoadingError() {
-        return this.$store.getters.setting.isLoadingError;
+        return this.$store.getters['setting/isLoadingError'];
+      },
+      isLoadingSuccess() {
+        return this.$store.getters['setting/isLoadingSuccess'];
+      },
+      isLoading() {
+        return this.$store.state.setting.serverAuth.loading;
       }
     },
     components: {
