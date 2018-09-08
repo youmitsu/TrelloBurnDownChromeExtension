@@ -2,30 +2,22 @@
 <html>
 
 <head>
-  <title>BurnDownChart</title>
   <meta charset="UTF-8" />
-  <link rel="stylesheet" type="text/css" href="semantic.min.css">
-  <link rel="stylesheet" type="text/css" href="icon.min.css">
+  <link rel="stylesheet" type="text/css" href="node_modules/semantic-ui/dist/semantic.min.css">
   <link rel="stylesheet" type="text/css" href="css/main.css">
-  <script src="jquery-2.2.0.min.js"></script>
-  <script src="semantic.min.js"></script>
-  <script src="vue.min.js"></script>
-  <script src="Chart.min.js"></script>
-  <script src="bower_components/crypto-js/crypto-js.js"></script>
+  <script src="node_modules/semantic-ui/dist/semantic.min.js"></script>
 </head>
 
 <body>
   <div id="app">
-    <div class="ui secondary pointing inverted massive menu">
-      <a class="item" href="./popup.html">
-        <i class="ui arrow left icon"></i>
-      </a>
-      <div class="item">
-        Settings
-      </div>
-    </div>
+    <setting-menu></setting-menu>
 
-    <div class="settingItems">
+    <setting-backend>
+    </setting-backend>
+
+    <setting-trello>
+    </setting-trello>
+    <!-- <div class="settingItems">
       <h3 class="ui dividing header">Backend Settings</h3>
       <div class="ui error message" v-if="serverAuth.isError && serverAuth.loadState == 'completed'">
         Backend Authentication is not completed.
@@ -42,9 +34,9 @@
           </div>
         </div>
       </form>
-    </div>
+    </div> -->
 
-    <div class="settingItems">
+    <!-- <div class="settingItems">
       <h3 class="ui dividing header">Trello Authentication</h3>
       <div class="ui error message" v-if="trelloAuth.isError && trelloAuth.loadState == 'completed'">
         Trello Authentication is not completed.
@@ -95,10 +87,10 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
   </div>
-  <script type="module" src="js/setting.js"></script>
+  <script src="./public/js/bundle.js"></script>
 </body>
 
 </html>
