@@ -71,6 +71,14 @@ const settingStore = {
           });
         });
     }
+  },
+  modules: {
+    server: {
+
+    },
+    trello: {
+
+    }
   }
 };
 

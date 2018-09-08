@@ -924,6 +924,9 @@ function get(key) {
     },
     isLoading() {
       return this.$store.state.setting.serverAuth.loading;
+    },
+    serverState() {
+      return this.$store.state.setting.serverAuth.baseUrl;
     }
   },
   components: {
@@ -1212,17 +1215,16 @@ if (false) {(function () {
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  props: ["formType", "isLoading"],
+  props: ["formType", "isLoading", "dataState", "actionNameSpace"],
   computed: {
     formData: {
       get() {
-        return this.$store.state.setting.serverAuth.baseUrl;
+        return this.dataState;
       },
       set(value) {
-        this.$store.dispatch('setting/validateBaseUrl', value);
+        this.$store.dispatch(this.actionNameSpace, value);
       }
     }
   }
@@ -1372,6 +1374,14 @@ const settingStore = {
             status: "FAILED"
           });
         });
+    }
+  },
+  modules: {
+    server: {
+
+    },
+    trello: {
+
     }
   }
 };
@@ -20756,7 +20766,12 @@ var render = function() {
         { staticClass: "ui large form" },
         [
           _c("form-input", {
-            attrs: { formType: "baseUrl", isLoading: _vm.isLoading }
+            attrs: {
+              formType: "baseUrl",
+              isLoading: _vm.isLoading,
+              dataState: _vm.serverState,
+              actionNameSpace: "setting/validateBaseUrl"
+            }
           })
         ],
         1
