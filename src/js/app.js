@@ -41,8 +41,11 @@ const settingStore = {
     isTrelloLoadingError: state => {
       return !state.trelloAuth.loading && state.trelloAuth.status === 'FAILED';
     },
-    isTrelloSuccess: state => {
+    isTrelloLoadingSuccess: state => {
       return !state.trelloAuth.loading && state.trelloAuth.status === 'SUCCESS';
+    },
+    isExistTrelloParams: state => {
+      return state.trelloAuth.devKey && state.trelloAuth.token;
     }
   },
   mutations: {
@@ -65,6 +68,14 @@ const settingStore = {
     SET_TOKEN(state, token) {
       state.trelloAuth.token = token;
       DataStore.set('token', state.trelloAuth.token);
+    },
+    START_TRELLO_LOADING(state) {
+      state.trelloAuth.loading = true;
+      state.trelloAuth.status = "";
+    },
+    END_TRELLO_LOADING(state, result) {
+      state.trelloAuth.loading = false;
+      state.trelloAuth.status = result.status;
     }
   },
   actions: {
@@ -74,9 +85,11 @@ const settingStore = {
     },
     validateTrelloAuth({ commit, dispatch }, value) {
       commit('SET_TOKEN', value);
+      dispatch('checkTrelloApi');
     },
     validateDevKey({ commit }, value) {
       commit('SET_DEVKEY', value);
+      dispatch('checkTrelloApi');
     },
     checkServer({ commit }, baseUrl) {
       commit('START_SERVER_LOADING');
@@ -91,6 +104,22 @@ const settingStore = {
             status: "FAILED"
           });
         });
+    },
+    checkTrelloApi({ state, getters, commit }) {
+      if (getters.isExistTrelloParams) {
+        commit('START_TRELLO_LOADING');
+        ApiClient.getUser(state.trelloAuth.token, state.trelloAuth.devKey)
+          .then(data => {
+            commit('END_TRELLO_LOADING', {
+              status: "SUCCESS"
+            });
+          })
+          .catch(err => {
+            commit('END_TRELLO_LOADING', {
+              status: "FAILED"
+            });
+          });
+      }
     },
     openKeyPage(context) {
       Tab.openOuterBrowser("https://trello.com/1/appKey/generate");
