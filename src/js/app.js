@@ -31,7 +31,11 @@ const settingStore = {
       loading: false,
       status: ""
     },
-    boards: []
+    webhooksState: {
+      loading: false,
+      status: ""
+    },
+    webhookBoards: []
   },
   getters: {
     isLoadingError: state => {
@@ -81,6 +85,15 @@ const settingStore = {
     },
     SET_BOARDS(state, data) {
       state.boards = data;
+    },
+    START_WEBHOOK_LOADING(state) {
+      state.webhooksState.loading = true;
+    },
+    END_WEBHOOK_LOADING(state) {
+      state.webhooksState.loading = false;
+    },
+    SET_WEBHOOKS_BOARDS(state, data) {
+      state.webhookBoards = data;
     }
   },
   actions: {
@@ -134,26 +147,57 @@ const settingStore = {
     },
     loadWebhookList({state, commit}) {
       Promise.all([
-        ApiClient.getUser(state.trelloAuth.token, state.trelloAuth.devKey),
+        ApiClient.getUserAndBoards(state.trelloAuth.token, state.trelloAuth.devKey),
         ApiClient.getWebhook(state.trelloAuth.token, state.trelloAuth.devKey)
       ])
-      .then()
-      ApiClient.getUser(state.trelloAuth.token, state.trelloAuth.devKey)
-        .then(user => ApiClient.getBoards(user.username, state.trelloAuth.token, state.trelloAuth.devKey))
-        .then(boards => {
-          return [boards, ApiClient.getWebhook(state.trelloAuth.token, state.trelloAuth.devKey)]
-        })
-        .then((boards, webhooks) => {
-          webhooks.map(v => {
-            vm.webhooks.push(v);
-          });
-          return;
-        })
-        .then(() => this.getWebhookStatus())
-        .catch(err => {
-          this.loading = false;
-          console.log(err);
+      .then(results => [results[0], results[1].map(webhook => ({id: webhook.id, idModel: webhook.idModel})), results[1].map(v => v.idModel)])
+      .then((values) => {
+        let boardIds = values[0];
+        let webhookIds = values[1];
+        let webhookBoardIds = values[2];
+        let formattedIds = boardIds.map(board => {
+          let index = webhookBoardIds.indexOf(board.id);
+          return index == -1 ? {
+            webhookId: null,
+            boardId: board.id,
+            boardName: board.name,
+            backgroundImage: board.prefs.backgroundImageScaled ? board.prefs.backgroundImageScaled[0].url : null,
+            isRegistered: false,
+            isloading: false
+          } : {
+            webhookId: webhookIds[index].id,
+            boardId: board.id,
+            boardName: board.name,
+            backgroundImage: board.prefs.backgroundImageScaled ? board.prefs.backgroundImageScaled[0].url : null,
+            isRegistered: true,
+            isloading: false
+          };
         });
+        return formattedIds;
+      })
+      .then(result => {
+        commit('SET_WEBHOOKS_BOARDS', result);
+        commit('END_WEBHOOK_LOADING');
+      })
+      .catch(err => {
+        commit('END_WEBHOOK_LOADING');
+      });
+      // ApiClient.getUser(state.trelloAuth.token, state.trelloAuth.devKey)
+      //   .then(user => ApiClient.getBoards(user.username, state.trelloAuth.token, state.trelloAuth.devKey))
+      //   .then(boards => {
+      //     return [boards, ApiClient.getWebhook(state.trelloAuth.token, state.trelloAuth.devKey)]
+      //   })
+      //   .then((boards, webhooks) => {
+      //     webhooks.map(v => {
+      //       vm.webhooks.push(v);
+      //     });
+      //     return;
+      //   })
+      //   .then(() => this.getWebhookStatus())
+      //   .catch(err => {
+      //     this.loading = false;
+      //     console.log(err);
+      //   });
 
     }
   }
