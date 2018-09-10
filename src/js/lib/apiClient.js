@@ -94,3 +94,12 @@ export function checkServerUrl(value) {
       });
   });
 }
+
+export function getUserAndBoards(token, devKey) {
+  return new Promise((resolve, reject) => {
+    getUser(token, devKey)
+      .then(user => getBoards(user.username, token, devKey))
+      .then(data => resolve(data))
+      .catch(err => reject(err));
+  });
+}

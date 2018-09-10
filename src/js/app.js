@@ -7,6 +7,7 @@ import Chart from 'chartjs';
 import * as ApiClient from './lib/apiClient.js';
 import * as DataStore from './lib/dataStore.js';
 import * as Tab from './lib/tabUtil.js';
+import { initialWebhookState } from './lib/templateUtil.js';
 import { encrypt } from './lib/cryptUtil.js';
 import { setConfigData } from './lib/chartUtil.js';
 import graphMenu from './components/graphMenu.vue';
@@ -14,6 +15,7 @@ import graphContent from './components/graph.vue';
 import settingMenu from './components/settingMenu.vue';
 import settingBackend from './components/settingBackend.vue';
 import settingTrello from './components/settingTrello.vue';
+import settingWebhooks from './components/settingWebhooks.vue';
 Vue.use(Vuex);
 
 const settingStore = {
@@ -29,7 +31,12 @@ const settingStore = {
       token: DataStore.get('token'),
       loading: false,
       status: ""
-    }
+    },
+    webhooksState: {
+      loading: false,
+      status: ""
+    },
+    webhookBoards: []
   },
   getters: {
     isLoadingError: state => {
@@ -76,6 +83,34 @@ const settingStore = {
     END_TRELLO_LOADING(state, result) {
       state.trelloAuth.loading = false;
       state.trelloAuth.status = result.status;
+    },
+    SET_BOARDS(state, data) {
+      state.boards = data;
+    },
+    START_WEBHOOK_LOADING(state) {
+      state.webhooksState.loading = true;
+    },
+    END_WEBHOOK_LOADING(state) {
+      state.webhooksState.loading = false;
+      state.webhooksState.status = "";
+    },
+    SET_WEBHOOKS_BOARDS(state, data) {
+      state.webhookBoards = data;
+    },
+    START_LOADING_WEBHOOK_BY_INDEX(state, index) {
+      state.webhookBoards[index].loading = true;
+    },
+    END_LOADING_WEBHOOK_BY_INDEX(state, index) {
+      state.webhookBoards[index].loading = false;
+      state.webhookBoards[index].status = "";
+    },
+    ENABLE_WEBHOOK_BY_INDEX(state, data) {
+      state.webhookBoards[data.index].isRegistered = true;
+      state.webhookBoards[data.index].webhookId = data.id;
+    },
+    DISABLE_WEBHOOK_BY_INDEX(state, index) {
+      state.webhookBoards[index].isRegistered = false;
+      state.webhookBoards[index].webhookId = null;
     }
   },
   actions: {
@@ -126,6 +161,59 @@ const settingStore = {
     },
     openTokenPage({state}) {
       Tab.openOuterBrowser(`https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key=${state.trelloAuth.devKey}`);
+    },
+    loadWebhookList({state, commit}) {
+      Promise.all([
+        ApiClient.getUserAndBoards(state.trelloAuth.token, state.trelloAuth.devKey),
+        ApiClient.getWebhook(state.trelloAuth.token, state.trelloAuth.devKey)
+      ])
+      .then(results => [results[0], results[1].map(webhook => ({id: webhook.id, idModel: webhook.idModel})), results[1].map(v => v.idModel)])
+      .then((values) => {
+        let boardIds = values[0];
+        let webhookIds = values[1];
+        let webhookBoardIds = values[2];
+        let formattedIds = boardIds.map(board => {
+          let index = webhookBoardIds.indexOf(board.id);
+          return index == -1 ? initialWebhookState(null, board, false) : initialWebhookState(webhookIds[index].id, board, true);
+        });
+        return formattedIds;
+      })
+      .then(result => {
+        commit('SET_WEBHOOKS_BOARDS', result);
+        commit('END_WEBHOOK_LOADING');
+      })
+      .catch(err => {
+        commit('END_WEBHOOK_LOADING');
+      });
+    },
+    toggleWebhook({state, commit}, board) {
+      let index = state.webhookBoards.map(v => v.boardId).indexOf(board.boardId);
+      if(index == -1) {
+        //TODO: エラーハンドリング
+      } else {
+        commit('START_LOADING_WEBHOOK_BY_INDEX', index);
+        if(board.isRegistered) {
+          ApiClient.unregisterWebhook(board.webhookId, state.trelloAuth.token, state.trelloAuth.devKey)
+            .then(res => {
+              commit('DISABLE_WEBHOOK_BY_INDEX', index);
+              commit('END_LOADING_WEBHOOK_BY_INDEX', index);
+            })
+            .catch(err => {
+              //TODO: エラーハンドリング
+              commit('END_LOADING_WEBHOOK_BY_INDEX', index);
+            });
+        } else {
+          ApiClient.registerWebhook(board.boardId, state.serverAuth.baseUrl, state.trelloAuth.token, state.trelloAuth.devKey)
+            .then(res => {
+              commit('ENABLE_WEBHOOK_BY_INDEX', {"index": index, id: res.id});
+              commit('END_LOADING_WEBHOOK_BY_INDEX', index);
+            })
+            .catch(err => {
+              //TODO: エラーハンドリング
+              commit('END_LOADING_WEBHOOK_BY_INDEX', index);
+            });
+        }
+      }
     }
   }
 };
@@ -328,6 +416,7 @@ new Vue({
     "graph-content": graphContent,
     "setting-menu": settingMenu,
     "setting-backend": settingBackend,
-    "setting-trello": settingTrello
+    "setting-trello": settingTrello,
+    "setting-webhooks": settingWebhooks
   }
 })
