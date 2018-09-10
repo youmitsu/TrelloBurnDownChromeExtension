@@ -1605,6 +1605,9 @@ const settingStore = {
     },
     END_WEBHOOK_LOADING(state) {
       state.webhooksState.loading = false;
+    },
+    SET_WEBHOOKS_BOARDS(state, data) {
+      state.webhookBoards = data;
     }
   },
   actions: {
@@ -1666,15 +1669,8 @@ const settingStore = {
         let boardIds = values[0];
         let webhookIds = values[1];
         let webhookBoardIds = values[2];
-        console.log(boardIds);
-        console.log(webhookIds);
-        console.log(webhookBoardIds);
-
         let formattedIds = boardIds.map(board => {
           let index = webhookBoardIds.indexOf(board.id);
-          console.log(index);
-          console.log(board);
-
           return index == -1 ? {
             webhookId: null,
             boardId: board.id,
@@ -1691,7 +1687,10 @@ const settingStore = {
             isloading: false
           };
         });
-        console.log(formattedIds);
+        return formattedIds;
+      })
+      .then(result => {
+        commit('SET_WEBHOOKS_BOARDS', result);
         commit('END_WEBHOOK_LOADING');
       })
       .catch(err => {
@@ -21370,7 +21369,43 @@ var render = function() {
               "div",
               { staticClass: "ui middle aligned divided list" },
               _vm._l(_vm.webhookBoards, function(board) {
-                return _c("div", { staticClass: "item" })
+                return _c("div", { staticClass: "item" }, [
+                  _c("div", { staticClass: "right floated content" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "ui button",
+                        class: {
+                          basic: !board.isRegistered,
+                          blue: board.isRegistered,
+                          loading: board.isloading
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n            " +
+                            _vm._s(
+                              board.isRegistered ? "Registered" : "Register"
+                            ) +
+                            "\n          "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("img", {
+                    staticClass: "ui avatar middle aligned image",
+                    attrs: {
+                      src: board.backgroundImage || "./image/no_image.png"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "content header" }, [
+                    _vm._v(
+                      "\n          " + _vm._s(board.boardName) + "\n        "
+                    )
+                  ])
+                ])
               })
             )
           ])

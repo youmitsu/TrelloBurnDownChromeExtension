@@ -9,15 +9,15 @@
     <div class="ui segment" v-if="isDisplayBoardList">
       <div class="ui middle aligned divided list">
         <div class="item" v-for="board in webhookBoards">
-          <!-- <div class="right floated content">
-            <div class="ui button" v-bind:class="{basic: !board.isRegistered, blue: board.isRegistered, loading: board.isloading}" v-on:click="toggleWebhook(board)">
+          <div class="right floated content">
+            <div class="ui button" v-bind:class="{basic: !board.isRegistered, blue: board.isRegistered, loading: board.isloading}">
               {{board.isRegistered ? "Registered" : "Register"}}
             </div>
-          </div> -->
-          <!-- <img class="ui avatar middle aligned image" v-bind:src="board.backgroundImage || './image/no_image.png'">
+          </div>
+          <img class="ui avatar middle aligned image" v-bind:src="board.backgroundImage || './image/no_image.png'">
           <div class="content header">
             {{board.boardName}}
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
