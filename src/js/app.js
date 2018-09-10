@@ -7,6 +7,7 @@ import Chart from 'chartjs';
 import * as ApiClient from './lib/apiClient.js';
 import * as DataStore from './lib/dataStore.js';
 import * as Tab from './lib/tabUtil.js';
+import { initialWebhookState } from './lib/templateUtil.js';
 import { encrypt } from './lib/cryptUtil.js';
 import { setConfigData } from './lib/chartUtil.js';
 import graphMenu from './components/graphMenu.vue';
@@ -157,21 +158,7 @@ const settingStore = {
         let webhookBoardIds = values[2];
         let formattedIds = boardIds.map(board => {
           let index = webhookBoardIds.indexOf(board.id);
-          return index == -1 ? {
-            webhookId: null,
-            boardId: board.id,
-            boardName: board.name,
-            backgroundImage: board.prefs.backgroundImageScaled ? board.prefs.backgroundImageScaled[0].url : null,
-            isRegistered: false,
-            isloading: false
-          } : {
-            webhookId: webhookIds[index].id,
-            boardId: board.id,
-            boardName: board.name,
-            backgroundImage: board.prefs.backgroundImageScaled ? board.prefs.backgroundImageScaled[0].url : null,
-            isRegistered: true,
-            isloading: false
-          };
+          return index == -1 ? initialWebhookState(null, board, false) : initialWebhookState(webhookIds[index].id, board, true);
         });
         return formattedIds;
       })
@@ -182,23 +169,6 @@ const settingStore = {
       .catch(err => {
         commit('END_WEBHOOK_LOADING');
       });
-      // ApiClient.getUser(state.trelloAuth.token, state.trelloAuth.devKey)
-      //   .then(user => ApiClient.getBoards(user.username, state.trelloAuth.token, state.trelloAuth.devKey))
-      //   .then(boards => {
-      //     return [boards, ApiClient.getWebhook(state.trelloAuth.token, state.trelloAuth.devKey)]
-      //   })
-      //   .then((boards, webhooks) => {
-      //     webhooks.map(v => {
-      //       vm.webhooks.push(v);
-      //     });
-      //     return;
-      //   })
-      //   .then(() => this.getWebhookStatus())
-      //   .catch(err => {
-      //     this.loading = false;
-      //     console.log(err);
-      //   });
-
     }
   }
 };
