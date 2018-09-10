@@ -250,11 +250,17 @@ const store = new Vuex.Store({
     isInputedBoard: state => {
       return state.selectedBoard.boardId && state.selectedBoard.boardName;
     },
+    isInputedDays: state => {
+      return state.graph.stateDate && state.graph.endDate;
+    },
     isTrelloAuthenticated: state => {
       return state.trelloAuth.token && state.trelloAuth.devKey;
     },
     isLoadingError: state => {
       return !state.loadState.loading && state.loadState.status === 'FAILED';
+    },
+    isAbleChartLoad: (state, getters) => {
+      return getters.isInputedBoard && getters.isInputedDays
     }
   },
   actions: {
@@ -268,7 +274,11 @@ const store = new Vuex.Store({
       location.reload();
     },
     initialLoad({commit, state, getters}) {
+      //TODO: localStorage内のデータでaction切り分ける
       return new Promise((resolve, reject) => {
+        if(!getters.trelloAuthenticated) {
+          //TODO: 設定画面に遷移
+        }
         commit('START_LOADING');
         ApiClient.getUser(state.trelloAuth.token, state.trelloAuth.devKey)
           .then(user => ApiClient.getBoards(user.username, state.trelloAuth.token, state.trelloAuth.devKey))
@@ -280,14 +290,6 @@ const store = new Vuex.Store({
                 isActive: v.id === state.selectedBoard.boardId
               });
             });
-            if (getters.isInputedBoard) {
-              return;
-            }
-            //
-            // if (!this.graph.startDate || !this.graph.endDate) {
-            //   //TODO: 入力してね文言の表示
-            //   return;
-            // }
           })
           .then(() => ApiClient.getChartData(encrypt(state.trelloAuth.token), encrypt(state.trelloAuth.devKey),
             state.selectedBoard.boardId, state.graph.startDate,

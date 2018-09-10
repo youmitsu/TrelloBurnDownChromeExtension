@@ -1770,11 +1770,17 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
     isInputedBoard: state => {
       return state.selectedBoard.boardId && state.selectedBoard.boardName;
     },
+    isInputedDays: state => {
+      return state.graph.stateDate && state.graph.endDate;
+    },
     isTrelloAuthenticated: state => {
       return state.trelloAuth.token && state.trelloAuth.devKey;
     },
     isLoadingError: state => {
       return !state.loadState.loading && state.loadState.status === 'FAILED';
+    },
+    isAbleChartLoad: (state, getters) => {
+      return getters.isInputedBoard && getters.isInputedDays
     }
   },
   actions: {
@@ -1788,7 +1794,11 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
       location.reload();
     },
     initialLoad({commit, state, getters}) {
+      //TODO: localStorage内のデータでaction切り分ける
       return new Promise((resolve, reject) => {
+        if(!getters.trelloAuthenticated) {
+          //TODO: 設定画面に遷移
+        }
         commit('START_LOADING');
         __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["d" /* getUser */](state.trelloAuth.token, state.trelloAuth.devKey)
           .then(user => __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["b" /* getBoards */](user.username, state.trelloAuth.token, state.trelloAuth.devKey))
@@ -1800,14 +1810,10 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
                 isActive: v.id === state.selectedBoard.boardId
               });
             });
-            if (getters.isInputedBoard) {
-              return;
-            }
-            //
-            // if (!this.graph.startDate || !this.graph.endDate) {
-            //   //TODO: 入力してね文言の表示
-            //   return;
-            // }
+            commit('END_LOADING', {
+              status: "SUCCESS"
+            });
+            return;
           })
           .then(() => __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["c" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_7__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_7__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.devKey),
             state.selectedBoard.boardId, state.graph.startDate,
