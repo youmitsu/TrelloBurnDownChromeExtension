@@ -92,9 +92,25 @@ const settingStore = {
     },
     END_WEBHOOK_LOADING(state) {
       state.webhooksState.loading = false;
+      state.webhooksState.status = "";
     },
     SET_WEBHOOKS_BOARDS(state, data) {
       state.webhookBoards = data;
+    },
+    START_LOADING_WEBHOOK_BY_INDEX(state, index) {
+      state.webhookBoards[index].loading = true;
+    },
+    END_LOADING_WEBHOOK_BY_INDEX(state, index) {
+      state.webhookBoards[index].loading = false;
+      state.webhookBoards[index].status = "";
+    },
+    ENABLE_WEBHOOK_BY_INDEX(state, data) {
+      state.webhookBoards[data.index].isRegistered = true;
+      state.webhookBoards[data.index].webhookId = data.id;
+    },
+    DISABLE_WEBHOOK_BY_INDEX(state, index) {
+      state.webhookBoards[index].isRegistered = false;
+      state.webhookBoards[index].webhookId = null;
     }
   },
   actions: {
@@ -169,6 +185,35 @@ const settingStore = {
       .catch(err => {
         commit('END_WEBHOOK_LOADING');
       });
+    },
+    toggleWebhook({state, commit}, board) {
+      let index = state.webhookBoards.map(v => v.boardId).indexOf(board.boardId);
+      if(index == -1) {
+        //TODO: エラーハンドリング
+      } else {
+        commit('START_LOADING_WEBHOOK_BY_INDEX', index);
+        if(board.isRegistered) {
+          ApiClient.unregisterWebhook(board.webhookId, state.trelloAuth.token, state.trelloAuth.devKey)
+            .then(res => {
+              commit('DISABLE_WEBHOOK_BY_INDEX', index);
+              commit('END_LOADING_WEBHOOK_BY_INDEX', index);
+            })
+            .catch(err => {
+              //TODO: エラーハンドリング
+              commit('END_LOADING_WEBHOOK_BY_INDEX', index);
+            });
+        } else {
+          ApiClient.registerWebhook(board.boardId, state.serverAuth.baseUrl, state.trelloAuth.token, state.trelloAuth.devKey)
+            .then(res => {
+              commit('ENABLE_WEBHOOK_BY_INDEX', {"index": index, id: res.id});
+              commit('END_LOADING_WEBHOOK_BY_INDEX', index);
+            })
+            .catch(err => {
+              //TODO: エラーハンドリング
+              commit('END_LOADING_WEBHOOK_BY_INDEX', index);
+            });
+        }
+      }
     }
   }
 };

@@ -10,7 +10,7 @@
       <div class="ui middle aligned divided list">
         <div class="item" v-for="board in webhookBoards">
           <div class="right floated content">
-            <div class="ui button" v-bind:class="{basic: !board.isRegistered, blue: board.isRegistered, loading: board.isloading}" v-on:click="toggleWebhook(board)">
+            <div class="ui button" v-bind:class="{basic: !board.isRegistered, blue: board.isRegistered, loading: board.loading}" v-on:click="toggleWebhook(board)">
               {{board.isRegistered ? "Registered" : "Register"}}
             </div>
           </div>
@@ -45,9 +45,6 @@
       },
       webhookBoards() {
         return this.$store.state.setting.webhookBoards;
-      },
-      toggleWebhook(board) {
-
       }
     },
     components: {
@@ -58,6 +55,11 @@
         this.$store.commit('setting/START_WEBHOOK_LOADING');
         //apiコールをdispatch
         this.$store.dispatch('setting/loadWebhookList');
+      }
+    },
+    methods: {
+      toggleWebhook(board) {
+        this.$store.dispatch('setting/toggleWebhook', board);
       }
     }
   }

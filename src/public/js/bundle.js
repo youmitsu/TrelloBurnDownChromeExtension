@@ -765,8 +765,8 @@ process.umask = function() { return 0; };
 /* harmony export (immutable) */ __webpack_exports__["d"] = getUser;
 /* harmony export (immutable) */ __webpack_exports__["b"] = getBoards;
 /* harmony export (immutable) */ __webpack_exports__["c"] = getChartData;
-/* unused harmony export registerWebhook */
-/* unused harmony export unregisterWebhook */
+/* harmony export (immutable) */ __webpack_exports__["g"] = registerWebhook;
+/* harmony export (immutable) */ __webpack_exports__["h"] = unregisterWebhook;
 /* harmony export (immutable) */ __webpack_exports__["f"] = getWebhook;
 /* harmony export (immutable) */ __webpack_exports__["a"] = checkServerUrl;
 /* harmony export (immutable) */ __webpack_exports__["e"] = getUserAndBoards;
@@ -1475,9 +1475,6 @@ if (false) {(function () {
     },
     webhookBoards() {
       return this.$store.state.setting.webhookBoards;
-    },
-    toggleWebhook(board) {
-
     }
   },
   components: {
@@ -1488,6 +1485,11 @@ if (false) {(function () {
       this.$store.commit('setting/START_WEBHOOK_LOADING');
       //apiコールをdispatch
       this.$store.dispatch('setting/loadWebhookList');
+    }
+  },
+  methods: {
+    toggleWebhook(board) {
+      this.$store.dispatch('setting/toggleWebhook', board);
     }
   }
 });
@@ -1610,9 +1612,25 @@ const settingStore = {
     },
     END_WEBHOOK_LOADING(state) {
       state.webhooksState.loading = false;
+      state.webhooksState.status = "";
     },
     SET_WEBHOOKS_BOARDS(state, data) {
       state.webhookBoards = data;
+    },
+    START_LOADING_WEBHOOK_BY_INDEX(state, index) {
+      state.webhookBoards[index].loading = true;
+    },
+    END_LOADING_WEBHOOK_BY_INDEX(state, index) {
+      state.webhookBoards[index].loading = false;
+      state.webhookBoards[index].status = "";
+    },
+    ENABLE_WEBHOOK_BY_INDEX(state, data) {
+      state.webhookBoards[data.index].isRegistered = true;
+      state.webhookBoards[data.index].webhookId = data.id;
+    },
+    DISABLE_WEBHOOK_BY_INDEX(state, index) {
+      state.webhookBoards[index].isRegistered = false;
+      state.webhookBoards[index].webhookId = null;
     }
   },
   actions: {
@@ -1687,6 +1705,35 @@ const settingStore = {
       .catch(err => {
         commit('END_WEBHOOK_LOADING');
       });
+    },
+    toggleWebhook({state, commit}, board) {
+      let index = state.webhookBoards.map(v => v.boardId).indexOf(board.boardId);
+      if(index == -1) {
+        //TODO: エラーハンドリング
+      } else {
+        commit('START_LOADING_WEBHOOK_BY_INDEX', index);
+        if(board.isRegistered) {
+          __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["h" /* unregisterWebhook */](board.webhookId, state.trelloAuth.token, state.trelloAuth.devKey)
+            .then(res => {
+              commit('DISABLE_WEBHOOK_BY_INDEX', index);
+              commit('END_LOADING_WEBHOOK_BY_INDEX', index);
+            })
+            .catch(err => {
+              //TODO: エラーハンドリング
+              commit('END_LOADING_WEBHOOK_BY_INDEX', index);
+            });
+        } else {
+          __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["g" /* registerWebhook */](board.boardId, state.serverAuth.baseUrl, state.trelloAuth.token, state.trelloAuth.devKey)
+            .then(res => {
+              commit('ENABLE_WEBHOOK_BY_INDEX', {"index": index, id: res.id});
+              commit('END_LOADING_WEBHOOK_BY_INDEX', index);
+            })
+            .catch(err => {
+              //TODO: エラーハンドリング
+              commit('END_LOADING_WEBHOOK_BY_INDEX', index);
+            });
+        }
+      }
     }
   }
 };
@@ -14109,7 +14156,7 @@ function initialWebhookState(webhookId, board, isRegistered) {
     boardName: board.name,
     backgroundImage: board.prefs.backgroundImageScaled ? board.prefs.backgroundImageScaled[0].url : null,
     "isRegistered": isRegistered,
-    isloading: false
+    loading: false
   };
 }
 
@@ -21370,7 +21417,7 @@ var render = function() {
                         class: {
                           basic: !board.isRegistered,
                           blue: board.isRegistered,
-                          loading: board.isloading
+                          loading: board.loading
                         },
                         on: {
                           click: function($event) {

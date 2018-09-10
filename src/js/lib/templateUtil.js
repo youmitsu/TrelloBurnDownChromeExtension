@@ -5,6 +5,6 @@ export function initialWebhookState(webhookId, board, isRegistered) {
     boardName: board.name,
     backgroundImage: board.prefs.backgroundImageScaled ? board.prefs.backgroundImageScaled[0].url : null,
     "isRegistered": isRegistered,
-    isloading: false
+    loading: false
   };
 }
