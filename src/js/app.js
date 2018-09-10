@@ -14,6 +14,7 @@ import graphContent from './components/graph.vue';
 import settingMenu from './components/settingMenu.vue';
 import settingBackend from './components/settingBackend.vue';
 import settingTrello from './components/settingTrello.vue';
+import settingWebhooks from './components/settingWebhooks.vue';
 Vue.use(Vuex);
 
 const settingStore = {
@@ -29,7 +30,8 @@ const settingStore = {
       token: DataStore.get('token'),
       loading: false,
       status: ""
-    }
+    },
+    boards: []
   },
   getters: {
     isLoadingError: state => {
@@ -76,6 +78,9 @@ const settingStore = {
     END_TRELLO_LOADING(state, result) {
       state.trelloAuth.loading = false;
       state.trelloAuth.status = result.status;
+    },
+    SET_BOARDS(state, data) {
+      state.boards = data;
     }
   },
   actions: {
@@ -126,6 +131,30 @@ const settingStore = {
     },
     openTokenPage({state}) {
       Tab.openOuterBrowser(`https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key=${state.trelloAuth.devKey}`);
+    },
+    loadWebhookList({state, commit}) {
+      Promise.all([
+        ApiClient.getUser(state.trelloAuth.token, state.trelloAuth.devKey),
+        ApiClient.getWebhook(state.trelloAuth.token, state.trelloAuth.devKey)
+      ])
+      .then()
+      ApiClient.getUser(state.trelloAuth.token, state.trelloAuth.devKey)
+        .then(user => ApiClient.getBoards(user.username, state.trelloAuth.token, state.trelloAuth.devKey))
+        .then(boards => {
+          return [boards, ApiClient.getWebhook(state.trelloAuth.token, state.trelloAuth.devKey)]
+        })
+        .then((boards, webhooks) => {
+          webhooks.map(v => {
+            vm.webhooks.push(v);
+          });
+          return;
+        })
+        .then(() => this.getWebhookStatus())
+        .catch(err => {
+          this.loading = false;
+          console.log(err);
+        });
+
     }
   }
 };
@@ -328,6 +357,7 @@ new Vue({
     "graph-content": graphContent,
     "setting-menu": settingMenu,
     "setting-backend": settingBackend,
-    "setting-trello": settingTrello
+    "setting-trello": settingTrello,
+    "setting-webhooks": settingWebhooks
   }
 })
