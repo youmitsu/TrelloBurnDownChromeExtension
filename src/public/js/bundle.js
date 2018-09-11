@@ -1740,10 +1740,6 @@ const settingStore = {
 
 const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
   state: {
-    loadState: {
-      loading: false,
-      status: "", // status: "" or "SUCCESS" or "FAILED"
-    },
     graphLoadState: {
       loading: false,
       status: ""
