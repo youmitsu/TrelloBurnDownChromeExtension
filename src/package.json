@@ -1,0 +1,35 @@
+{
+  "name": "trello_burndown_chrome_extension",
+  "version": "1.0.0",
+  "description": "This is a tool of burndown chart from trello data.",
+  "main": "Chart.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youmitsu/TrelloBurnDownChromeExtension.git"
+  },
+  "author": "YuMitsuhori",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/youmitsu/TrelloBurnDownChromeExtension/issues"
+  },
+  "homepage": "https://github.com/youmitsu/TrelloBurnDownChromeExtension#readme",
+  "devDependencies": {
+    "css-loader": "^0.28.7",
+    "vue-loader": "^14.0.0",
+    "vue-template-compiler": "^2.4.2",
+    "webpack": "^3.5.6"
+  },
+  "dependencies": {
+    "chart.js": "^2.7.2",
+    "crypto-js": "^3.1.9-1",
+    "jquery": "^3.3.1",
+    "semantic-ui": "^2.3.3",
+    "semantic-ui-calendar": "0.0.8",
+    "vue": "^2.5.17",
+    "vuex": "^3.0.1"
+  }
+}

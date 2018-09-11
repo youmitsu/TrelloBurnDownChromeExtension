@@ -2,103 +2,25 @@
 <html>
 
 <head>
-  <title>BurnDownChart</title>
   <meta charset="UTF-8" />
-  <link rel="stylesheet" type="text/css" href="semantic.min.css">
-  <link rel="stylesheet" type="text/css" href="icon.min.css">
+  <link rel="stylesheet" type="text/css" href="node_modules/semantic-ui/dist/semantic.min.css">
   <link rel="stylesheet" type="text/css" href="css/main.css">
-  <script src="jquery-2.2.0.min.js"></script>
-  <script src="semantic.min.js"></script>
-  <script src="vue.min.js"></script>
-  <script src="Chart.min.js"></script>
-  <script src="bower_components/crypto-js/crypto-js.js"></script>
+  <script src="node_modules/semantic-ui/dist/semantic.min.js"></script>
 </head>
 
 <body>
   <div id="app">
-    <div class="ui secondary pointing inverted massive menu">
-      <a class="item" href="./popup.html">
-        <i class="ui arrow left icon"></i>
-      </a>
-      <div class="item">
-        Settings
-      </div>
-    </div>
 
-    <div class="settingItems">
-      <h3 class="ui dividing header">Backend Settings</h3>
-      <div class="ui error message" v-if="serverAuth.isError && serverAuth.loadState == 'completed'">
-        Backend Authentication is not completed.
-      </div>
-      <div class="ui success message" v-if="!serverAuth.isError && serverAuth.loadState == 'completed'">
-        Backend Authentication is completed.
-      </div>
-      <i class="ui notched circle loading icon" v-if="serverAuth.loadState == 'loading'"></i>
-      <form class="ui large form">
-        <div class="field" v-bind:class="{disabled: serverAuth.loadState == 'loading'}">
-          <label>baseurl</label>
-          <div class="ui input">
-            <input id="url" type="text" placeholder="Server URL" v-model="serverAuth.baseUrl" @change="validateServer" required>
-          </div>
-        </div>
-      </form>
-    </div>
+    <setting-menu></setting-menu>
 
-    <div class="settingItems">
-      <h3 class="ui dividing header">Trello Authentication</h3>
-      <div class="ui error message" v-if="trelloAuth.isError && trelloAuth.loadState == 'completed'">
-        Trello Authentication is not completed.
-      </div>
-      <div class="ui success message" v-if="!trelloAuth.isError && trelloAuth.loadState == 'completed'">
-        Trello Authentication is completed.
-      </div>
-      <i class="ui notched circle loading icon" v-if="trelloAuth.loadState == 'loading'"></i>
-      <form class="ui large form">
-        <div class="field" v-bind:class="{disabled: serverAuth.loadState == 'loading'}">
-          <label>devKey</label>
-          <div class="ui button" v-if="!trelloAuth.devKey" v-on:click="openKeyPage">Get the Key</div>
-          <div class="ui input">
-            <input id="devKey" type="password" placeholder="Key" v-model="trelloAuth.devKey" @change="validateTrello" required>
-          </div>
-        </div>
-        <div class="field" v-if="trelloAuth.devKey" v-bind:class="{disabled: serverAuth.loadState == 'loading'}">
-          <label>token</label>
-          <div class="ui button" v-if="!trelloAuth.token" v-on:click="openTokenPage">Get the token</div>
-          <div class="ui input">
-            <input id="token" type="password" placeholder="Token" v-model="trelloAuth.token" @change="validateTrello" required>
-          </div>
-        </div>
-      </form>
-    </div>
+    <setting-backend></setting-backend>
 
-    <div class="settingItems">
-      <h3 class="ui dividing header" v-show="trelloAuthenticated">The list of available boards.</h3>
-      <h4 v-show="trelloAuthenticated">
-        The list of boards you are able to acquired data.<br/>
-        You can switch enable or disable by clicking right button.
-      </h4>
-      <div class="spinnerContainer" v-if="loading">
-        <i id="spinner" class="spinner loading icon"></i>
-      </div>
-      <div class="ui segment" v-show="!loading && trelloAuthenticated">
-        <div class="ui middle aligned divided list">
-          <div class="item" v-for="board in webhookBoards">
-            <div class="right floated content">
-              <div class="ui button" v-bind:class="{basic: !board.isRegistered, blue: board.isRegistered, loading: board.isloading}" v-on:click="toggleWebhook(board)">
-                {{board.isRegistered ? "Registered" : "Register"}}
-              </div>
-            </div>
-            <img class="ui avatar middle aligned image" v-bind:src="board.backgroundImage || './image/no_image.png'">
-            <div class="content header">
-              {{board.boardName}}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <setting-trello></setting-trello>
+
+    <setting-webhooks></setting-webhooks>
 
   </div>
-  <script type="module" src="js/setting.js"></script>
+  <script src="./public/js/bundle.js"></script>
 </body>
 
 </html>
