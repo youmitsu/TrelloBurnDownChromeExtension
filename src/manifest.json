@@ -16,5 +16,13 @@
     "http://*/*",
     "https://*/*"
   ],
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+B",
+        "mac": "Command+Shift+B"
+      }
+    }
+  },
   "content_security_policy": "script-src 'self' 'unsafe-eval' 'unsafe_inline'; object-src 'self'"
 }
