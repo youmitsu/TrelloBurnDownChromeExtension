@@ -6,3 +6,19 @@ export function setConfigData(json, index, label, backgroundColor, borderColor, 
   json.datasets[index].fill = true;
   json.datasets[index].borderColor = borderColor;
 }
+
+export function graphParam(json) {
+  return {
+    type: 'line',
+    options: {
+      elements: {
+        line: {
+          tension: 0
+        }
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+    data: json
+  };
+}
