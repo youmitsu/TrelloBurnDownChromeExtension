@@ -981,7 +981,7 @@ function get(key) {
       return this.$store.state.graph;
     },
     isLoading() {
-      return this.$store.state.loadState.loading;
+      return this.$store.state.boardLoadState.loading;
     },
     isLoadingError() {
       return this.$store.getters.isLoadingError;
@@ -1049,10 +1049,10 @@ function get(key) {
       return this.$store.getters.isTrelloAuthenticated;
     },
     isLoading() {
-      return this.$store.state.loadState.loading
+      return this.$store.state.graphLoadState.loading
     },
     isError() {
-      return this.$store.getters.isLoadingError;
+      return this.$store.getters.isGraphLoadingError;
     }
   }
 });
@@ -1740,9 +1740,9 @@ const settingStore = {
 
 const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
   state: {
-    loadState: {
+    graphLoadState: {
       loading: false,
-      status: "", // status: "" or "SUCCESS" or "FAILED"
+      status: ""
     },
     trelloAuth: {
       token: localStorage.getItem('token'),
@@ -1751,6 +1751,10 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
     selectedBoard: {
       boardId: localStorage.getItem('boardId'),
       boardName: localStorage.getItem('boardName')
+    },
+    boardLoadState: {
+      loading: false,
+      status: ""
     },
     boardItems: [],
     graph: {
@@ -1770,11 +1774,20 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
     isInputedBoard: state => {
       return state.selectedBoard.boardId && state.selectedBoard.boardName;
     },
+    isInputedDays: state => {
+      return state.graph.stateDate && state.graph.endDate;
+    },
     isTrelloAuthenticated: state => {
       return state.trelloAuth.token && state.trelloAuth.devKey;
     },
-    isLoadingError: state => {
-      return !state.loadState.loading && state.loadState.status === 'FAILED';
+    isBoardLoadingError: state => {
+      return !state.boardLoadState.loading && state.boardLoadState.status === 'FAILED';
+    },
+    isGraphLoadingError: state => {
+      return !state.graphLoadState.loading && state.graphLoadState.status === 'FAILED';
+    },
+    isAbleChartLoad: (state, getters) => {
+      return getters.isInputedBoard && getters.isInputedDays
     }
   },
   actions: {
@@ -1787,9 +1800,25 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
     reload(context) {
       location.reload();
     },
-    initialLoad({commit, state, getters}) {
+    initialLoad({commit, state, getters, dispatch}) {
+      //TODO: localStorage内のデータでaction切り分ける
       return new Promise((resolve, reject) => {
-        commit('START_LOADING');
+        if(!getters.trelloAuthenticated) {
+          //TODO: 設定画面に遷移
+        }
+        dispatch('loadBoardList')
+          .then(() => dispatch('loadGraph'))
+          .then(() => {
+            resolve();
+          })
+          .catch(err => {
+            reject(err);
+          });
+      });
+    },
+    loadBoardList({state, commit}) {
+      return new Promise((resolve, reject) => {
+        commit('START_BOARD_LOADING');
         __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["d" /* getUser */](state.trelloAuth.token, state.trelloAuth.devKey)
           .then(user => __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["b" /* getBoards */](user.username, state.trelloAuth.token, state.trelloAuth.devKey))
           .then(boards => {
@@ -1800,45 +1829,41 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
                 isActive: v.id === state.selectedBoard.boardId
               });
             });
-            if (getters.isInputedBoard) {
-              return;
-            }
-            //
-            // if (!this.graph.startDate || !this.graph.endDate) {
-            //   //TODO: 入力してね文言の表示
-            //   return;
-            // }
-          })
-          .then(() => __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["c" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_7__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_7__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.devKey),
-            state.selectedBoard.boardId, state.graph.startDate,
-            state.graph.endDate, state.graph.holidays))
-          .then(json => {
-            Object(__WEBPACK_IMPORTED_MODULE_8__lib_chartUtil_js__["a" /* setConfigData */])(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
-            Object(__WEBPACK_IMPORTED_MODULE_8__lib_chartUtil_js__["a" /* setConfigData */])(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
-            Object(__WEBPACK_IMPORTED_MODULE_8__lib_chartUtil_js__["a" /* setConfigData */])(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
-            let obj = {
-              type: 'line',
-              options: {
-                elements: {
-                  line: {
-                    tension: 0
-                  }
-                },
-                responsive: true,
-                maintainAspectRatio: false,
-              }
-            }
-            obj.data = json;
-            commit('SET_GRAPH_DATA', obj);
-            commit('END_LOADING', {
+            commit('END_BOARD_LOADING', {
               status: "SUCCESS"
             });
             resolve();
           })
           .catch(err => {
-            commit('END_LOADING', {
+            commit('END_BOARD_LOADING', {
               status: "FAILED"
             });
+            reject(err);
+          });
+      });
+    },
+    loadGraph({state, commit}) {
+      return new Promise((resolve, reject) => {
+        commit('START_GRAPH_LOADING');
+        __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["c" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_7__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_7__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.devKey),
+          state.selectedBoard.boardId, state.graph.startDate,
+          state.graph.endDate, state.graph.holidays)
+          .then(json => {
+            Object(__WEBPACK_IMPORTED_MODULE_8__lib_chartUtil_js__["b" /* setConfigData */])(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
+            Object(__WEBPACK_IMPORTED_MODULE_8__lib_chartUtil_js__["b" /* setConfigData */])(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
+            Object(__WEBPACK_IMPORTED_MODULE_8__lib_chartUtil_js__["b" /* setConfigData */])(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
+            let obj = Object(__WEBPACK_IMPORTED_MODULE_8__lib_chartUtil_js__["a" /* graphParam */])(json);
+            commit('SET_GRAPH_DATA', obj);
+            commit('END_GRAPH_LOADING', {
+              status: "SUCCESS"
+            });
+            resolve();
+          })
+          .catch(err => {
+            commit('END_GRAPH_LOADING', {
+              status: "FAILED"
+            });
+            reject(err);
           });
       });
     }
@@ -1861,13 +1886,21 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
       state.graph.holidays = holidays;
       __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["b" /* set */]('holidays', state.graph.holidays);
     },
-    START_LOADING(state) {
-      state.loadState.loading = true;
-      state.loadState.status = "";
+    START_BOARD_LOADING(state) {
+      state.boardLoadState.loading = true;
+      state.boardLoadState.status = "";
     },
-    END_LOADING(state, result) {
-      state.loadState.loading = false;
-      state.loadState.status = result.status;
+    END_BOARD_LOADING(state, result) {
+      state.boardLoadState.loading = false;
+      state.boardLoadState.status = result.status;
+    },
+    START_GRAPH_LOADING(state) {
+      state.graphLoadState.loading = true;
+      state.graphLoadState.status = "";
+    },
+    END_GRAPH_LOADING(state, result) {
+      state.graphLoadState.loading = false;
+      state.graphLoadState.status = result.status;
     },
     ADD_BOARD(state, board) {
       state.boardItems.push(board);
@@ -20174,7 +20207,8 @@ function encrypt(text) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = setConfigData;
+/* harmony export (immutable) */ __webpack_exports__["b"] = setConfigData;
+/* harmony export (immutable) */ __webpack_exports__["a"] = graphParam;
 //データのラベルや色などの設定を行う
 function setConfigData(json, index, label, backgroundColor, borderColor, pointColor) {
   json.datasets[index].label = label;
@@ -20182,6 +20216,22 @@ function setConfigData(json, index, label, backgroundColor, borderColor, pointCo
   json.datasets[index].pointBackgroundColor = pointColor;
   json.datasets[index].fill = true;
   json.datasets[index].borderColor = borderColor;
+}
+
+function graphParam(json) {
+  return {
+    type: 'line',
+    options: {
+      elements: {
+        line: {
+          tension: 0
+        }
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+    data: json
+  };
 }
 
 

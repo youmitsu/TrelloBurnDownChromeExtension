@@ -3,7 +3,7 @@
   <div id="boardDropdown" class="ui dropdown item" v-bind:class="{disabled: isLoading || isLoadingError}">
     <input type="hidden" name="board">
     <i class="dropdown icon"></i>
-    <div class="text" v-bind:class="{default:isLoading || isLoadingError}">{{boardText || 'ボードを選択'}}</div>
+    <div class="text" v-bind:class="{default: isLoading || isLoadingError}">{{boardText || 'ボードを選択'}}</div>
     <div class="menu">
       <div v-for="boardItem in boardList" class="item" @click="registerBoard(boardItem)">{{boardItem.boardName}}</div>
     </div>
@@ -73,7 +73,7 @@ export default {
       return this.$store.state.graph;
     },
     isLoading() {
-      return this.$store.state.loadState.loading;
+      return this.$store.state.boardLoadState.loading;
     },
     isLoadingError() {
       return this.$store.getters.isLoadingError;

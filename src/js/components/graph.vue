@@ -20,10 +20,10 @@ export default {
       return this.$store.getters.isTrelloAuthenticated;
     },
     isLoading() {
-      return this.$store.state.loadState.loading
+      return this.$store.state.graphLoadState.loading
     },
     isError() {
-      return this.$store.getters.isLoadingError;
+      return this.$store.getters.isGraphLoadingError;
     }
   }
 }
