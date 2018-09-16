@@ -946,6 +946,8 @@ process.umask = function() { return 0; };
       });
   },
   mounted: function() {
+    const onStartDate = this.setStartDate;
+    const onEndDate = this.setEndDate;
     $('.ui.dropdown').dropdown();
     $('.menu .browse').popup({
       hoverable: true,
@@ -963,7 +965,7 @@ process.umask = function() { return 0; };
         }
       },
       onChange: function(date, text, mode) {
-        this.$store.commit('graph/SET_START_DATE', text);
+        onStartDate(text);
       }
     });
     $('#endDate.ui.calendar').calendar({
@@ -977,9 +979,17 @@ process.umask = function() { return 0; };
         }
       },
       onChange: function(date, text, mode) {
-        this.$store.commit('graph/SET_END_DATE', text);
+        onEndDate(text);
       }
     });
+  },
+  methods: {
+    setStartDate(text) {
+      this.$store.commit('graph/SET_START_DATE', text);
+    },
+    setEndDate(text) {
+      this.$store.commit('graph/SET_END_DATE', text);
+    }
   },
   components: {
     "graph-menu": __WEBPACK_IMPORTED_MODULE_0__TheGraphMenu_vue__["a" /* default */],
