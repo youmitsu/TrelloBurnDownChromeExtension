@@ -1,3 +1,5 @@
+![versionBadge](https://img.shields.io/badge/latest-v0.1.6-green.svg)
+
 # Trello Burndown Chrome Extension
 
 ## What's this
