@@ -1,3 +1,5 @@
+![versionBadge](https://img.shields.io/badge/latest-v0.1.6-green.svg)
+
 # Trello Burndown Chrome Extension
 
 ## What's this
@@ -32,26 +34,15 @@ This repository is a tool which shows Burndown chart for Trello. This is a Googl
 
 ### 初回
 
-1. 以下のURLからTrelloのAPIKEYを取得
+1. 右上のボタンから設定画面を開いてください。
 
-https://trello.com/app-key/
+2. baseUrlを入力。(サーバー管理者の方に聞いてください)
 
-2. 以下のURLからTrelloのTokenを取得
+3. Get the developer keyをクリックし、ApiKeyを入力フォームにコピペしてください
 
-https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key={1で取得したAPIKEY}
+4. Get the token をクリックし、Tokenを入力フォームにコピペしてください
 
-3. 本プラグインを開き、「Setting」をクリック
-
-  1. 【Backend Settings】ServerURLを入力
-
-  2. 【Trello Authenrication】1で取得したAPIKEYは「Key」に入力。2で取得したTokenは「Token」に入力。
-※Token及びKeyは送信時に暗号化されます。
-
-  3. 登録を押下
-
-4. HOMEに遷移後Settingで有効にしたいボードの「Register」ボタンを押し、データの保存を有効化する
-
-5. HOMEからグラフ設定値の変更を押下し、以下を入力
+5. 「←」でグラフ画面に遷移後、HOMEからグラフの設定値の変更を押下し、以下を入力。
 
   1. ボードを選択
 

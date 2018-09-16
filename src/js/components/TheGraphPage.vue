@@ -20,6 +20,8 @@ export default {
       });
   },
   mounted: function() {
+    const onStartDate = this.setStartDate;
+    const onEndDate = this.setEndDate;
     $('.ui.dropdown').dropdown();
     $('.menu .browse').popup({
       hoverable: true,
@@ -37,7 +39,7 @@ export default {
         }
       },
       onChange: function(date, text, mode) {
-        this.$store.commit('graph/SET_START_DATE', text);
+        onStartDate(text);
       }
     });
     $('#endDate.ui.calendar').calendar({
@@ -51,9 +53,17 @@ export default {
         }
       },
       onChange: function(date, text, mode) {
-        this.$store.commit('graph/SET_END_DATE', text);
+        onEndDate(text);
       }
     });
+  },
+  methods: {
+    setStartDate(text) {
+      this.$store.commit('graph/SET_START_DATE', text);
+    },
+    setEndDate(text) {
+      this.$store.commit('graph/SET_END_DATE', text);
+    }
   },
   components: {
     "graph-menu": graphMenu,
