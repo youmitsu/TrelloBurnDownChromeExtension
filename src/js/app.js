@@ -14,8 +14,7 @@ import graphStore from './stores/graphStore.js';
 import settingStore from './stores/settingStore.js';
 
 //Components
-import graphMenu from './components/TheGraphMenu.vue';
-import graphContent from './components/TheGraph.vue';
+import graphPage from './components/TheGraphPage.vue';
 import settingMenu from './components/TheSettingMenu.vue';
 import settingBackend from './components/TheSettingBackend.vue';
 import settingTrello from './components/TheSettingTrello.vue';
@@ -52,56 +51,8 @@ const store = new Vuex.Store({
 new Vue({
   el: '#app',
   store,
-  created: function() {
-    store.dispatch('graph/initialLoad')
-      .then(() => {
-        //TODO: できれば子Componentに持っていく
-        this.$nextTick(() => {
-          const ctx = this.$el.querySelector('#myChart').getContext('2d');
-          ctx.canvas.height = 500;
-          var myChart = new Chart(ctx, store.state.graph.graph.data);
-        });
-      });
-  },
-  mounted: function() {
-    $('.ui.dropdown').dropdown();
-    $('.menu .browse').popup({
-      hoverable: true,
-      position: 'bottom center',
-      on: 'click'
-    });
-    $('#startDate.ui.calendar').calendar({
-      type: 'date',
-      formatter: {
-        date: function(date) {
-          var day = ('0' + date.getDate()).slice(-2);
-          var month = ('0' + (date.getMonth() + 1)).slice(-2);
-          var year = date.getFullYear();
-          return year + '/' + month + '/' + day;
-        }
-      },
-      onChange: function(date, text, mode) {
-        store.commit('graph/SET_START_DATE', text);
-      }
-    });
-    $('#endDate.ui.calendar').calendar({
-      type: 'date',
-      formatter: {
-        date: function(date) {
-          var day = ('0' + date.getDate()).slice(-2);
-          var month = ('0' + (date.getMonth() + 1)).slice(-2);
-          var year = date.getFullYear();
-          return year + '/' + month + '/' + day;
-        }
-      },
-      onChange: function(date, text, mode) {
-        store.commit('graph/SET_END_DATE', text);
-      }
-    });
-  },
   components: {
-    "graph-menu": graphMenu,
-    "graph-content": graphContent,
+    "graph": graphPage,
     "setting-menu": settingMenu,
     "setting-backend": settingBackend,
     "setting-trello": settingTrello,
