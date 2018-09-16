@@ -4,6 +4,11 @@ import Vuex from 'vuex';
 
 //外部ライブラリ
 import Chart from 'chartjs';
+
+//common
+import { SUCCESS, FAILED, DEFAULT } from './common/loadStatusType.js';
+
+//Components
 import * as ApiClient from './lib/apiClient.js';
 import * as DataStore from './lib/dataStore.js';
 import * as Tab from './lib/tabUtil.js';
@@ -24,32 +29,32 @@ const settingStore = {
     serverAuth: {
       baseUrl: DataStore.get('baseUrl'),
       loading: false,
-      status: ""
+      status: DEFAULT
     },
     trelloAuth: {
       devKey: DataStore.get('devKey'),
       token: DataStore.get('token'),
       loading: false,
-      status: ""
+      status: DEFAULT
     },
     webhooksState: {
       loading: false,
-      status: ""
+      status: DEFAULT
     },
     webhookBoards: []
   },
   getters: {
     isLoadingError: state => {
-      return !state.serverAuth.loading && state.serverAuth.status === 'FAILED';
+      return !state.serverAuth.loading && state.serverAuth.status === FAILED;
     },
     isLoadingSuccess: state => {
-      return !state.serverAuth.loading && state.serverAuth.status === 'SUCCESS';
+      return !state.serverAuth.loading && state.serverAuth.status === SUCCESS;
     },
     isTrelloLoadingError: state => {
-      return !state.trelloAuth.loading && state.trelloAuth.status === 'FAILED';
+      return !state.trelloAuth.loading && state.trelloAuth.status === FAILED;
     },
     isTrelloLoadingSuccess: state => {
-      return !state.trelloAuth.loading && state.trelloAuth.status === 'SUCCESS';
+      return !state.trelloAuth.loading && state.trelloAuth.status === SUCCESS;
     },
     isExistTrelloParams: state => {
       return state.trelloAuth.devKey && state.trelloAuth.token;
@@ -62,7 +67,7 @@ const settingStore = {
     },
     START_SERVER_LOADING(state) {
       state.serverAuth.loading = true;
-      state.serverAuth.status = "";
+      state.serverAuth.status = DEFAULT;
     },
     END_SERVER_LOADING(state, result) {
       state.serverAuth.loading = false;
@@ -78,7 +83,7 @@ const settingStore = {
     },
     START_TRELLO_LOADING(state) {
       state.trelloAuth.loading = true;
-      state.trelloAuth.status = "";
+      state.trelloAuth.status = DEFAULT;
     },
     END_TRELLO_LOADING(state, result) {
       state.trelloAuth.loading = false;
@@ -92,7 +97,7 @@ const settingStore = {
     },
     END_WEBHOOK_LOADING(state) {
       state.webhooksState.loading = false;
-      state.webhooksState.status = "";
+      state.webhooksState.status = DEFAULT;
     },
     SET_WEBHOOKS_BOARDS(state, data) {
       state.webhookBoards = data;
@@ -102,7 +107,7 @@ const settingStore = {
     },
     END_LOADING_WEBHOOK_BY_INDEX(state, index) {
       state.webhookBoards[index].loading = false;
-      state.webhookBoards[index].status = "";
+      state.webhookBoards[index].status = DEFAULT;
     },
     ENABLE_WEBHOOK_BY_INDEX(state, data) {
       state.webhookBoards[data.index].isRegistered = true;
@@ -222,7 +227,7 @@ const store = new Vuex.Store({
   state: {
     graphLoadState: {
       loading: false,
-      status: ""
+      status: DEFAULT
     },
     trelloAuth: {
       token: localStorage.getItem('token'),
@@ -234,7 +239,7 @@ const store = new Vuex.Store({
     },
     boardLoadState: {
       loading: false,
-      status: ""
+      status: DEFAULT
     },
     boardItems: [],
     graph: {
@@ -261,10 +266,10 @@ const store = new Vuex.Store({
       return state.trelloAuth.token && state.trelloAuth.devKey;
     },
     isBoardLoadingError: state => {
-      return !state.boardLoadState.loading && state.boardLoadState.status === 'FAILED';
+      return !state.boardLoadState.loading && state.boardLoadState.status === FAILED;
     },
     isGraphLoadingError: state => {
-      return !state.graphLoadState.loading && state.graphLoadState.status === 'FAILED';
+      return !state.graphLoadState.loading && state.graphLoadState.status === FAILED;
     },
     isAbleChartLoad: (state, getters) => {
       return getters.isInputedBoard && getters.isInputedDays
@@ -368,7 +373,7 @@ const store = new Vuex.Store({
     },
     START_BOARD_LOADING(state) {
       state.boardLoadState.loading = true;
-      state.boardLoadState.status = "";
+      state.boardLoadState.status = DEFAULT;
     },
     END_BOARD_LOADING(state, result) {
       state.boardLoadState.loading = false;
@@ -376,7 +381,7 @@ const store = new Vuex.Store({
     },
     START_GRAPH_LOADING(state) {
       state.graphLoadState.loading = true;
-      state.graphLoadState.status = "";
+      state.graphLoadState.status = DEFAULT;
     },
     END_GRAPH_LOADING(state, result) {
       state.graphLoadState.loading = false;
