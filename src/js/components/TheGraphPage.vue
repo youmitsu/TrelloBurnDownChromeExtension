@@ -1,0 +1,63 @@
+<template>
+  <div>
+    <graph-menu></graph-menu>
+    <graph-content></graph-content>
+  </div>
+</template>
+<script>
+import graphMenu from './TheGraphMenu.vue';
+import graphContent from './TheGraph.vue';
+
+export default {
+  created: function() {
+    this.$store.dispatch('graph/initialLoad')
+      .then(() => {
+        this.$nextTick(() => {
+          const ctx = this.$el.querySelector('#myChart').getContext('2d');
+          ctx.canvas.height = 500;
+          var myChart = new Chart(ctx, this.$store.state.graph.graph.data);
+        });
+      });
+  },
+  mounted: function() {
+    $('.ui.dropdown').dropdown();
+    $('.menu .browse').popup({
+      hoverable: true,
+      position: 'bottom center',
+      on: 'click'
+    });
+    $('#startDate.ui.calendar').calendar({
+      type: 'date',
+      formatter: {
+        date: function(date) {
+          var day = ('0' + date.getDate()).slice(-2);
+          var month = ('0' + (date.getMonth() + 1)).slice(-2);
+          var year = date.getFullYear();
+          return year + '/' + month + '/' + day;
+        }
+      },
+      onChange: function(date, text, mode) {
+        this.$store.commit('graph/SET_START_DATE', text);
+      }
+    });
+    $('#endDate.ui.calendar').calendar({
+      type: 'date',
+      formatter: {
+        date: function(date) {
+          var day = ('0' + date.getDate()).slice(-2);
+          var month = ('0' + (date.getMonth() + 1)).slice(-2);
+          var year = date.getFullYear();
+          return year + '/' + month + '/' + day;
+        }
+      },
+      onChange: function(date, text, mode) {
+        this.$store.commit('graph/SET_END_DATE', text);
+      }
+    });
+  },
+  components: {
+    "graph-menu": graphMenu,
+    "graph-content": graphContent,
+  }
+}
+</script>

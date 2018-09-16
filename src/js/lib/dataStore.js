@@ -1,14 +1,14 @@
 export function set(key, value) {
   return new Promise((resolve, reject) => {
     if(!value) {
-      reject();
-      return;
+      localStorage.setItem(key, "");
+    } else {
+      localStorage.setItem(key, value);
     }
-    localStorage.setItem(key, value);
     resolve();
   });
 }
 
 export function get(key) {
-  return localStorage.getItem(key);
+  return !localStorage.getItem(key) ? "" : localStorage.getItem(key);
 }

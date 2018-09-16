@@ -61,54 +61,54 @@
 export default {
   computed: {
     isInputedBoard() {
-      return this.$store.getters.isInputedBoard;
+      return this.$store.getters['graph/isInputedBoard'];
     },
     boardText() {
-      return this.$store.getters.boardDefaultText;
+      return this.$store.getters['graph/boardDefaultText'];
     },
     boardList() {
-      return this.$store.state.boardItems;
+      return this.$store.state.graph.boardItems;
     },
     graph() {
-      return this.$store.state.graph;
+      return this.$store.state.graph.graph;
     },
     isLoading() {
-      return this.$store.state.boardLoadState.loading;
+      return this.$store.state.graph.boardLoadState.loading;
     },
     isLoadingError() {
-      return this.$store.getters.isLoadingError;
+      return this.$store.getters['graph/isLoadingError'];
     },
     startDate: {
       get() {
-        return this.$store.state.graph.startDate;
+        return this.$store.state.graph.graph.startDate;
       },
       set(value) {
-        this.$store.commit('SET_START_DATE', value);
+        this.$store.commit('graph/SET_START_DATE', value);
       }
     },
     endDate: {
       get() {
-        return this.$store.state.graph.endDate;
+        return this.$store.state.graph.graph.endDate;
       },
       set(value) {
-        this.$store.commit('SET_END_DATE', value);
+        this.$store.commit('graph/SET_END_DATE', value);
       }
     },
     holidays: {
       get() {
-        return this.$store.state.graph.holidays;
+        return this.$store.state.graph.graph.holidays;
       },
       set(value) {
-        this.$store.commit('SET_HOLIDAYS', value);
+        this.$store.commit('graph/SET_HOLIDAYS', value);
       }
     }
   },
   methods: {
     reload() {
-      this.$store.dispatch('reload');
+      this.$store.dispatch('graph/reload');
     },
     registerBoard(boardItem) {
-      this.$store.commit('SET_SELECT_BOARD', boardItem);
+      this.$store.commit('graph/SET_SELECT_BOARD', boardItem);
     }
   }
 }
