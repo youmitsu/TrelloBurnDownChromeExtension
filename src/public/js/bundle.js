@@ -261,7 +261,7 @@ function toComment(sourceMap) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["default"] = addStylesClient;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listToStyles__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listToStyles__ = __webpack_require__(35);
 /*
   MIT License http://www.opensource.org/licenses/mit-license.php
   Author Tobias Koppers @sokra
@@ -520,7 +520,7 @@ module.exports = g;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_title_vue__ = __webpack_require__(11);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_47063188_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_title_vue__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_47063188_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_title_vue__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 /* script */
@@ -1134,7 +1134,7 @@ function get(key) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_formError_vue__ = __webpack_require__(13);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2dbbacd4_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_formError_vue__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2dbbacd4_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_formError_vue__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 /* script */
@@ -1204,7 +1204,7 @@ if (false) {(function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_formSuccess_vue__ = __webpack_require__(15);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_33d72f62_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_formSuccess_vue__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_33d72f62_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_formSuccess_vue__ = __webpack_require__(48);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 /* script */
@@ -1274,7 +1274,7 @@ if (false) {(function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_formInput_vue__ = __webpack_require__(17);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7fd58196_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_formInput_vue__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7fd58196_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_formInput_vue__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 /* script */
@@ -1506,24 +1506,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuex__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_chartjs__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_chartjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_chartjs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_tabUtil_js__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__lib_templateUtil_js__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__lib_cryptUtil_js__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__lib_chartUtil_js__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_graphMenu_vue__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_graph_vue__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_settingMenu_vue__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_settingBackend_vue__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_settingTrello_vue__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_settingWebhooks_vue__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_apiClient_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__lib_dataStore_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__lib_tabUtil_js__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__lib_templateUtil_js__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__lib_cryptUtil_js__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__lib_chartUtil_js__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_graphMenu_vue__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_graph_vue__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_settingMenu_vue__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_settingBackend_vue__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_settingTrello_vue__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_settingWebhooks_vue__ = __webpack_require__(55);
 //Vue系
 
 
 
 //外部ライブラリ
 
+
+//common
+
+
+//Components
 
 
 
@@ -1542,34 +1548,34 @@ const settingStore = {
   namespaced: true,
   state: {
     serverAuth: {
-      baseUrl: __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["a" /* get */]('baseUrl'),
+      baseUrl: __WEBPACK_IMPORTED_MODULE_5__lib_dataStore_js__["a" /* get */]('baseUrl'),
       loading: false,
-      status: ""
+      status: __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["a" /* DEFAULT */]
     },
     trelloAuth: {
-      devKey: __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["a" /* get */]('devKey'),
-      token: __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["a" /* get */]('token'),
+      devKey: __WEBPACK_IMPORTED_MODULE_5__lib_dataStore_js__["a" /* get */]('devKey'),
+      token: __WEBPACK_IMPORTED_MODULE_5__lib_dataStore_js__["a" /* get */]('token'),
       loading: false,
-      status: ""
+      status: __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["a" /* DEFAULT */]
     },
     webhooksState: {
       loading: false,
-      status: ""
+      status: __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["a" /* DEFAULT */]
     },
     webhookBoards: []
   },
   getters: {
     isLoadingError: state => {
-      return !state.serverAuth.loading && state.serverAuth.status === 'FAILED';
+      return !state.serverAuth.loading && state.serverAuth.status === __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["b" /* FAILED */];
     },
     isLoadingSuccess: state => {
-      return !state.serverAuth.loading && state.serverAuth.status === 'SUCCESS';
+      return !state.serverAuth.loading && state.serverAuth.status === __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["c" /* SUCCESS */];
     },
     isTrelloLoadingError: state => {
-      return !state.trelloAuth.loading && state.trelloAuth.status === 'FAILED';
+      return !state.trelloAuth.loading && state.trelloAuth.status === __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["b" /* FAILED */];
     },
     isTrelloLoadingSuccess: state => {
-      return !state.trelloAuth.loading && state.trelloAuth.status === 'SUCCESS';
+      return !state.trelloAuth.loading && state.trelloAuth.status === __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["c" /* SUCCESS */];
     },
     isExistTrelloParams: state => {
       return state.trelloAuth.devKey && state.trelloAuth.token;
@@ -1578,11 +1584,11 @@ const settingStore = {
   mutations: {
     SET_BASEURL(state, baseUrl) {
       state.serverAuth.baseUrl = baseUrl;
-      __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["b" /* set */]('baseUrl', state.serverAuth.baseUrl);
+      __WEBPACK_IMPORTED_MODULE_5__lib_dataStore_js__["b" /* set */]('baseUrl', state.serverAuth.baseUrl);
     },
     START_SERVER_LOADING(state) {
       state.serverAuth.loading = true;
-      state.serverAuth.status = "";
+      state.serverAuth.status = __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["a" /* DEFAULT */];
     },
     END_SERVER_LOADING(state, result) {
       state.serverAuth.loading = false;
@@ -1590,15 +1596,15 @@ const settingStore = {
     },
     SET_DEVKEY(state, devKey) {
       state.trelloAuth.devKey = devKey;
-      __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["b" /* set */]('devKey', state.trelloAuth.devKey);
+      __WEBPACK_IMPORTED_MODULE_5__lib_dataStore_js__["b" /* set */]('devKey', state.trelloAuth.devKey);
     },
     SET_TOKEN(state, token) {
       state.trelloAuth.token = token;
-      __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["b" /* set */]('token', state.trelloAuth.token);
+      __WEBPACK_IMPORTED_MODULE_5__lib_dataStore_js__["b" /* set */]('token', state.trelloAuth.token);
     },
     START_TRELLO_LOADING(state) {
       state.trelloAuth.loading = true;
-      state.trelloAuth.status = "";
+      state.trelloAuth.status = __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["a" /* DEFAULT */];
     },
     END_TRELLO_LOADING(state, result) {
       state.trelloAuth.loading = false;
@@ -1612,7 +1618,7 @@ const settingStore = {
     },
     END_WEBHOOK_LOADING(state) {
       state.webhooksState.loading = false;
-      state.webhooksState.status = "";
+      state.webhooksState.status = __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["a" /* DEFAULT */];
     },
     SET_WEBHOOKS_BOARDS(state, data) {
       state.webhookBoards = data;
@@ -1622,7 +1628,7 @@ const settingStore = {
     },
     END_LOADING_WEBHOOK_BY_INDEX(state, index) {
       state.webhookBoards[index].loading = false;
-      state.webhookBoards[index].status = "";
+      state.webhookBoards[index].status = __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["a" /* DEFAULT */];
     },
     ENABLE_WEBHOOK_BY_INDEX(state, data) {
       state.webhookBoards[data.index].isRegistered = true;
@@ -1648,7 +1654,7 @@ const settingStore = {
     },
     checkServer({ commit }, baseUrl) {
       commit('START_SERVER_LOADING');
-      __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["a" /* checkServerUrl */](baseUrl)
+      __WEBPACK_IMPORTED_MODULE_4__lib_apiClient_js__["a" /* checkServerUrl */](baseUrl)
         .then(data => {
           commit('END_SERVER_LOADING', {
             status: "SUCCESS"
@@ -1663,7 +1669,7 @@ const settingStore = {
     checkTrelloApi({ state, getters, commit }) {
       if (getters.isExistTrelloParams) {
         commit('START_TRELLO_LOADING');
-        __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["d" /* getUser */](state.trelloAuth.token, state.trelloAuth.devKey)
+        __WEBPACK_IMPORTED_MODULE_4__lib_apiClient_js__["d" /* getUser */](state.trelloAuth.token, state.trelloAuth.devKey)
           .then(data => {
             commit('END_TRELLO_LOADING', {
               status: "SUCCESS"
@@ -1677,15 +1683,15 @@ const settingStore = {
       }
     },
     openKeyPage(context) {
-      __WEBPACK_IMPORTED_MODULE_5__lib_tabUtil_js__["a" /* openOuterBrowser */]("https://trello.com/1/appKey/generate");
+      __WEBPACK_IMPORTED_MODULE_6__lib_tabUtil_js__["a" /* openOuterBrowser */]("https://trello.com/1/appKey/generate");
     },
     openTokenPage({state}) {
-      __WEBPACK_IMPORTED_MODULE_5__lib_tabUtil_js__["a" /* openOuterBrowser */](`https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key=${state.trelloAuth.devKey}`);
+      __WEBPACK_IMPORTED_MODULE_6__lib_tabUtil_js__["a" /* openOuterBrowser */](`https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key=${state.trelloAuth.devKey}`);
     },
     loadWebhookList({state, commit}) {
       Promise.all([
-        __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["e" /* getUserAndBoards */](state.trelloAuth.token, state.trelloAuth.devKey),
-        __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["f" /* getWebhook */](state.trelloAuth.token, state.trelloAuth.devKey)
+        __WEBPACK_IMPORTED_MODULE_4__lib_apiClient_js__["e" /* getUserAndBoards */](state.trelloAuth.token, state.trelloAuth.devKey),
+        __WEBPACK_IMPORTED_MODULE_4__lib_apiClient_js__["f" /* getWebhook */](state.trelloAuth.token, state.trelloAuth.devKey)
       ])
       .then(results => [results[0], results[1].map(webhook => ({id: webhook.id, idModel: webhook.idModel})), results[1].map(v => v.idModel)])
       .then((values) => {
@@ -1694,7 +1700,7 @@ const settingStore = {
         let webhookBoardIds = values[2];
         let formattedIds = boardIds.map(board => {
           let index = webhookBoardIds.indexOf(board.id);
-          return index == -1 ? Object(__WEBPACK_IMPORTED_MODULE_6__lib_templateUtil_js__["a" /* initialWebhookState */])(null, board, false) : Object(__WEBPACK_IMPORTED_MODULE_6__lib_templateUtil_js__["a" /* initialWebhookState */])(webhookIds[index].id, board, true);
+          return index == -1 ? Object(__WEBPACK_IMPORTED_MODULE_7__lib_templateUtil_js__["a" /* initialWebhookState */])(null, board, false) : Object(__WEBPACK_IMPORTED_MODULE_7__lib_templateUtil_js__["a" /* initialWebhookState */])(webhookIds[index].id, board, true);
         });
         return formattedIds;
       })
@@ -1713,7 +1719,7 @@ const settingStore = {
       } else {
         commit('START_LOADING_WEBHOOK_BY_INDEX', index);
         if(board.isRegistered) {
-          __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["h" /* unregisterWebhook */](board.webhookId, state.trelloAuth.token, state.trelloAuth.devKey)
+          __WEBPACK_IMPORTED_MODULE_4__lib_apiClient_js__["h" /* unregisterWebhook */](board.webhookId, state.trelloAuth.token, state.trelloAuth.devKey)
             .then(res => {
               commit('DISABLE_WEBHOOK_BY_INDEX', index);
               commit('END_LOADING_WEBHOOK_BY_INDEX', index);
@@ -1723,7 +1729,7 @@ const settingStore = {
               commit('END_LOADING_WEBHOOK_BY_INDEX', index);
             });
         } else {
-          __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["g" /* registerWebhook */](board.boardId, state.serverAuth.baseUrl, state.trelloAuth.token, state.trelloAuth.devKey)
+          __WEBPACK_IMPORTED_MODULE_4__lib_apiClient_js__["g" /* registerWebhook */](board.boardId, state.serverAuth.baseUrl, state.trelloAuth.token, state.trelloAuth.devKey)
             .then(res => {
               commit('ENABLE_WEBHOOK_BY_INDEX', {"index": index, id: res.id});
               commit('END_LOADING_WEBHOOK_BY_INDEX', index);
@@ -1742,7 +1748,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
   state: {
     graphLoadState: {
       loading: false,
-      status: ""
+      status: __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["a" /* DEFAULT */]
     },
     trelloAuth: {
       token: localStorage.getItem('token'),
@@ -1754,7 +1760,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
     },
     boardLoadState: {
       loading: false,
-      status: ""
+      status: __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["a" /* DEFAULT */]
     },
     boardItems: [],
     graph: {
@@ -1781,10 +1787,10 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
       return state.trelloAuth.token && state.trelloAuth.devKey;
     },
     isBoardLoadingError: state => {
-      return !state.boardLoadState.loading && state.boardLoadState.status === 'FAILED';
+      return !state.boardLoadState.loading && state.boardLoadState.status === __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["b" /* FAILED */];
     },
     isGraphLoadingError: state => {
-      return !state.graphLoadState.loading && state.graphLoadState.status === 'FAILED';
+      return !state.graphLoadState.loading && state.graphLoadState.status === __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["b" /* FAILED */];
     },
     isAbleChartLoad: (state, getters) => {
       return getters.isInputedBoard && getters.isInputedDays
@@ -1819,8 +1825,8 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
     loadBoardList({state, commit}) {
       return new Promise((resolve, reject) => {
         commit('START_BOARD_LOADING');
-        __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["d" /* getUser */](state.trelloAuth.token, state.trelloAuth.devKey)
-          .then(user => __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["b" /* getBoards */](user.username, state.trelloAuth.token, state.trelloAuth.devKey))
+        __WEBPACK_IMPORTED_MODULE_4__lib_apiClient_js__["d" /* getUser */](state.trelloAuth.token, state.trelloAuth.devKey)
+          .then(user => __WEBPACK_IMPORTED_MODULE_4__lib_apiClient_js__["b" /* getBoards */](user.username, state.trelloAuth.token, state.trelloAuth.devKey))
           .then(boards => {
             boards.forEach(v => {
               commit('ADD_BOARD', {
@@ -1845,14 +1851,14 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
     loadGraph({state, commit}) {
       return new Promise((resolve, reject) => {
         commit('START_GRAPH_LOADING');
-        __WEBPACK_IMPORTED_MODULE_3__lib_apiClient_js__["c" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_7__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_7__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.devKey),
+        __WEBPACK_IMPORTED_MODULE_4__lib_apiClient_js__["c" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_8__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_8__lib_cryptUtil_js__["a" /* encrypt */])(state.trelloAuth.devKey),
           state.selectedBoard.boardId, state.graph.startDate,
           state.graph.endDate, state.graph.holidays)
           .then(json => {
-            Object(__WEBPACK_IMPORTED_MODULE_8__lib_chartUtil_js__["b" /* setConfigData */])(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
-            Object(__WEBPACK_IMPORTED_MODULE_8__lib_chartUtil_js__["b" /* setConfigData */])(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
-            Object(__WEBPACK_IMPORTED_MODULE_8__lib_chartUtil_js__["b" /* setConfigData */])(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
-            let obj = Object(__WEBPACK_IMPORTED_MODULE_8__lib_chartUtil_js__["a" /* graphParam */])(json);
+            Object(__WEBPACK_IMPORTED_MODULE_9__lib_chartUtil_js__["b" /* setConfigData */])(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
+            Object(__WEBPACK_IMPORTED_MODULE_9__lib_chartUtil_js__["b" /* setConfigData */])(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
+            Object(__WEBPACK_IMPORTED_MODULE_9__lib_chartUtil_js__["b" /* setConfigData */])(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
+            let obj = Object(__WEBPACK_IMPORTED_MODULE_9__lib_chartUtil_js__["a" /* graphParam */])(json);
             commit('SET_GRAPH_DATA', obj);
             commit('END_GRAPH_LOADING', {
               status: "SUCCESS"
@@ -1871,24 +1877,24 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
   mutations: {
     SET_SELECT_BOARD(state, boardItem) {
       state.selectedBoard = boardItem;
-      __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["b" /* set */]('boardId', state.selectedBoard.boardId);
-      __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["b" /* set */]('boardName', state.selectedBoard.boardName);
+      __WEBPACK_IMPORTED_MODULE_5__lib_dataStore_js__["b" /* set */]('boardId', state.selectedBoard.boardId);
+      __WEBPACK_IMPORTED_MODULE_5__lib_dataStore_js__["b" /* set */]('boardName', state.selectedBoard.boardName);
     },
     SET_START_DATE(state, startDate) {
       state.graph.startDate = startDate;
-      __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["b" /* set */]('startDate', state.graph.startDate);
+      __WEBPACK_IMPORTED_MODULE_5__lib_dataStore_js__["b" /* set */]('startDate', state.graph.startDate);
     },
     SET_END_DATE(state, endDate) {
       state.graph.endDate = endDate;
-      __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["b" /* set */]('endDate', state.graph.endDate);
+      __WEBPACK_IMPORTED_MODULE_5__lib_dataStore_js__["b" /* set */]('endDate', state.graph.endDate);
     },
     SET_HOLIDAYS(state, holidays) {
       state.graph.holidays = holidays;
-      __WEBPACK_IMPORTED_MODULE_4__lib_dataStore_js__["b" /* set */]('holidays', state.graph.holidays);
+      __WEBPACK_IMPORTED_MODULE_5__lib_dataStore_js__["b" /* set */]('holidays', state.graph.holidays);
     },
     START_BOARD_LOADING(state) {
       state.boardLoadState.loading = true;
-      state.boardLoadState.status = "";
+      state.boardLoadState.status = __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["a" /* DEFAULT */];
     },
     END_BOARD_LOADING(state, result) {
       state.boardLoadState.loading = false;
@@ -1896,7 +1902,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
     },
     START_GRAPH_LOADING(state) {
       state.graphLoadState.loading = true;
-      state.graphLoadState.status = "";
+      state.graphLoadState.status = __WEBPACK_IMPORTED_MODULE_3__common_loadStatusType_js__["a" /* DEFAULT */];
     },
     END_GRAPH_LOADING(state, result) {
       state.graphLoadState.loading = false;
@@ -1965,12 +1971,12 @@ new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
     });
   },
   components: {
-    "graph-menu": __WEBPACK_IMPORTED_MODULE_9__components_graphMenu_vue__["a" /* default */],
-    "graph-content": __WEBPACK_IMPORTED_MODULE_10__components_graph_vue__["a" /* default */],
-    "setting-menu": __WEBPACK_IMPORTED_MODULE_11__components_settingMenu_vue__["a" /* default */],
-    "setting-backend": __WEBPACK_IMPORTED_MODULE_12__components_settingBackend_vue__["a" /* default */],
-    "setting-trello": __WEBPACK_IMPORTED_MODULE_13__components_settingTrello_vue__["a" /* default */],
-    "setting-webhooks": __WEBPACK_IMPORTED_MODULE_14__components_settingWebhooks_vue__["a" /* default */]
+    "graph-menu": __WEBPACK_IMPORTED_MODULE_10__components_graphMenu_vue__["a" /* default */],
+    "graph-content": __WEBPACK_IMPORTED_MODULE_11__components_graph_vue__["a" /* default */],
+    "setting-menu": __WEBPACK_IMPORTED_MODULE_12__components_settingMenu_vue__["a" /* default */],
+    "setting-backend": __WEBPACK_IMPORTED_MODULE_13__components_settingBackend_vue__["a" /* default */],
+    "setting-trello": __WEBPACK_IMPORTED_MODULE_14__components_settingTrello_vue__["a" /* default */],
+    "setting-webhooks": __WEBPACK_IMPORTED_MODULE_15__components_settingWebhooks_vue__["a" /* default */]
   }
 })
 
@@ -14168,6 +14174,22 @@ var require;var require;/*!
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+const SUCCESS = "success";
+/* harmony export (immutable) */ __webpack_exports__["c"] = SUCCESS;
+
+const FAILED = "failed";
+/* harmony export (immutable) */ __webpack_exports__["b"] = FAILED;
+
+const DEFAULT = "default";
+/* harmony export (immutable) */ __webpack_exports__["a"] = DEFAULT;
+
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = openOuterBrowser;
 function openOuterBrowser(url) {
   chrome.tabs.create({
@@ -14177,7 +14199,7 @@ function openOuterBrowser(url) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14195,12 +14217,12 @@ function initialWebhookState(webhookId, board, isRegistered) {
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = encrypt;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_cryptojs__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_cryptojs__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_cryptojs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_cryptojs__);
 
 const key = "dGHLVUj3N3";
@@ -14210,7 +14232,7 @@ function encrypt(text) {
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 ;(function (root, factory) {
@@ -20203,7 +20225,7 @@ function encrypt(text) {
 }));
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20236,18 +20258,18 @@ function graphParam(json) {
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_graphMenu_vue__ = __webpack_require__(8);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2e0374fc_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graphMenu_vue__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2e0374fc_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graphMenu_vue__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 function injectStyle (context) {
   if (disposed) return
-  __webpack_require__(32)
+  __webpack_require__(33)
 }
 /* script */
 
@@ -20294,13 +20316,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(33);
+var content = __webpack_require__(34);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -20321,7 +20343,7 @@ if(false) {
 }
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -20335,7 +20357,7 @@ exports.push([module.i, "\n#boardDropdown[data-v-2e0374fc] {\n  padding-left: 0p
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20370,7 +20392,7 @@ function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20588,13 +20610,13 @@ if (false) {
 }
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_graph_vue__ = __webpack_require__(9);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_95708506_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graph_vue__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_95708506_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_graph_vue__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 /* script */
@@ -20642,7 +20664,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20692,16 +20714,16 @@ if (false) {
 }
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4102b63e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingMenu_vue__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4102b63e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingMenu_vue__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 function injectStyle (context) {
   if (disposed) return
-  __webpack_require__(39)
+  __webpack_require__(40)
 }
 /* script */
 var __vue_script__ = null
@@ -20747,13 +20769,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(40);
+var content = __webpack_require__(41);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -20774,7 +20796,7 @@ if(false) {
 }
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -20788,7 +20810,7 @@ exports.push([module.i, "\n.ui.secondary.pointing.massive.menu[data-v-4102b63e] 
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20828,18 +20850,18 @@ if (false) {
 }
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_settingBackend_vue__ = __webpack_require__(10);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_04a8f005_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingBackend_vue__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_04a8f005_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingBackend_vue__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 function injectStyle (context) {
   if (disposed) return
-  __webpack_require__(43)
+  __webpack_require__(44)
 }
 /* script */
 
@@ -20886,13 +20908,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(44);
+var content = __webpack_require__(45);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -20913,7 +20935,7 @@ if(false) {
 }
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -20927,7 +20949,7 @@ exports.push([module.i, "\n#content {\n  margin-left: 5px;\n  margin-right: 5px;
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20952,7 +20974,7 @@ if (false) {
 }
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20977,7 +20999,7 @@ if (false) {
 }
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21002,7 +21024,7 @@ if (false) {
 }
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21052,7 +21074,7 @@ if (false) {
 }
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21114,18 +21136,18 @@ if (false) {
 }
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_settingTrello_vue__ = __webpack_require__(18);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_26f10a87_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingTrello_vue__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_26f10a87_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingTrello_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 function injectStyle (context) {
   if (disposed) return
-  __webpack_require__(51)
+  __webpack_require__(52)
 }
 /* script */
 
@@ -21172,13 +21194,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(52);
+var content = __webpack_require__(53);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -21199,7 +21221,7 @@ if(false) {
 }
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -21213,7 +21235,7 @@ exports.push([module.i, "\n#content {\n  margin-left: 5px;\n  margin-right: 5px;
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21302,18 +21324,18 @@ if (false) {
 }
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_settingWebhooks_vue__ = __webpack_require__(19);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_27d337bb_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingWebhooks_vue__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_27d337bb_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_settingWebhooks_vue__ = __webpack_require__(58);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 var disposed = false
 function injectStyle (context) {
   if (disposed) return
-  __webpack_require__(55)
+  __webpack_require__(56)
 }
 /* script */
 
@@ -21360,13 +21382,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(56);
+var content = __webpack_require__(57);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -21387,7 +21409,7 @@ if(false) {
 }
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -21401,7 +21423,7 @@ exports.push([module.i, "\n#content {\n  margin-left: 5px;\n  margin-right: 5px;
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
