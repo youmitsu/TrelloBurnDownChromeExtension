@@ -16,10 +16,10 @@
   }
 </style>
 <script>
-  import settingTitle from './setting/title.vue';
-  import formError from './setting/formError.vue';
-  import formSuccess from './setting/formSuccess.vue';
-  import formInput from './setting/formInput.vue';
+  import settingTitle from './base/BaseTitle.vue';
+  import formError from './base/BaseFormError.vue';
+  import formSuccess from './base/BaseFormSuccess.vue';
+  import formInput from './base/BaseFormInput.vue';
   export default {
     computed: {
       isLoadingError() {

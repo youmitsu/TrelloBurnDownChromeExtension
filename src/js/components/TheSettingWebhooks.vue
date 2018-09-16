@@ -30,7 +30,7 @@
   }
 </style>
 <script>
-  import settingTitle from './setting/title.vue';
+  import settingTitle from './base/BaseTitle.vue';
   import * as ApiClient from '../lib/apiClient.js';
   export default {
     computed: {

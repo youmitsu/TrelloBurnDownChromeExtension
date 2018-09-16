@@ -14,12 +14,12 @@ import graphStore from './stores/graphStore.js';
 import settingStore from './stores/settingStore.js';
 
 //Components
-import graphMenu from './components/graphMenu.vue';
-import graphContent from './components/graph.vue';
-import settingMenu from './components/settingMenu.vue';
-import settingBackend from './components/settingBackend.vue';
-import settingTrello from './components/settingTrello.vue';
-import settingWebhooks from './components/settingWebhooks.vue';
+import graphMenu from './components/TheGraphMenu.vue';
+import graphContent from './components/TheGraph.vue';
+import settingMenu from './components/TheSettingMenu.vue';
+import settingBackend from './components/TheSettingBackend.vue';
+import settingTrello from './components/TheSettingTrello.vue';
+import settingWebhooks from './components/TheSettingWebhooks.vue';
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
