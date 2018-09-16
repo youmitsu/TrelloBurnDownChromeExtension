@@ -496,16 +496,16 @@ function applyToTag (styleElement, obj) {
 function set(key, value) {
   return new Promise((resolve, reject) => {
     if(!value) {
-      reject();
-      return;
+      localStorage.setItem(key, "");
+    } else {
+      localStorage.setItem(key, value);
     }
-    localStorage.setItem(key, value);
     resolve();
   });
 }
 
 function get(key) {
-  return localStorage.getItem(key);
+  return !localStorage.getItem(key) ? "" : localStorage.getItem(key);
 }
 
 
@@ -13974,6 +13974,8 @@ var require;var require;/*!
         if(!rootGetters.trelloAuthenticated) {
           //TODO: 設定画面に遷移
         }
+        commit('START_GRAPH_LOADING');
+        commit('START_BOARD_LOADING');
         dispatch('loadBoardList')
           .then(() => dispatch('loadGraph'))
           .then(() => {
@@ -13986,7 +13988,6 @@ var require;var require;/*!
     },
     loadBoardList({state, commit, rootState}) {
       return new Promise((resolve, reject) => {
-        commit('START_BOARD_LOADING');
         __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["d" /* getUser */](rootState.trelloAuth.token, rootState.trelloAuth.devKey)
           .then(user => __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["b" /* getBoards */](user.username, rootState.trelloAuth.token, rootState.trelloAuth.devKey))
           .then(boards => {
@@ -14006,13 +14007,15 @@ var require;var require;/*!
             commit('END_BOARD_LOADING', {
               status: "FAILED"
             });
+            commit('END_GRAPH_LOADING', {
+              status: "FAILED"
+            });
             reject(err);
           });
       });
     },
     loadGraph({state, commit, rootState}) {
       return new Promise((resolve, reject) => {
-        commit('START_GRAPH_LOADING');
         __WEBPACK_IMPORTED_MODULE_2__lib_apiClient_js__["c" /* getChartData */](Object(__WEBPACK_IMPORTED_MODULE_4__lib_cryptUtil_js__["a" /* encrypt */])(rootState.trelloAuth.token), Object(__WEBPACK_IMPORTED_MODULE_4__lib_cryptUtil_js__["a" /* encrypt */])(rootState.trelloAuth.devKey),
           state.selectedBoard.boardId, state.graph.startDate,
           state.graph.endDate, state.graph.holidays)

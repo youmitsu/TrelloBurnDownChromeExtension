@@ -109,6 +109,8 @@ export default {
         if(!rootGetters.trelloAuthenticated) {
           //TODO: 設定画面に遷移
         }
+        commit('START_GRAPH_LOADING');
+        commit('START_BOARD_LOADING');
         dispatch('loadBoardList')
           .then(() => dispatch('loadGraph'))
           .then(() => {
@@ -121,7 +123,6 @@ export default {
     },
     loadBoardList({state, commit, rootState}) {
       return new Promise((resolve, reject) => {
-        commit('START_BOARD_LOADING');
         ApiClient.getUser(rootState.trelloAuth.token, rootState.trelloAuth.devKey)
           .then(user => ApiClient.getBoards(user.username, rootState.trelloAuth.token, rootState.trelloAuth.devKey))
           .then(boards => {
@@ -141,13 +142,15 @@ export default {
             commit('END_BOARD_LOADING', {
               status: "FAILED"
             });
+            commit('END_GRAPH_LOADING', {
+              status: "FAILED"
+            });
             reject(err);
           });
       });
     },
     loadGraph({state, commit, rootState}) {
       return new Promise((resolve, reject) => {
-        commit('START_GRAPH_LOADING');
         ApiClient.getChartData(encrypt(rootState.trelloAuth.token), encrypt(rootState.trelloAuth.devKey),
           state.selectedBoard.boardId, state.graph.startDate,
           state.graph.endDate, state.graph.holidays)
