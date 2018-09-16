@@ -5,6 +5,7 @@ import { SUCCESS, FAILED, DEFAULT } from '../common/loadStatusType.js';
 import * as DataStore from '../lib/dataStore.js';
 import * as ApiClient from '../lib/apiClient.js';
 import { initialWebhookState } from '../lib/templateUtil.js';
+import * as Tab from '../lib/tabUtil.js';
 
 export default {
   namespaced: true,
@@ -27,7 +28,7 @@ export default {
     webhookBoards: []
   },
   getters: {
-    isLoadingError: (state, getters) => {
+    isLoadingError: state => {
       return !state.serverAuth.loading && state.serverAuth.status === FAILED;
     },
     isLoadingSuccess: state => {
@@ -83,7 +84,6 @@ export default {
       state.webhooksState.status = DEFAULT;
     },
     SET_WEBHOOKS_BOARDS(state, data) {
-      console.log("mutation");
       state.webhookBoards = data;
     },
     START_LOADING_WEBHOOK_BY_INDEX(state, index) {
@@ -152,7 +152,6 @@ export default {
       Tab.openOuterBrowser(`https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key=${state.trelloAuth.devKey}`);
     },
     loadWebhookList({state, commit}) {
-      console.log("started");
       Promise.all([
         ApiClient.getUserAndBoards(state.trelloAuth.token, state.trelloAuth.devKey),
         ApiClient.getWebhook(state.trelloAuth.token, state.trelloAuth.devKey)
@@ -169,7 +168,6 @@ export default {
         return formattedIds;
       })
       .then(result => {
-        console.log("loaded");
         commit('SET_WEBHOOKS_BOARDS', result);
         commit('END_WEBHOOK_LOADING');
       })
