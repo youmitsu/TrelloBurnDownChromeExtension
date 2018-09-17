@@ -1,8 +1,15 @@
 <template>
 <div>
-  <v-tabs v-model="active" color="cyan" dark slider-color="yellow" fixed-tabs>
+  <v-tabs
+    v-model="active"
+    color="cyan"
+    dark
+    slider-color="yellow"
+    centered>
     <v-tab v-for="view in viewList" :key="view.id">
       {{ view.name }}
+      <v-icon v-if="view.name == viewType.GRAPH.name">show_chart</v-icon>
+      <v-icon v-if="view.name == viewType.SETTING.name">settings</v-icon>
     </v-tab>
     <v-tab-item :key="viewType.GRAPH.id">
       <graph-view></graph-view>
