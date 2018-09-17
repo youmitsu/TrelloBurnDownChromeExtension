@@ -38,6 +38,9 @@
     </div>
   </div>
   <div class="right menu">
+    <a class="item" href="./vuetify-test.html">
+        test
+      </a>
     <a class="item" v-if="!isLoading">
         <i class="ui sync icon" @click="reload"></i>
       </a>

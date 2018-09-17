@@ -1,5 +1,6 @@
 //外部ライブラリ
 import Vue from 'vue';
+import Vuetify from 'vuetify'
 import Vuex from 'vuex';
 import Chart from 'chartjs';
 
@@ -19,6 +20,10 @@ import settingMenu from './components/TheSettingMenu.vue';
 import settingBackend from './components/TheSettingBackend.vue';
 import settingTrello from './components/TheSettingTrello.vue';
 import settingWebhooks from './components/TheSettingWebhooks.vue';
+
+import app from './layouts/app.vue';
+
+Vue.use(Vuetify);
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -52,6 +57,7 @@ new Vue({
   el: '#app',
   store,
   components: {
+    "app-view": app,
     "graph": graphPage,
     "setting-menu": settingMenu,
     "setting-backend": settingBackend,
