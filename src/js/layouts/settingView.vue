@@ -1,9 +1,8 @@
 <template>
 <div>
-  setting
+  Setting
 </div>
 </template>
 <script>
-export default {
-}
+export default {}
 </script>

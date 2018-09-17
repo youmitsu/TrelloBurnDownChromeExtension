@@ -12620,6 +12620,12 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 });
@@ -12636,8 +12642,7 @@ if (false) {(function () {
 //
 //
 
-/* harmony default export */ __webpack_exports__["a"] = ({
-});
+/* harmony default export */ __webpack_exports__["a"] = ({});
 
 
 /***/ }),
@@ -43106,7 +43111,28 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n  graph\n")])
+  return _c(
+    "div",
+    [
+      _c(
+        "v-toolbar",
+        [
+          _c("v-toolbar-title", [_vm._v("Burndown")]),
+          _vm._v(" "),
+          _c("v-spacer"),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { staticClass: "hidden-xs-only", attrs: { icon: "" } },
+            [_c("v-icon", [_vm._v("sync")])],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -43183,7 +43209,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n  setting\n")])
+  return _c("div", [_vm._v("\n  Setting\n")])
 }
 var staticRenderFns = []
 render._withStripped = true
