@@ -41,9 +41,6 @@
     <a class="item" v-if="!isLoading">
         <i class="ui sync icon" @click="reload"></i>
       </a>
-    <a class="item" href="./setting.html">
-        <i class="ui cog icon"></i>
-      </a>
   </div>
 </div>
 </template>
