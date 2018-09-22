@@ -1,11 +1,10 @@
 <template>
 <div class="ui secondary pointing inverted massive menu">
-  <div id="boardDropdown" class="ui dropdown item" v-bind:class="{disabled: isLoading || isLoadingError}">
+  <div id="boardDropdown" class="ui selection dropdown item" v-bind:class="{disabled: isLoading || isLoadingError}">
     <input type="hidden" name="board">
-    <i class="dropdown icon"></i>
     <div class="text" v-bind:class="{default: isLoading || isLoadingError}">{{boardText || 'ボードを選択'}}</div>
-    <div class="menu">
-      <div v-for="boardItem in boardList" class="item" @click="registerBoard(boardItem)">{{boardItem.boardName}}</div>
+    <div class="fluid menu">
+      <div v-for="boardItem in boardList" class="boardItem item" @click="registerBoard(boardItem)">{{boardItem.boardName}}</div>
     </div>
   </div>
   <div class="browse item">
@@ -46,9 +45,6 @@
 </template>
 
 <style scoped>
-  #boardDropdown {
-    padding-left: 0px;
-  }
   .ui.secondary.pointing.massive.menu {
     background-color: #1976d2;
   }
