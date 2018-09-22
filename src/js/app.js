@@ -3,6 +3,8 @@ import Vue from 'vue';
 import Vuetify from 'vuetify'
 import Vuex from 'vuex';
 import Chart from 'chartjs';
+import "material-design-icons-iconfont/dist/material-design-icons.css";
+import "vuetify/dist/vuetify.min.css";
 
 //common
 import { SUCCESS, FAILED, DEFAULT } from './common/loadStatusType.js';
