@@ -3,11 +3,15 @@ import Vue from 'vue';
 import Vuetify from 'vuetify'
 import Vuex from 'vuex';
 import Chart from 'chartjs';
+import "semantic-ui/dist/semantic.min.js";
+import "semantic-ui-calendar/dist/calendar.min.js";
 
 //css
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import "vuetify/dist/vuetify.min.css";
 import "../css/main.css";
+import "semantic-ui/dist/semantic.min.css";
+import "semantic-ui-calendar/dist/calendar.min.css";
 
 //common
 import { SUCCESS, FAILED, DEFAULT } from './common/loadStatusType.js';

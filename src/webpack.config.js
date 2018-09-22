@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: "development",
@@ -7,6 +8,12 @@ module.exports = {
     filename: 'bundle.js',
     path: path.join(__dirname, 'public/js')
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    })
+  ],
   resolve: {
     alias: {
       vue: 'vue/dist/vue.esm.js',
@@ -35,7 +42,7 @@ module.exports = {
         use: ["style-loader", "css-loader"]
       },
       {
-        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        test: /\.(woff|woff2|eot|ttf|svg|png)$/,
         use: ["url-loader"]
       }
     ]
