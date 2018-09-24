@@ -12,11 +12,11 @@ export default {
   created: function() {
     this.$store.dispatch('graph/initialLoad')
       .then(() => {
-        this.$nextTick(() => {
-          const ctx = this.$el.querySelector('#myChart').getContext('2d');
-          ctx.canvas.height = 500;
-          var myChart = new Chart(ctx, this.$store.state.graph.graph.data);
-        });
+        // this.$nextTick(() => {
+        //   const ctx = this.$el.querySelector('#myChart').getContext('2d');
+        //   ctx.canvas.height = 500;
+        //   var myChart = new Chart(ctx, this.$store.state.graph.graph.data);
+        // });
       });
   },
   mounted: function() {
