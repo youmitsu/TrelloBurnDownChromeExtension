@@ -26,7 +26,8 @@ export default {
       startDate: DataStore.get('startDate'),
       endDate: DataStore.get('endDate'),
       holidays: DataStore.get('holidays'),
-      data: null
+      data: null,
+      options: null
     }
   },
   getters: {
@@ -91,6 +92,9 @@ export default {
     },
     SET_GRAPH_DATA(state, data) {
       state.graph.data = data;
+    },
+    SET_CHART_OPTIONS(state, data) {
+      state.graph.options = data;
     }
   },
   actions: {
@@ -155,11 +159,19 @@ export default {
           state.selectedBoard.boardId, state.graph.startDate,
           state.graph.endDate, state.graph.holidays)
           .then(json => {
+            commit('SET_CHART_OPTIONS', {
+              elements: {
+                line: {
+                  tension: 0
+                }
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+            });
             setConfigData(json, 0, "理想線", 'rgb(40, 82, 148, 0.1)', 'rgb(40, 82, 148, 0.9)', 'rgb(40, 82, 148, 0.5)'); //理想線
             setConfigData(json, 1, "残り作業時間", 'rgb(251, 224, 0, 0.1)', 'rgb(251, 224, 0, 0.9)', 'rgb(251, 224, 0, 0.5)'); //実績線
             setConfigData(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
-            let obj = graphParam(json);
-            commit('SET_GRAPH_DATA', obj);
+            commit('SET_GRAPH_DATA', json);
             commit('END_GRAPH_LOADING', {
               status: "SUCCESS"
             });
