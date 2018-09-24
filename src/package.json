@@ -27,13 +27,14 @@
     "url-loader": "^1.0.1"
   },
   "dependencies": {
-    "material-design-icons-iconfont": "^3.0.3",
     "chart.js": "^2.7.2",
     "crypto-js": "^3.1.9-1",
     "jquery": "^3.3.1",
+    "material-design-icons-iconfont": "^3.0.3",
     "semantic-ui": "^2.3.3",
     "semantic-ui-calendar": "0.0.8",
     "vue": "^2.5.17",
+    "vue-chartjs": "^3.4.0",
     "vuetify": "^1.2.3",
     "vuex": "^3.0.1"
   }
