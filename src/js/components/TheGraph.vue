@@ -2,19 +2,13 @@
 <div class="ui main container" v-if="isGraphDisplayed">
   <div class="ui error message" v-if="isError">
     エラーが発生しました。
-    <!-- <p>{{error.discription}}</p> -->
   </div>
   <div class="ui segment" v-bind:class="{loading: isLoading}" v-if="!isError">
-    <!-- <div id="graphArea">
-      <div class="chartContainer">
-        <canvas id="myChart" width="400" height="400"></canvas>
-      </div>
-    </div> -->
     <burndown-chart
-      v-bind:data="graphData"
+      v-bind:chartData="graphData"
       v-bind:options="graphOptions"
       v-bind:width="400"
-      v-bind:height="280">
+      v-bind:height="420">
     </burndown-chart>
   </div>
 </div>
