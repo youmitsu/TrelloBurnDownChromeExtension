@@ -3,6 +3,8 @@
 
   <graph-menu></graph-menu>
 
+  <graph-menus></graph-menus>
+
   <graph-content></graph-content>
 
 </div>
@@ -10,6 +12,7 @@
 <script>
 import graphMenu from '../components/TheGraphMenu.vue';
 import graphContent from '../components/TheGraph.vue';
+import graphMenus from '../components/TheGraphMenus.vue';
 
 export default {
   created: function() {
@@ -65,7 +68,8 @@ export default {
   },
   components: {
     "graph-menu": graphMenu,
-    "graph-content": graphContent
+    "graph-content": graphContent,
+    "graph-menus": graphMenus
   }
 }
 </script>
