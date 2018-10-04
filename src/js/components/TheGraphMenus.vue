@@ -1,7 +1,7 @@
 <template>
 <v-toolbar>
   <v-flex xs12 sm6 d-flex>
-    <v-select :items="boardList" item-text="boardName" item-value="boardId" label="Selected Board"></v-select>
+    <v-select :items="boardList" item-text="boardName" item-value="boardId" label="Selected Board" :loading="isLoading"></v-select>
   </v-flex>
   <v-flex xs3 sm3 md3>
     <v-menu ref="menu" :close-on-content-click="false" v-model="menu" :nudge-right="40" :return-value.sync="date" lazy transition="scale-transition" offset-y full-width min-width="290px">
