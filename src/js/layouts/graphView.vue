@@ -11,8 +11,8 @@
 </template>
 <script>
 import graphMenu from '../components/TheGraphMenu.vue';
-import graphContent from '../components/TheGraph.vue';
 import graphMenus from '../components/TheGraphMenus.vue';
+import graphContent from '../components/TheGraph.vue';
 
 export default {
   created: function() {
