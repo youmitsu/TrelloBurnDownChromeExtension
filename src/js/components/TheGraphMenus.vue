@@ -1,7 +1,15 @@
 <template>
 <v-toolbar>
   <v-flex xs12 sm6 d-flex>
-    <v-select :items="boardList" item-text="boardName" item-value="boardId" label="Selected Board" :loading="isLoading"></v-select>
+    <v-select
+      v-model="selectedBoard"
+      :items="boardList"
+      item-text="boardName"
+      item-value="boardId"
+      label="Selected Board"
+      :loading="isLoading"
+      return-object
+      ></v-select>
   </v-flex>
   <v-flex xs3 sm3 md3>
     <v-menu ref="menu" :close-on-content-click="false" v-model="menu" :nudge-right="40" :return-value.sync="date" lazy transition="scale-transition" offset-y full-width min-width="290px">
@@ -29,25 +37,6 @@
 </template>
 <script>
 export default {
-  data: () => ({
-    items: [{
-        title: 'Click Me'
-      },
-      {
-        title: 'Click Me'
-      },
-      {
-        title: 'Click Me'
-      },
-      {
-        title: 'Click Me 2'
-      }
-    ],
-    date: null,
-    menu: false,
-    modal: false,
-    menu2: false
-  }),
   computed: {
     isInputedBoard() {
       return this.$store.getters['graph/isInputedBoard'];
@@ -57,6 +46,14 @@ export default {
     },
     boardList() {
       return this.$store.state.graph.boardItems;
+    },
+    selectedBoard: {
+      get() {
+        return this.$store.state.graph.selectedBoard;
+      },
+      set(value) {
+        this.$store.commit('graph/SET_SELECT_BOARD', value);
+      }
     },
     graph() {
       return this.$store.state.graph.graph;
@@ -95,9 +92,6 @@ export default {
   methods: {
     reload() {
       this.$store.dispatch('graph/reload');
-    },
-    registerBoard(boardItem) {
-      this.$store.commit('graph/SET_SELECT_BOARD', boardItem);
     }
   }
 }
