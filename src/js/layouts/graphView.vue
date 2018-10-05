@@ -1,8 +1,6 @@
 <template>
 <div>
 
-  <graph-menu></graph-menu>
-
   <graph-menus></graph-menus>
 
   <graph-content></graph-content>
