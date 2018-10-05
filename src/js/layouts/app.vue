@@ -1,11 +1,6 @@
 <template>
 <div>
-  <v-tabs
-    v-model="active"
-    color="cyan"
-    dark
-    slider-color="yellow"
-    centered>
+  <v-tabs v-model="active" color="cyan" dark slider-color="yellow" centered>
     <v-tab v-for="view in viewList" :key="view.id">
       {{ view.name }}
       <v-icon v-if="view.name == viewType.GRAPH.name">show_chart</v-icon>
@@ -18,6 +13,22 @@
       <setting-view></setting-view>
     </v-tab-item>
   </v-tabs>
+  <v-bottom-nav :active.sync="bottomNav" :value="true" absolute color="transparent">
+    <v-btn color="teal" flat value="recent">
+      <span>Recent</span>
+      <v-icon>history</v-icon>
+    </v-btn>
+
+    <v-btn color="teal" flat value="favorites">
+      <span>Favorites</span>
+      <v-icon>favorite</v-icon>
+    </v-btn>
+
+    <v-btn color="teal" flat value="nearby">
+      <span>Nearby</span>
+      <v-icon>place</v-icon>
+    </v-btn>
+  </v-bottom-nav>
 </div>
 </template>
 
