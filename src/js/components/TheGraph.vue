@@ -7,12 +7,12 @@
     v-bind:class="{loading: isLoading}"
     v-if="!isError"
     flat
-    height="470px">
+    height="420px">
     <burndown-chart
       v-bind:chartData="graphData"
       v-bind:options="graphOptions"
       v-bind:width="400"
-      v-bind:height="460">
+      v-bind:height="410">
     </burndown-chart>
   </v-card>
 </div>

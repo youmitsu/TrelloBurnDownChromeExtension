@@ -2,13 +2,13 @@
 <div>
   <graph-view v-show="isGraphView"></graph-view>
   <setting-view v-show="isSettingView"></setting-view>
-  <v-bottom-nav :active.sync="currentView" :value="true" absolute color="transparent">
+  <v-bottom-nav :active.sync="currentView" :value="true" absolute>
     <v-btn color="teal" flat value="graph">
-      <span>show_chart</span>
+      <span>GRAPH</span>
       <v-icon>show_chart</v-icon>
     </v-btn>
     <v-btn color="teal" flat value="setting">
-      <span>settings</span>
+      <span>SETTING</span>
       <v-icon>settings</v-icon>
     </v-btn>
   </v-bottom-nav>
