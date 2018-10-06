@@ -3,14 +3,18 @@
   <div class="ui error message" v-if="isError">
     エラーが発生しました。
   </div>
-  <div class="ui segment" v-bind:class="{loading: isLoading}" v-if="!isError">
+  <v-card
+    v-bind:class="{loading: isLoading}"
+    v-if="!isError"
+    flat
+    height="470px">
     <burndown-chart
       v-bind:chartData="graphData"
       v-bind:options="graphOptions"
       v-bind:width="400"
-      v-bind:height="420">
+      v-bind:height="460">
     </burndown-chart>
-  </div>
+  </v-card>
 </div>
 </template>
 <script>

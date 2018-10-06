@@ -1,13 +1,13 @@
 <template>
-<v-toolbar
-  height=70>
-  <v-flex xs12 sm6 d-flex>
+<v-toolbar dark color="primary">
+  <v-toolbar-side-icon></v-toolbar-side-icon>
+  <v-toolbar-title>Chart</v-toolbar-title>
+  <!-- <v-flex xs12 sm6 d-flex>
     <v-select
       v-model="selectedBoard"
       :items="boardList"
       item-text="boardName"
       item-value="boardId"
-      label="Selected Board"
       :loading="isLoading"
       :disabled="isLoadingError"
       return-object
@@ -29,7 +29,6 @@
         <v-text-field
           slot="activator"
           v-model="startDate"
-          label="Start"
           prepend-icon="event"
           readonly
         ></v-text-field>
@@ -52,17 +51,19 @@
         <v-text-field
           slot="activator"
           v-model="endDate"
-          label="End"
           prepend-icon="event"
           readonly
         ></v-text-field>
         <v-date-picker v-model="endDate" @input="$refs.endMenu.save(endDate)"></v-date-picker>
     </v-menu>
-  </v-flex>
+  </v-flex>-->
   <v-spacer></v-spacer>
-  <v-flex xs1 sm1 md1>
+  <v-btn icon>
     <v-icon @click="reload">sync</v-icon>
-  </v-flex>
+  </v-btn>
+  <v-btn icon>
+    <v-icon @click="reload">settings_input_composite</v-icon>
+  </v-btn>
 </v-toolbar>
 </template>
 <script>
