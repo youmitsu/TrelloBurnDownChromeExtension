@@ -1,23 +1,17 @@
 <template>
 <div>
-  <v-tabs
-    v-model="active"
-    color="cyan"
-    dark
-    slider-color="yellow"
-    centered>
-    <v-tab v-for="view in viewList" :key="view.id">
-      {{ view.name }}
-      <v-icon v-if="view.name == viewType.GRAPH.name">show_chart</v-icon>
-      <v-icon v-if="view.name == viewType.SETTING.name">settings</v-icon>
-    </v-tab>
-    <v-tab-item :key="viewType.GRAPH.id">
-      <graph-view></graph-view>
-    </v-tab-item>
-    <v-tab-item :key="viewType.SETTING.id">
-      <setting-view></setting-view>
-    </v-tab-item>
-  </v-tabs>
+  <graph-view v-show="isGraphView"></graph-view>
+  <setting-view v-show="isSettingView"></setting-view>
+  <v-bottom-nav :active.sync="currentView" :value="true" absolute>
+    <v-btn color="teal" flat value="graph">
+      <span>GRAPH</span>
+      <v-icon>show_chart</v-icon>
+    </v-btn>
+    <v-btn color="teal" flat value="setting">
+      <span>SETTING</span>
+      <v-icon>settings</v-icon>
+    </v-btn>
+  </v-bottom-nav>
 </div>
 </template>
 
@@ -29,13 +23,23 @@ import settingView from './settingView.vue';
 export default {
   data() {
     return {
-      active: null,
-      "viewType": viewType
+      active: null
     }
   },
   computed: {
-    viewList() {
-      return viewType.items;
+    isGraphView() {
+      return this.$store.state.current == viewType.GRAPH.name;
+    },
+    isSettingView() {
+      return this.$store.state.current == viewType.SETTING.name;
+    },
+    currentView: {
+      get() {
+        return this.$store.state.current;
+      },
+      set(value) {
+        this.$store.commit('SET_CURRENT_VIEW', value);
+      }
     }
   },
   components: {

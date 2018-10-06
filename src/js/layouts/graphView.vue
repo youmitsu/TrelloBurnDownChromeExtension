@@ -8,7 +8,6 @@
 </div>
 </template>
 <script>
-import graphMenu from '../components/TheGraphMenu.vue';
 import graphMenus from '../components/TheGraphMenus.vue';
 import graphContent from '../components/TheGraph.vue';
 
@@ -65,7 +64,6 @@ export default {
     }
   },
   components: {
-    "graph-menu": graphMenu,
     "graph-content": graphContent,
     "graph-menus": graphMenus
   }
