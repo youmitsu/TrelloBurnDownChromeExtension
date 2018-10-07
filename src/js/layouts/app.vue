@@ -2,7 +2,7 @@
 <div>
   <graph-view v-show="isGraphView"></graph-view>
   <setting-view v-show="isSettingView"></setting-view>
-  <v-bottom-nav :active.sync="currentView" :value="true" absolute>
+  <v-bottom-nav :active.sync="currentView" :value="true" absolute fixed>
     <v-btn color="teal" flat value="graph">
       <span>GRAPH</span>
       <v-icon>show_chart</v-icon>
