@@ -141,16 +141,16 @@ export default {
               });
             });
             commit('END_BOARD_LOADING', {
-              status: "SUCCESS"
+              status: SUCCESS
             });
             resolve();
           })
           .catch(err => {
             commit('END_BOARD_LOADING', {
-              status: "FAILED"
+              status: FAILED
             });
             commit('END_GRAPH_LOADING', {
-              status: "FAILED"
+              status: FAILED
             });
             reject(err);
           });
@@ -176,13 +176,13 @@ export default {
             setConfigData(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
             commit('SET_GRAPH_DATA', json);
             commit('END_GRAPH_LOADING', {
-              status: "SUCCESS"
+              status: SUCCESS
             });
             resolve();
           })
           .catch(err => {
             commit('END_GRAPH_LOADING', {
-              status: "FAILED"
+              status: FAILED
             });
             reject(err);
           });
