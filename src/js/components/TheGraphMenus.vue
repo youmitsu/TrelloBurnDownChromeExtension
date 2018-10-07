@@ -7,6 +7,9 @@
   <v-toolbar-title>Graph</v-toolbar-title>
   <v-spacer></v-spacer>
   <v-btn icon>
+    <v-icon>add</v-icon>
+  </v-btn>
+  <v-btn icon>
     <v-icon @click="reload">sync</v-icon>
   </v-btn>
   <v-flex slot="extension" xs12 sm6 d-flex>

@@ -4,6 +4,7 @@
     エラーが発生しました。
   </div>
   <v-card
+    class="elevation-5"
     v-bind:class="{loading: isLoading}"
     v-if="!isError"
     flat
