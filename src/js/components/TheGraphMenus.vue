@@ -104,7 +104,7 @@ export default {
   },
   computed: {
     boardList() {
-      return this.$store.state.graph.boardItems;
+      return this.$store.getters['graph/boardList'];
     },
     selectedBoard: {
       get() {

@@ -31,26 +31,14 @@ export default {
     }
   },
   getters: {
-    boardDefaultText: state => {
-      return state.selectedBoard.boardName || "ボードを選択";
-    },
     boardList: state => {
       return state.boardItems.length <= 0 ? ["ボードがありません"] : state.boardItems;
-    },
-    isInputedBoard: state => {
-      return state.selectedBoard.boardId && state.selectedBoard.boardName;
-    },
-    isInputedDays: state => {
-      return state.graph.stateDate && state.graph.endDate;
     },
     isBoardLoadingError: state => {
       return !state.boardLoadState.loading && state.boardLoadState.status === FAILED;
     },
     isGraphLoadingError: state => {
       return !state.graphLoadState.loading && state.graphLoadState.status === FAILED;
-    },
-    isAbleChartLoad: (state, getters) => {
-      return getters.isInputedBoard && getters.isInputedDays
     },
     holidaysArr: state => {
       return state.graph.holidays.split(',');
