@@ -51,6 +51,9 @@ export default {
     },
     isAbleChartLoad: (state, getters) => {
       return getters.isInputedBoard && getters.isInputedDays
+    },
+    holidaysArr: state => {
+      return state.graph.holidays.split(',');
     }
   },
   mutations: {
