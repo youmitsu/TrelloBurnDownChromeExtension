@@ -4,7 +4,7 @@
   extended
 >
   <v-toolbar-side-icon></v-toolbar-side-icon>
-  <v-toolbar-title>Chart</v-toolbar-title>
+  <v-toolbar-title>Graph</v-toolbar-title>
   <v-spacer></v-spacer>
   <v-btn icon>
     <v-icon @click="reload">sync</v-icon>
