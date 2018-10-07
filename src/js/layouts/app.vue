@@ -2,7 +2,7 @@
 <div>
   <graph-view v-show="isGraphView"></graph-view>
   <setting-view v-show="isSettingView"></setting-view>
-  <v-bottom-nav :active.sync="currentView" :value="true" absolute fixed>
+  <v-bottom-nav :active.sync="currentView" :value="true">
     <v-btn color="teal" flat value="graph">
       <span>GRAPH</span>
       <v-icon>show_chart</v-icon>
@@ -14,7 +14,6 @@
   </v-bottom-nav>
 </div>
 </template>
-
 <script>
 import viewType from '../common/viewType.js';
 import graphView from './graphView.vue';
