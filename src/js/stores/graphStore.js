@@ -31,17 +31,8 @@ export default {
     }
   },
   getters: {
-    boardDefaultText: state => {
-      return state.selectedBoard.boardName || "ボードを選択";
-    },
     boardList: state => {
       return state.boardItems.length <= 0 ? ["ボードがありません"] : state.boardItems;
-    },
-    isInputedBoard: state => {
-      return state.selectedBoard.boardId && state.selectedBoard.boardName;
-    },
-    isInputedDays: state => {
-      return state.graph.stateDate && state.graph.endDate;
     },
     isBoardLoadingError: state => {
       return !state.boardLoadState.loading && state.boardLoadState.status === FAILED;
@@ -49,8 +40,8 @@ export default {
     isGraphLoadingError: state => {
       return !state.graphLoadState.loading && state.graphLoadState.status === FAILED;
     },
-    isAbleChartLoad: (state, getters) => {
-      return getters.isInputedBoard && getters.isInputedDays
+    holidaysArr: state => {
+      return state.graph.holidays.split(',');
     }
   },
   mutations: {
@@ -138,16 +129,16 @@ export default {
               });
             });
             commit('END_BOARD_LOADING', {
-              status: "SUCCESS"
+              status: SUCCESS
             });
             resolve();
           })
           .catch(err => {
             commit('END_BOARD_LOADING', {
-              status: "FAILED"
+              status: FAILED
             });
             commit('END_GRAPH_LOADING', {
-              status: "FAILED"
+              status: FAILED
             });
             reject(err);
           });
@@ -173,13 +164,13 @@ export default {
             setConfigData(json, 2, "実績作業時間", 'rgb(229, 57, 53, 0.1)', 'rgb(229, 57, 53, 0.9)', 'rgb(229, 57, 53, 0.5)'); //実績線
             commit('SET_GRAPH_DATA', json);
             commit('END_GRAPH_LOADING', {
-              status: "SUCCESS"
+              status: SUCCESS
             });
             resolve();
           })
           .catch(err => {
             commit('END_GRAPH_LOADING', {
-              status: "FAILED"
+              status: FAILED
             });
             reject(err);
           });

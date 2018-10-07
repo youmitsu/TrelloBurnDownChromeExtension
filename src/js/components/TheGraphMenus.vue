@@ -4,8 +4,11 @@
   extended
 >
   <v-toolbar-side-icon></v-toolbar-side-icon>
-  <v-toolbar-title>Chart</v-toolbar-title>
+  <v-toolbar-title>Graph</v-toolbar-title>
   <v-spacer></v-spacer>
+  <v-btn icon>
+    <v-icon>add</v-icon>
+  </v-btn>
   <v-btn icon>
     <v-icon @click="reload">sync</v-icon>
   </v-btn>
@@ -67,9 +70,31 @@
         <v-date-picker v-model="endDate" @input="$refs.endMenu.save(endDate)"></v-date-picker>
     </v-menu>
   </v-flex>
-  <v-btn icon slot="extension">
-    <v-icon>subject</v-icon>
-  </v-btn>
+  <v-menu slot="extension" bottom left>
+    <v-btn icon slot="activator">
+      <v-icon>subject</v-icon>
+    </v-btn>
+    <v-card class="pa-1">
+      <v-container
+        fluid
+        grid-list-lg
+      >
+        <v-layout row wrap>
+          <v-flex>
+            <v-card color="blue-grey darken-2 pa-2" class="white--text">
+              <v-card-title primary-title>
+                <div class="headline">Holidays</div>
+              </v-card-title>
+              <v-date-picker
+                v-model="holidays"
+                multiple
+              ></v-date-picker>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-card>
+  </v-menu>
 </v-toolbar>
 </template>
 <script>
@@ -77,13 +102,12 @@ export default {
   data() {
     return {
       startMenu: false,
-      endMenu: false,
-      items: []
+      endMenu: false
     }
   },
   computed: {
     boardList() {
-      return this.$store.state.graph.boardItems;
+      return this.$store.getters['graph/boardList'];
     },
     selectedBoard: {
       get() {
@@ -117,7 +141,7 @@ export default {
     },
     holidays: {
       get() {
-        return this.$store.state.graph.graph.holidays;
+        return this.$store.getters['graph/holidaysArr'];
       },
       set(value) {
         this.$store.commit('graph/SET_HOLIDAYS', value);

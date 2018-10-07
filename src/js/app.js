@@ -4,7 +4,6 @@ import Vuetify from 'vuetify'
 import Vuex from 'vuex';
 import Chart from 'chartjs';
 import "semantic-ui/dist/semantic.min.js";
-import "semantic-ui-calendar/dist/calendar.min.js";
 
 //css
 import "material-design-icons-iconfont/dist/material-design-icons.css";
