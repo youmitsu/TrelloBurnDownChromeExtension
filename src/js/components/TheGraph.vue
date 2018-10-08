@@ -1,10 +1,10 @@
 <template>
-<div class="ui main container" v-if="isGraphDisplayed">
+<v-container v-if="isGraphDisplayed">
   <div class="ui error message" v-if="isError">
     エラーが発生しました。
   </div>
   <v-card
-    class="elevation-5"
+    class="elevation-5 pa-3"
     v-bind:class="{loading: isLoading}"
     v-if="!isError"
     flat
@@ -13,7 +13,7 @@
       v-bind:chartData="graphData"
       v-bind:options="graphOptions"
       v-bind:width="400"
-      v-bind:height="410"
+      v-bind:height="400"
       v-if="!isLoading">
     </burndown-chart>
     <div class="text-xs-center">
@@ -25,7 +25,7 @@
       ></v-progress-circular>
     </div>
   </v-card>
-</div>
+</v-container>
 </template>
 <script>
 import TheChart from './TheChart.js';
