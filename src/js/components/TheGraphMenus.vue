@@ -1,19 +1,30 @@
 <template>
 <v-toolbar
-  height=70>
-  <v-flex xs12 sm6 d-flex>
+  color="transparent"
+  extended
+>
+  <v-toolbar-side-icon></v-toolbar-side-icon>
+  <v-toolbar-title>Graph</v-toolbar-title>
+  <v-spacer></v-spacer>
+  <v-btn icon>
+    <v-icon>add</v-icon>
+  </v-btn>
+  <v-btn icon>
+    <v-icon @click="reload">sync</v-icon>
+  </v-btn>
+  <v-flex slot="extension" xs12 sm6 d-flex>
     <v-select
       v-model="selectedBoard"
       :items="boardList"
+      label="Board"
       item-text="boardName"
       item-value="boardId"
-      label="Selected Board"
       :loading="isLoading"
       :disabled="isLoadingError"
       return-object
       ></v-select>
   </v-flex>
-  <v-flex xs3 sm3 md3>
+  <v-flex slot="extension" xs3 sm3 md3>
     <v-menu
         ref="startMenu"
         :close-on-content-click="false"
@@ -29,14 +40,14 @@
         <v-text-field
           slot="activator"
           v-model="startDate"
-          label="Start"
           prepend-icon="event"
+          label="Start"
           readonly
         ></v-text-field>
         <v-date-picker v-model="startDate" @input="$refs.startMenu.save(startDate)"></v-date-picker>
     </v-menu>
   </v-flex>
-  <v-flex xs3 sm3 md3>
+  <v-flex slot="extension" xs3 sm3 md3>
     <v-menu
         ref="endMenu"
         :close-on-content-click="false"
@@ -52,17 +63,38 @@
         <v-text-field
           slot="activator"
           v-model="endDate"
-          label="End"
           prepend-icon="event"
+          label="End"
           readonly
         ></v-text-field>
         <v-date-picker v-model="endDate" @input="$refs.endMenu.save(endDate)"></v-date-picker>
     </v-menu>
   </v-flex>
-  <v-spacer></v-spacer>
-  <v-flex xs1 sm1 md1>
-    <v-icon @click="reload">sync</v-icon>
-  </v-flex>
+  <v-menu slot="extension" bottom left>
+    <v-btn icon slot="activator">
+      <v-icon>subject</v-icon>
+    </v-btn>
+    <v-card class="pa-1">
+      <v-container
+        fluid
+        grid-list-lg
+      >
+        <v-layout row wrap>
+          <v-flex>
+            <v-card color="blue-grey darken-2 pa-2" class="white--text">
+              <v-card-title primary-title>
+                <div class="headline">Holidays</div>
+              </v-card-title>
+              <v-date-picker
+                v-model="holidays"
+                multiple
+              ></v-date-picker>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-card>
+  </v-menu>
 </v-toolbar>
 </template>
 <script>
@@ -75,7 +107,7 @@ export default {
   },
   computed: {
     boardList() {
-      return this.$store.state.graph.boardItems;
+      return this.$store.getters['graph/boardList'];
     },
     selectedBoard: {
       get() {
@@ -109,7 +141,7 @@ export default {
     },
     holidays: {
       get() {
-        return this.$store.state.graph.graph.holidays;
+        return this.$store.getters['graph/holidaysArr'];
       },
       set(value) {
         this.$store.commit('graph/SET_HOLIDAYS', value);
