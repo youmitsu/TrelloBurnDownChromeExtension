@@ -7,7 +7,7 @@
   <v-toolbar-title>Graph</v-toolbar-title>
   <v-spacer></v-spacer>
   <v-btn icon>
-    <v-icon>add</v-icon>
+    <v-icon @click="showSprintNew">add</v-icon>
   </v-btn>
   <v-btn icon>
     <v-icon @click="reload">sync</v-icon>
@@ -151,6 +151,12 @@ export default {
   methods: {
     reload() {
       this.$store.dispatch('graph/reload');
+    },
+    showSprintNew() {
+      this.$store.commit('SET_CURRENT_VIEW', {
+        view: 'sprintNew',
+        isHome: false
+      });
     }
   }
 }
