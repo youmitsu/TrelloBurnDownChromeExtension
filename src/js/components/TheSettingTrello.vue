@@ -12,12 +12,6 @@
     </form>
   </div>
 </template>
-<style>
-  #content {
-    margin-left: 5px;
-    margin-right: 5px;
-  }
-</style>
 <script>
   import settingTitle from './base/BaseTitle.vue';
   import formError from './base/BaseFormError.vue';
