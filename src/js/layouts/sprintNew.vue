@@ -18,7 +18,7 @@
     id="scrolling-target"
     fluid
   >
-    <v-form v-model="valid">
+    <v-form>
       <v-flex xs12 sm12 d-flex>
         <v-select
           :items="boardList"

@@ -194,6 +194,11 @@ export default {
         holidays: data.holidays
       });
       commit('SET_SPRINT', old);
+      //TODO: ダイアログ出して遷移先を選択させる
+      commit('SET_CURRENT_VIEW', {
+        view: 'graph',
+        isHome: true
+      }, { root: true });
     }
   }
 }
