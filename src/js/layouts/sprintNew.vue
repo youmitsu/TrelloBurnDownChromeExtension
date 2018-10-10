@@ -10,7 +10,7 @@
     </v-btn>
     <v-toolbar-title>New Sprint</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn icon>
+    <v-btn icon @click="save">
       <v-icon>done</v-icon>
     </v-btn>
   </v-toolbar>
@@ -25,6 +25,8 @@
           label="Board"
           item-text="boardName"
           item-value="boardId"
+          v-model="selectedBoard"
+          return-object
         ></v-select>
       </v-flex>
       <v-text-field
@@ -117,6 +119,8 @@
 export default {
   data() {
     return {
+      selectedBoard: null,
+      name: null,
       startDateMenu: false,
       endDateMenu: false,
       holidayMenu: false,
@@ -140,6 +144,18 @@ export default {
       this.$store.commit('SET_CURRENT_VIEW', {
         isHome: true,
         view: 'graph'
+      });
+    },
+    selectBoard() {
+
+    },
+    save() {
+      this.$store.dispatch('graph/saveSprint', {
+        board: this.selectedBoard,
+        name: this.name,
+        startDate: this.startDate,
+        endDate: this.endDate,
+        holidays: this.holidays
       });
     }
   }
