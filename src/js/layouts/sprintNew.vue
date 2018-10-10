@@ -21,8 +21,10 @@
     <v-form v-model="valid">
       <v-flex xs12 sm12 d-flex>
         <v-select
-          :items="items"
+          :items="boardList"
           label="Board"
+          item-text="boardName"
+          item-value="boardId"
         ></v-select>
       </v-flex>
       <v-text-field
@@ -121,6 +123,16 @@ export default {
       startDate: null,
       endDate: null,
       holidays: []
+    }
+  },
+  mounted() {
+    this.$store.dispatch('graph/loadBoardList')
+      .then(() => {
+      });
+  },
+  computed: {
+    boardList() {
+      return this.$store.getters['graph/boardList'];
     }
   },
   methods: {
