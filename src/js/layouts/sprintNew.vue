@@ -19,18 +19,18 @@
     fluid
   >
     <v-form v-model="valid">
-      <v-text-field
-        v-model="name"
-        :counter="20"
-        label="Name"
-        required
-      ></v-text-field>
       <v-flex xs12 sm12 d-flex>
         <v-select
           :items="items"
           label="Board"
         ></v-select>
       </v-flex>
+      <v-text-field
+        v-model="name"
+        :counter="20"
+        label="Name"
+        required
+      ></v-text-field>
       <v-flex>
         <v-menu
           ref="startDateMenu"
