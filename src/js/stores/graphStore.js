@@ -86,6 +86,9 @@ export default {
     },
     SET_CHART_OPTIONS(state, data) {
       state.graph.options = data;
+    },
+    SET_SPRINT(state, data) {
+      DataStore.set("sprints", JSON.stringify(data));
     }
   },
   actions: {
@@ -175,6 +178,27 @@ export default {
             reject(err);
           });
       });
+    },
+    saveSprint({commit}, data) {
+      if(!data || 0 === Object.keys(data).length){
+        return;
+      }
+      let old = DataStore.get("sprints") ? JSON.parse(DataStore.get("sprints")) : {};
+      if (!old[data.board.boardId]) {
+        old[data.board.boardId] = [];
+      }
+      old[data.board.boardId].push({
+        name: data.name,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        holidays: data.holidays
+      });
+      commit('SET_SPRINT', old);
+      //TODO: ダイアログ出して遷移先を選択させる
+      commit('SET_CURRENT_VIEW', {
+        view: 'graph',
+        isHome: true
+      }, { root: true });
     }
   }
 }
