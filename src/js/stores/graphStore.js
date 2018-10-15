@@ -28,7 +28,9 @@ export default {
       holidays: DataStore.get('holidays'),
       data: null,
       options: null
-    }
+    },
+    sprints: DataStore.get('sprints'),
+    selectedSprints: DataStore.get('selectedSprints')
   },
   getters: {
     boardList: state => {
@@ -42,6 +44,18 @@ export default {
     },
     holidaysArr: state => {
       return state.graph.holidays.split(',');
+    },
+    getSprints: state => {
+      return JSON.parse(state.sprints);
+    },
+    getSelectedSprints: state => {
+      return JSON.parse(state.selectedSprints);
+    },
+    sprintsOfBoard: (state, getters) => (boardId) => {
+      return getters.getSprints[boardId] || [];
+    },
+    getSelectedSprint: (state, getters) => (boardId) => {
+      return getters.sprintsOfBoard(boardId).filter(v => v.isSelected)[0] || null;
     }
   },
   mutations: {
@@ -88,7 +102,20 @@ export default {
       state.graph.options = data;
     },
     SET_SPRINT(state, data) {
+      state.graph.sprints = data;
       DataStore.set("sprints", JSON.stringify(data));
+    },
+    ADD_TO_SELECTED_SPRINTS(state, data) {
+      state.graph.selectedSprints[state.selectedBoard.boardId] = data;
+      DataStore.set("selectedSprints", JSON.stringify(data));
+    },
+    SET_SELECTED_SPRINT(state, data) {
+      let selectedSprints = state.graph.selectedSprints[data.boardId].map(v => {
+        v.isSelected = (data.boardId === v.boardId) ? true : false;
+        return v;
+      });
+      state.graph.selectedSprints[data.boardId] = selectedSprints;
+      DataStore.set("selectedSprints", JSON.stringify(state.graph.selectedSprints));
     }
   },
   actions: {
@@ -191,7 +218,8 @@ export default {
         name: data.name,
         startDate: data.startDate,
         endDate: data.endDate,
-        holidays: data.holidays
+        holidays: data.holidays,
+        isSelected: data.isSelected
       });
       commit('SET_SPRINT', old);
       //TODO: ダイアログ出して遷移先を選択させる

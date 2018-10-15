@@ -12,7 +12,7 @@
   <v-btn icon>
     <v-icon @click="reload">sync</v-icon>
   </v-btn>
-  <v-flex slot="extension" xs12 sm6 d-flex>
+  <v-flex xs12 sm6 d-flex slot="extension">
     <v-select
       v-model="selectedBoard"
       :items="boardList"
@@ -24,7 +24,18 @@
       return-object
       ></v-select>
   </v-flex>
-  <v-flex slot="extension" xs3 sm3 md3>
+  <v-flex xs12 sm6 d-flex slot="extension">
+    <v-select
+      v-model="selectedSprint"
+      :items="sprintList"
+      label="Sprints"
+      item-text="name"
+      :loading="isLoading"
+      :disabled="isLoadingError"
+      return-object
+      ></v-select>
+  </v-flex>
+  <!-- <v-flex slot="extension" xs3 sm3 md3>
     <v-menu
         ref="startMenu"
         :close-on-content-click="false"
@@ -69,8 +80,8 @@
         ></v-text-field>
         <v-date-picker v-model="endDate" @input="$refs.endMenu.save(endDate)"></v-date-picker>
     </v-menu>
-  </v-flex>
-  <v-menu slot="extension" bottom left>
+  </v-flex> -->
+  <!-- <v-menu slot="extension" bottom left>
     <v-btn icon slot="activator">
       <v-icon>subject</v-icon>
     </v-btn>
@@ -94,7 +105,7 @@
         </v-layout>
       </v-container>
     </v-card>
-  </v-menu>
+  </v-menu> -->
 </v-toolbar>
 </template>
 <script>
@@ -115,6 +126,17 @@ export default {
       },
       set(value) {
         this.$store.commit('graph/SET_SELECT_BOARD', value);
+      }
+    },
+    sprintList() {
+      return this.$store.getters['graph/sprintsOfBoard'](this.selectedBoard.boardId);
+    },
+    selectedSprint: {
+      get() {
+        return this.$store.getters['graph/getSelectedSprint'](this.selectedBoard.boardId);
+      },
+      set(value) {
+        this.$store.commit('graph/SET_SELECTED_SPRINT', value);
       }
     },
     isLoading() {

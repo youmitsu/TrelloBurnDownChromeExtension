@@ -155,7 +155,8 @@ export default {
         name: this.name,
         startDate: this.startDate,
         endDate: this.endDate,
-        holidays: this.holidays
+        holidays: this.holidays,
+        isSelected: false
       });
     }
   }
