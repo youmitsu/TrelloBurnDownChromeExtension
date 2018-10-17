@@ -108,7 +108,7 @@ export default {
       state.graph.options = data;
     },
     SET_SPRINT(state, data) {
-      state.sprints = data;
+      state.sprints = JSON.stringify(data);
       DataStore.set("sprints", JSON.stringify(data));
     },
     SET_SELECTED_SPRINT(state, data) {
