@@ -133,10 +133,13 @@ export default {
     },
     selectedSprint: {
       get() {
-        return this.$store.getters['graph/getSelectedSprint'](this.selectedBoard.boardId);
+        return this.$store.getters['graph/getSelectedSprint'];
       },
       set(value) {
-        this.$store.commit('graph/SET_SELECTED_SPRINT', value);
+        this.$store.commit('graph/SET_SELECTED_SPRINT', {
+          value,
+          sprints: this.$store.getters['graph/getSprints']
+        });
       }
     },
     isLoading() {

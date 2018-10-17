@@ -30,7 +30,7 @@ export default {
       options: null
     },
     sprints: DataStore.get('sprints'),
-    selectedSprints: DataStore.get('selectedSprints')
+    selectedSprint: DataStore.get('selectedSprint')
   },
   getters: {
     boardList: state => {
@@ -46,17 +46,23 @@ export default {
       return state.graph.holidays.split(',');
     },
     getSprints: state => {
+      if (!state.sprints) {
+        return null;
+      }
       return JSON.parse(state.sprints);
     },
-    getSelectedSprints: state => {
-      return JSON.parse(state.selectedSprints);
+    getSelectedSprint: state => {
+      if (!state.selectedSprint) {
+        return null;
+      }
+      return JSON.parse(state.selectedSprint);
     },
     sprintsOfBoard: (state, getters) => (boardId) => {
       return getters.getSprints[boardId] || [];
-    },
-    getSelectedSprint: (state, getters) => (boardId) => {
-      return getters.sprintsOfBoard(boardId).filter(v => v.isSelected)[0] || null;
     }
+    // getSelectedSprint: (state, getters) => (boardId) => {
+    //   return getters.getSprints[boardId].filter(v => v.isSelected)[0] || null;
+    // }
   },
   mutations: {
     SET_SELECT_BOARD(state, boardItem) {
@@ -102,20 +108,22 @@ export default {
       state.graph.options = data;
     },
     SET_SPRINT(state, data) {
-      state.graph.sprints = data;
+      state.sprints = data;
       DataStore.set("sprints", JSON.stringify(data));
     },
-    ADD_TO_SELECTED_SPRINTS(state, data) {
-      state.graph.selectedSprints[state.selectedBoard.boardId] = data;
-      DataStore.set("selectedSprints", JSON.stringify(data));
-    },
     SET_SELECTED_SPRINT(state, data) {
-      let selectedSprints = state.graph.selectedSprints[data.boardId].map(v => {
-        v.isSelected = (data.boardId === v.boardId) ? true : false;
-        return v;
-      });
-      state.graph.selectedSprints[data.boardId] = selectedSprints;
-      DataStore.set("selectedSprints", JSON.stringify(state.graph.selectedSprints));
+      state.selectedSprint = JSON.stringify(data.value);
+      DataStore.set("selectedSprint", JSON.stringify(data.value));
+      // console.log(data);
+      // let newSprints = data.sprints[state.selectedBoard.boardId].map(v => {
+      //   console.log(v);
+      //   v.isSelected = (state.selectedBoard.boardId === v.boardId) ? true : false;
+      //   return v;
+      // });
+      // console.log(newSprints);
+      // data.sprints[state.selectedBoard.boardId] = newSprints;
+      // state.sprints = JSON.stringify(data.sprints);
+      // DataStore.set("sprints", JSON.stringify(data.sprints));
     }
   },
   actions: {
@@ -174,11 +182,11 @@ export default {
           });
       });
     },
-    loadGraph({state, commit, rootState}) {
+    loadGraph({state, getters, commit, rootState}) {
       return new Promise((resolve, reject) => {
         ApiClient.getChartData(encrypt(rootState.trelloAuth.token), encrypt(rootState.trelloAuth.devKey),
-          state.selectedBoard.boardId, state.graph.startDate,
-          state.graph.endDate, state.graph.holidays)
+          state.selectedBoard.boardId, getters.getSelectedSprint.startDate,
+          getters.getSelectedSprint.endDate, getters.getSelectedSprint.holidays)
           .then(json => {
             commit('SET_CHART_OPTIONS', {
               elements: {
@@ -207,7 +215,7 @@ export default {
       });
     },
     saveSprint({commit}, data) {
-      if(!data || 0 === Object.keys(data).length){
+      if(!data || 0 === Object.keys(data).length) {
         return;
       }
       let old = DataStore.get("sprints") ? JSON.parse(DataStore.get("sprints")) : {};
