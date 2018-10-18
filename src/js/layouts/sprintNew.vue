@@ -31,7 +31,7 @@
       </v-flex>
       <v-text-field
         v-model="name"
-        :counter="20"
+        :counter="30"
         label="Name"
         required
       ></v-text-field>

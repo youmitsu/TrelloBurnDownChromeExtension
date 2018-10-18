@@ -37,8 +37,8 @@ const store = new Vuex.Store({
       status: DEFAULT
     },
     trelloAuth: {
-      token: localStorage.getItem('token'),
-      devKey: localStorage.getItem('devKey')
+      token: DataStore.get('token'),
+      devKey: DataStore.get('devKey')
     },
     current: {
       isHome: true,

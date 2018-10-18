@@ -58,6 +58,9 @@ export default {
       return JSON.parse(state.selectedSprint);
     },
     sprintsOfBoard: (state, getters) => (boardId) => {
+      if (!getters.getSprints) {
+        return [];
+      }
       return getters.getSprints[boardId] || [];
     }
     // getSelectedSprint: (state, getters) => (boardId) => {
@@ -184,6 +187,12 @@ export default {
     },
     loadGraph({state, getters, commit, rootState}) {
       return new Promise((resolve, reject) => {
+        if (!getters.getSelectedSprint) {
+          commit('END_GRAPH_LOADING', {
+            status: SUCCESS
+          });
+          resolve();
+        }
         ApiClient.getChartData(encrypt(rootState.trelloAuth.token), encrypt(rootState.trelloAuth.devKey),
           state.selectedBoard.boardId, getters.getSelectedSprint.startDate,
           getters.getSelectedSprint.endDate, getters.getSelectedSprint.holidays)
