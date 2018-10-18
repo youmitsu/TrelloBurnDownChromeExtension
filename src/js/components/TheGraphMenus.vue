@@ -35,77 +35,6 @@
       return-object
       ></v-select>
   </v-flex>
-  <!-- <v-flex slot="extension" xs3 sm3 md3>
-    <v-menu
-        ref="startMenu"
-        :close-on-content-click="false"
-        v-model="startMenu"
-        :nudge-right="60"
-        :return-value.sync="startDate"
-        lazy
-        transition="scale-transition"
-        offset-y
-        full-width
-        min-width="290px"
-    >
-        <v-text-field
-          slot="activator"
-          v-model="startDate"
-          prepend-icon="event"
-          label="Start"
-          readonly
-        ></v-text-field>
-        <v-date-picker v-model="startDate" @input="$refs.startMenu.save(startDate)"></v-date-picker>
-    </v-menu>
-  </v-flex>
-  <v-flex slot="extension" xs3 sm3 md3>
-    <v-menu
-        ref="endMenu"
-        :close-on-content-click="false"
-        v-model="endMenu"
-        :nudge-right="60"
-        :return-value.sync="endDate"
-        lazy
-        transition="scale-transition"
-        offset-y
-        full-width
-        min-width="290px"
-    >
-        <v-text-field
-          slot="activator"
-          v-model="endDate"
-          prepend-icon="event"
-          label="End"
-          readonly
-        ></v-text-field>
-        <v-date-picker v-model="endDate" @input="$refs.endMenu.save(endDate)"></v-date-picker>
-    </v-menu>
-  </v-flex> -->
-  <!-- <v-menu slot="extension" bottom left>
-    <v-btn icon slot="activator">
-      <v-icon>subject</v-icon>
-    </v-btn>
-    <v-card class="pa-1">
-      <v-container
-        fluid
-        grid-list-lg
-      >
-        <v-layout row wrap>
-          <v-flex>
-            <v-card color="blue-grey darken-2 pa-2" class="white--text">
-              <v-card-title primary-title>
-                <div class="headline">Holidays</div>
-              </v-card-title>
-              <v-date-picker
-                v-model="holidays"
-                multiple
-              ></v-date-picker>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-card>
-  </v-menu> -->
 </v-toolbar>
 </template>
 <script>
@@ -133,12 +62,12 @@ export default {
     },
     selectedSprint: {
       get() {
-        return this.$store.getters['graph/getSelectedSprint'];
+        return this.$store.state.graph.selectedSprint;
       },
       set(value) {
         this.$store.commit('graph/SET_SELECTED_SPRINT', {
           value,
-          sprints: this.$store.getters['graph/getSprints']
+          sprints: this.$store.state.graph.sprints
         });
       }
     },

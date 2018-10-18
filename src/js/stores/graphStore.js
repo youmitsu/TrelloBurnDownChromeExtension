@@ -14,8 +14,8 @@ export default {
       status: DEFAULT
     },
     selectedBoard: {
-      boardId: DataStore.get('boardId'),
-      boardName: DataStore.get('boardName')
+      boardId: null,
+      boardName: null
     },
     boardLoadState: {
       loading: false,
@@ -23,14 +23,11 @@ export default {
     },
     boardItems: [],
     graph: {
-      startDate: DataStore.get('startDate'),
-      endDate: DataStore.get('endDate'),
-      holidays: DataStore.get('holidays'),
       data: null,
       options: null
     },
-    sprints: DataStore.get('sprints'),
-    selectedSprint: DataStore.get('selectedSprint')
+    sprints: null,
+    selectedSprint: null
   },
   getters: {
     boardList: state => {
@@ -42,32 +39,17 @@ export default {
     isGraphLoadingError: state => {
       return !state.graphLoadState.loading && state.graphLoadState.status === FAILED;
     },
-    holidaysArr: state => {
-      return state.graph.holidays.split(',');
-    },
-    getSprints: state => {
-      if (!state.sprints) {
-        return null;
-      }
-      return JSON.parse(state.sprints);
-    },
-    getSelectedSprint: state => {
-      if (!state.selectedSprint) {
-        return null;
-      }
-      return JSON.parse(state.selectedSprint);
-    },
     sprintsOfBoard: (state, getters) => (boardId) => {
-      if (!getters.getSprints) {
-        return [];
-      }
-      return getters.getSprints[boardId] || [];
+      return state.sprints[boardId] || [];
     }
-    // getSelectedSprint: (state, getters) => (boardId) => {
-    //   return getters.getSprints[boardId].filter(v => v.isSelected)[0] || null;
-    // }
   },
   mutations: {
+    SET_INITIAL_STATE(state) {
+      state.selectedBoard.boardId = DataStore.get('boardId');
+      state.selectedBoard.boardName = DataStore.get('boardName');
+      state.sprints = JSON.parse(DataStore.get('sprints'));
+      state.selectedSprint = JSON.parse(DataStore.get('selectedSprint'));
+    },
     SET_SELECT_BOARD(state, boardItem) {
       state.selectedBoard = boardItem;
       DataStore.set('boardId', state.selectedBoard.boardId);
@@ -94,10 +76,12 @@ export default {
       state.boardLoadState.status = result.status;
     },
     START_GRAPH_LOADING(state) {
+      console.log("start_loading");
       state.graphLoadState.loading = true;
       state.graphLoadState.status = DEFAULT;
     },
     END_GRAPH_LOADING(state, result) {
+      console.log(`end_loading ${result.status}`);
       state.graphLoadState.loading = false;
       state.graphLoadState.status = result.status;
     },
@@ -111,22 +95,12 @@ export default {
       state.graph.options = data;
     },
     SET_SPRINT(state, data) {
-      state.sprints = JSON.stringify(data);
+      state.sprints = data;
       DataStore.set("sprints", JSON.stringify(data));
     },
     SET_SELECTED_SPRINT(state, data) {
-      state.selectedSprint = JSON.stringify(data.value);
+      state.selectedSprint = data.value;
       DataStore.set("selectedSprint", JSON.stringify(data.value));
-      // console.log(data);
-      // let newSprints = data.sprints[state.selectedBoard.boardId].map(v => {
-      //   console.log(v);
-      //   v.isSelected = (state.selectedBoard.boardId === v.boardId) ? true : false;
-      //   return v;
-      // });
-      // console.log(newSprints);
-      // data.sprints[state.selectedBoard.boardId] = newSprints;
-      // state.sprints = JSON.stringify(data.sprints);
-      // DataStore.set("sprints", JSON.stringify(data.sprints));
     }
   },
   actions: {
@@ -185,17 +159,17 @@ export default {
           });
       });
     },
-    loadGraph({state, getters, commit, rootState}) {
+    loadGraph({state, commit, rootState}) {
       return new Promise((resolve, reject) => {
-        if (!getters.getSelectedSprint) {
+        if (!state.selectedSprint) {
           commit('END_GRAPH_LOADING', {
             status: SUCCESS
           });
           resolve();
         }
         ApiClient.getChartData(encrypt(rootState.trelloAuth.token), encrypt(rootState.trelloAuth.devKey),
-          state.selectedBoard.boardId, getters.getSelectedSprint.startDate,
-          getters.getSelectedSprint.endDate, getters.getSelectedSprint.holidays)
+          state.selectedBoard.boardId, state.selectedSprint.startDate,
+          state.selectedSprint.endDate, state.selectedSprint.holidays)
           .then(json => {
             commit('SET_CHART_OPTIONS', {
               elements: {
