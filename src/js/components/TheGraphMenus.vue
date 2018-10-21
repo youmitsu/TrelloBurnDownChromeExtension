@@ -3,7 +3,6 @@
   color="transparent"
   extended
 >
-  <v-toolbar-side-icon></v-toolbar-side-icon>
   <v-toolbar-title>Graph</v-toolbar-title>
   <v-spacer></v-spacer>
   <v-btn icon>
@@ -108,7 +107,7 @@ export default {
     },
     showSprintNew() {
       this.$store.commit('SET_CURRENT_VIEW', {
-        view: 'sprintNew',
+        view: 'sprint',
         isHome: false
       });
     }

@@ -5,7 +5,6 @@
     scroll-off-screen
     scroll-target="#scrolling-target"
   >
-    <v-toolbar-side-icon></v-toolbar-side-icon>
     <v-toolbar-title>Sprints</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn icon>

@@ -3,7 +3,12 @@
   <graph-view v-show="isGraphView"></graph-view>
   <sprints-view v-show="isSprintsView"></sprints-view>
   <setting-view v-show="isSettingView"></setting-view>
-  <v-bottom-nav :active.sync="currentView.view" :value="true">
+  <v-bottom-nav
+    :active.sync="currentView.view"
+    :value="true"
+    fixed
+    color="white"
+  >
     <v-btn color="teal" flat value="graph">
       <span>GRAPH</span>
       <v-icon>show_chart</v-icon>
