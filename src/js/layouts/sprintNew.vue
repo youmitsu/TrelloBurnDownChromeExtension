@@ -143,11 +143,8 @@ export default {
     back() {
       this.$store.commit('SET_CURRENT_VIEW', {
         isHome: true,
-        view: 'graph'
+        view: 'sprints'
       });
-    },
-    selectBoard() {
-
     },
     save() {
       this.$store.dispatch('graph/saveSprint', {
