@@ -76,12 +76,10 @@ export default {
       state.boardLoadState.status = result.status;
     },
     START_GRAPH_LOADING(state) {
-      console.log("start_loading");
       state.graphLoadState.loading = true;
       state.graphLoadState.status = DEFAULT;
     },
     END_GRAPH_LOADING(state, result) {
-      console.log(`end_loading ${result.status}`);
       state.graphLoadState.loading = false;
       state.graphLoadState.status = result.status;
     },
@@ -101,6 +99,10 @@ export default {
     SET_SELECTED_SPRINT(state, data) {
       state.selectedSprint = data.value;
       DataStore.set("selectedSprint", JSON.stringify(data.value));
+    },
+    DELETE_SPRINT(state, data) {
+      state.sprints[data.board.boardId].splice(data.index, 1);
+      DataStore.set("sprints", JSON.stringify(state.sprints));
     }
   },
   actions: {
@@ -218,6 +220,9 @@ export default {
         view: 'graph',
         isHome: true
       }, { root: true });
+    },
+    deleteSprint({state, commit}, data) {
+      commit('DELETE_SPRINT', data);
     }
   }
 }
