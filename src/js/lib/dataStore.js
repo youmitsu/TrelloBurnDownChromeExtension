@@ -12,3 +12,7 @@ export function set(key, value) {
 export function get(key) {
   return !localStorage.getItem(key) ? "" : localStorage.getItem(key);
 }
+
+export function remove() {
+  
+}
