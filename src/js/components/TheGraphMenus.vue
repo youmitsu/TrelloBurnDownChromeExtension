@@ -6,9 +6,6 @@
   <v-toolbar-title>Graph</v-toolbar-title>
   <v-spacer></v-spacer>
   <v-btn icon>
-    <v-icon @click="showSprintNew">add</v-icon>
-  </v-btn>
-  <v-btn icon>
     <v-icon @click="reload">sync</v-icon>
   </v-btn>
   <v-flex xs12 sm6 d-flex slot="extension">
@@ -104,12 +101,6 @@ export default {
   methods: {
     reload() {
       this.$store.dispatch('graph/reload');
-    },
-    showSprintNew() {
-      this.$store.commit('SET_CURRENT_VIEW', {
-        view: 'sprint',
-        isHome: false
-      });
     }
   }
 }
