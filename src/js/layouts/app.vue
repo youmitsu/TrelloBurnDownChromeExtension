@@ -1,49 +1,31 @@
 <template>
 <div>
-  <graph-view v-show="isGraphView"></graph-view>
-  <setting-view v-show="isSettingView"></setting-view>
-  <v-bottom-nav :active.sync="currentView" :value="true">
-    <v-btn color="teal" flat value="graph">
-      <span>GRAPH</span>
-      <v-icon>show_chart</v-icon>
-    </v-btn>
-    <v-btn color="teal" flat value="setting">
-      <span>SETTING</span>
-      <v-icon>settings</v-icon>
-    </v-btn>
-  </v-bottom-nav>
+  <home-view v-show="isHome"></home-view>
+  <sprint-new v-show="isSprintNew"></sprint-new>
 </div>
 </template>
 <script>
+import * as DataStore from '../lib/dataStore.js';
 import viewType from '../common/viewType.js';
-import graphView from './graphView.vue';
-import settingView from './settingView.vue';
+import homeView from './home.vue';
+import sprintNew from './sprintNew.vue';
 
 export default {
-  data() {
-    return {
-      active: null
-    }
+  created() {
+    this.$store.commit('setting/SET_INITIAL_STATE');
+    this.$store.commit('graph/SET_INITIAL_STATE');
   },
   computed: {
-    isGraphView() {
-      return this.$store.state.current == viewType.GRAPH.name;
+    isHome() {
+      return this.$store.state.current.isHome;
     },
-    isSettingView() {
-      return this.$store.state.current == viewType.SETTING.name;
-    },
-    currentView: {
-      get() {
-        return this.$store.state.current;
-      },
-      set(value) {
-        this.$store.commit('SET_CURRENT_VIEW', value);
-      }
+    isSprintNew() {
+      return !this.$store.state.current.isHome && this.$store.state.current.view == viewType.SPRINT_NEW.name;
     }
   },
   components: {
-    "graph-view": graphView,
-    "setting-view": settingView
+    "home-view": homeView,
+    "sprint-new": sprintNew
   }
 }
 </script>

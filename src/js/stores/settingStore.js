@@ -11,13 +11,13 @@ export default {
   namespaced: true,
   state: {
     serverAuth: {
-      baseUrl: DataStore.get('baseUrl'),
+      baseUrl: null,
       loading: false,
       status: DEFAULT
     },
     trelloAuth: {
-      devKey: DataStore.get('devKey'),
-      token: DataStore.get('token'),
+      devKey: null,
+      token: null,
       loading: false,
       status: DEFAULT
     },
@@ -45,6 +45,11 @@ export default {
     }
   },
   mutations: {
+    SET_INITIAL_STATE(state) {
+      state.serverAuth.baseUrl = DataStore.get('baseUrl');
+      state.trelloAuth.devKey = DataStore.get('devKey');
+      state.trelloAuth.token = DataStore.get('token');
+    },
     SET_BASEURL(state, baseUrl) {
       state.serverAuth.baseUrl = baseUrl;
       DataStore.set('baseUrl', state.serverAuth.baseUrl);

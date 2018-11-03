@@ -37,10 +37,13 @@ const store = new Vuex.Store({
       status: DEFAULT
     },
     trelloAuth: {
-      token: localStorage.getItem('token'),
-      devKey: localStorage.getItem('devKey')
+      token: DataStore.get('token'),
+      devKey: DataStore.get('devKey')
     },
-    current: 'graph'
+    current: {
+      isHome: true,
+      view: 'graph'
+    }
   },
   getters: {
     isTrelloAuthenticated: state => {
@@ -51,7 +54,8 @@ const store = new Vuex.Store({
   },
   mutations: {
     SET_CURRENT_VIEW(state, value) {
-      state.current = value;
+      state.current.isHome = value.isHome;
+      state.current.view = value.view;
     }
   },
   modules: {

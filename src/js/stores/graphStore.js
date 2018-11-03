@@ -14,8 +14,8 @@ export default {
       status: DEFAULT
     },
     selectedBoard: {
-      boardId: DataStore.get('boardId'),
-      boardName: DataStore.get('boardName')
+      boardId: null,
+      boardName: null
     },
     boardLoadState: {
       loading: false,
@@ -23,12 +23,11 @@ export default {
     },
     boardItems: [],
     graph: {
-      startDate: DataStore.get('startDate'),
-      endDate: DataStore.get('endDate'),
-      holidays: DataStore.get('holidays'),
       data: null,
       options: null
-    }
+    },
+    sprints: null,
+    selectedSprint: null
   },
   getters: {
     boardList: state => {
@@ -40,11 +39,17 @@ export default {
     isGraphLoadingError: state => {
       return !state.graphLoadState.loading && state.graphLoadState.status === FAILED;
     },
-    holidaysArr: state => {
-      return state.graph.holidays.split(',');
+    sprintsOfBoard: (state, getters) => (boardId) => {
+      return state.sprints[boardId] || [];
     }
   },
   mutations: {
+    SET_INITIAL_STATE(state) {
+      state.selectedBoard.boardId = DataStore.get('boardId');
+      state.selectedBoard.boardName = DataStore.get('boardName');
+      state.sprints = JSON.parse(DataStore.get('sprints'));
+      state.selectedSprint = JSON.parse(DataStore.get('selectedSprint'));
+    },
     SET_SELECT_BOARD(state, boardItem) {
       state.selectedBoard = boardItem;
       DataStore.set('boardId', state.selectedBoard.boardId);
@@ -86,6 +91,18 @@ export default {
     },
     SET_CHART_OPTIONS(state, data) {
       state.graph.options = data;
+    },
+    SET_SPRINT(state, data) {
+      state.sprints = data;
+      DataStore.set("sprints", JSON.stringify(data));
+    },
+    SET_SELECTED_SPRINT(state, data) {
+      state.selectedSprint = data.value;
+      DataStore.set("selectedSprint", JSON.stringify(data.value));
+    },
+    DELETE_SPRINT(state, data) {
+      state.sprints[data.board.boardId].splice(data.index, 1);
+      DataStore.set("sprints", JSON.stringify(state.sprints));
     }
   },
   actions: {
@@ -146,9 +163,15 @@ export default {
     },
     loadGraph({state, commit, rootState}) {
       return new Promise((resolve, reject) => {
+        if (!state.selectedSprint) {
+          commit('END_GRAPH_LOADING', {
+            status: SUCCESS
+          });
+          resolve();
+        }
         ApiClient.getChartData(encrypt(rootState.trelloAuth.token), encrypt(rootState.trelloAuth.devKey),
-          state.selectedBoard.boardId, state.graph.startDate,
-          state.graph.endDate, state.graph.holidays)
+          state.selectedBoard.boardId, state.selectedSprint.startDate,
+          state.selectedSprint.endDate, state.selectedSprint.holidays)
           .then(json => {
             commit('SET_CHART_OPTIONS', {
               elements: {
@@ -175,6 +198,31 @@ export default {
             reject(err);
           });
       });
+    },
+    saveSprint({commit}, data) {
+      if(!data || 0 === Object.keys(data).length) {
+        return;
+      }
+      let old = DataStore.get("sprints") ? JSON.parse(DataStore.get("sprints")) : {};
+      if (!old[data.board.boardId]) {
+        old[data.board.boardId] = [];
+      }
+      old[data.board.boardId].push({
+        name: data.name,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        holidays: data.holidays,
+        isSelected: data.isSelected
+      });
+      commit('SET_SPRINT', old);
+      //TODO: ダイアログ出して遷移先を選択させる
+      commit('SET_CURRENT_VIEW', {
+        view: 'graph',
+        isHome: true
+      }, { root: true });
+    },
+    deleteSprint({state, commit}, data) {
+      commit('DELETE_SPRINT', data);
     }
   }
 }
