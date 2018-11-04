@@ -20,13 +20,14 @@ export default {
   },
   computed: {
     isHome() {
-      return this.$store.state.current.isHome;
+      return !this.$store.getters.shouldShowTutorial && this.$store.state.current.isHome;
     },
     isSprintNew() {
-      return !this.$store.state.current.isHome && this.$store.state.current.view == viewType.SPRINT_NEW.name;
+      return !this.$store.getters.shouldShowTutorial &&
+        !this.$store.state.current.isHome &&
+        this.$store.state.current.view == viewType.SPRINT_NEW.name;
     },
     shouldShowTutorialView() {
-      console.log(this.$store.getters.shouldShowTutorial);
       return this.$store.getters.shouldShowTutorial;
     }
   },
