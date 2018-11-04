@@ -43,16 +43,29 @@ const store = new Vuex.Store({
     current: {
       isHome: true,
       view: 'graph'
+    },
+    launch: {
+      server: false,
+      trello: false,
+      available: false
     }
   },
   getters: {
     isTrelloAuthenticated: state => {
       return state.trelloAuth.token && state.trelloAuth.devKey;
+    },
+    shouldShowTutorial: state => {
+      return Object.keys(state.launch).filter(v => !state.launch[v]).length > 0;
     }
   },
   actions: {
   },
   mutations: {
+    SET_INITIAL_STATE(state) {
+      if(DataStore.get('launch')) {
+        state.launch = JSON.parse(DataStore.get('launch'));
+      }
+    },
     SET_CURRENT_VIEW(state, value) {
       state.current.isHome = value.isHome;
       state.current.view = value.view;
