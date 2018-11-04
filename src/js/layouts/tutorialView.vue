@@ -1,12 +1,15 @@
 <template>
 <div>
-  <v-stepper v-model="e1">
+  <v-toolbar>
+    <v-toolbar-title>First Settings</v-toolbar-title>
+  </v-toolbar>
+  <v-stepper v-model="pageNumber">
     <v-stepper-header>
-      <v-stepper-step :complete="e1 > 1" step="1">Name of step 1</v-stepper-step>
+      <v-stepper-step :complete="pageNumber > 1" step="1">Name of step 1</v-stepper-step>
 
       <v-divider></v-divider>
 
-      <v-stepper-step :complete="e1 > 2" step="2">Name of step 2</v-stepper-step>
+      <v-stepper-step :complete="pageNumber > 2" step="2">Name of step 2</v-stepper-step>
 
       <v-divider></v-divider>
 
@@ -14,33 +17,35 @@
     </v-stepper-header>
     <v-stepper-items>
       <v-stepper-content step="1">
-        <v-card
-          class="mb-5"
-          color="grey lighten-1"
-          height="200px"
-        ></v-card>
-
-        <v-btn
-          color="primary"
-          @click="e1 = 2"
-        >
-          Continue
-        </v-btn>
-        <v-btn flat>Cancel</v-btn>
+        <tutorial-server></tutorial-server>
+        <v-btn color="primary" @click="pageNumber = 2">Next</v-btn>
+      </v-stepper-content>
+      <v-stepper-content step="2">
+        <tutorial-server></tutorial-server>
+        <v-btn color="primary" @click="pageNumber = 3">Next</v-btn>
+        <v-btn flat @click="pageNumber = 1">Previous</v-btn>
+      </v-stepper-content>
+      <v-stepper-content step="3">
+        <tutorial-server></tutorial-server>
+        <v-btn color="primary" @click="">Completed!</v-btn>
+        <v-btn flat @click="pageNumber = 2">Previous</v-btn>
       </v-stepper-content>
     </v-stepper-items>
-  </v-stepper v-model="e1">
+  </v-stepper>
 </div>
 </template>
 <script>
+import tutorialServer from '../components/TheTutorialServer.vue';
 export default {
   data() {
     return {
-      e1: 1
+      pageNumber: 1
     }
   },
   created: function() {},
   methods: {},
-  components: {}
+  components: {
+    "tutorial-server": tutorialServer
+  }
 }
 </script>
