@@ -106,7 +106,12 @@ export default {
       this.$store.dispatch('graph/reload');
     },
     exportGraph() {
-      console.log("hoge");
+      let a = document.createElement('A');
+      a.download = 'image.png';
+      a.href = this.$store.state.graph.graphImage;
+      document.body.appendChild(a);
+      a.click(); //自動ダウンロード
+      document.body.removeChild(a);
     }
   }
 }

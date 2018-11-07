@@ -183,6 +183,11 @@ export default {
                   tension: 0
                 }
               },
+              animation: {
+          			onComplete: function(animation){
+                  commit("SET_GRAPH_IMAGE", this.toBase64Image());
+          			}
+          		},
               responsive: true,
               maintainAspectRatio: false,
             });

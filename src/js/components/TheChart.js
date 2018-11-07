@@ -7,6 +7,5 @@ export default {
   props: ['options'],
   mounted () {
     this.renderChart(this.chartData, this.options);
-    this.$store.commit("graph/SET_GRAPH_IMAGE", this.$data._chart.toBase64Image());
   }
 }
