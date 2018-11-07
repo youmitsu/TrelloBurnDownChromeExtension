@@ -9,7 +9,7 @@
     <v-icon @click="reload">sync</v-icon>
   </v-btn>
   <v-btn icon>
-    <v-icon @click="exportGraph">save</v-icon>
+    <v-icon @click="exportGraph">image</v-icon>
   </v-btn>
   <v-flex xs12 sm6 d-flex slot="extension">
     <v-select
@@ -107,7 +107,7 @@ export default {
     },
     exportGraph() {
       let a = document.createElement('A');
-      a.download = 'image.png';
+      a.download = `${this.selectedBoard.boardName}-${this.selectedSprint.name}.png`;
       a.href = this.$store.state.graph.graphImage;
       document.body.appendChild(a);
       a.click(); //自動ダウンロード
