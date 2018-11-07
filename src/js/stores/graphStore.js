@@ -27,7 +27,8 @@ export default {
       options: null
     },
     sprints: null,
-    selectedSprint: null
+    selectedSprint: null,
+    graphImage: null
   },
   getters: {
     boardList: state => {
@@ -103,6 +104,9 @@ export default {
     DELETE_SPRINT(state, data) {
       state.sprints[data.board.boardId].splice(data.index, 1);
       DataStore.set("sprints", JSON.stringify(state.sprints));
+    },
+    SET_GRAPH_IMAGE(state, data) {
+      state.graphImage = data;
     }
   },
   actions: {
@@ -179,6 +183,11 @@ export default {
                   tension: 0
                 }
               },
+              animation: {
+          			onComplete: function(animation){
+                  commit("SET_GRAPH_IMAGE", this.toBase64Image());
+          			}
+          		},
               responsive: true,
               maintainAspectRatio: false,
             });

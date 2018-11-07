@@ -47,6 +47,8 @@ export default {
       return this.$store.state.graph.graph.options;
     }
   },
+  methods: {
+  },
   components: {
     'burndown-chart': TheChart
   }

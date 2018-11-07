@@ -8,6 +8,9 @@
   <v-btn icon>
     <v-icon @click="reload">sync</v-icon>
   </v-btn>
+  <v-btn icon>
+    <v-icon @click="exportGraph">image</v-icon>
+  </v-btn>
   <v-flex xs12 sm6 d-flex slot="extension">
     <v-select
       v-model="selectedBoard"
@@ -101,6 +104,14 @@ export default {
   methods: {
     reload() {
       this.$store.dispatch('graph/reload');
+    },
+    exportGraph() {
+      let a = document.createElement('A');
+      a.download = `${this.selectedBoard.boardName}-${this.selectedSprint.name}.png`;
+      a.href = this.$store.state.graph.graphImage;
+      document.body.appendChild(a);
+      a.click(); //自動ダウンロード
+      document.body.removeChild(a);
     }
   }
 }
