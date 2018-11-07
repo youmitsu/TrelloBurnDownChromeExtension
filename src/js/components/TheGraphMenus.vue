@@ -8,6 +8,9 @@
   <v-btn icon>
     <v-icon @click="reload">sync</v-icon>
   </v-btn>
+  <v-btn icon>
+    <v-icon @click="">save</v-icon>
+  </v-btn>
   <v-flex xs12 sm6 d-flex slot="extension">
     <v-select
       v-model="selectedBoard"
