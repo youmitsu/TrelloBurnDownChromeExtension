@@ -9,7 +9,7 @@
     <v-icon @click="reload">sync</v-icon>
   </v-btn>
   <v-btn icon>
-    <v-icon @click="">save</v-icon>
+    <v-icon @click="exportGraph">save</v-icon>
   </v-btn>
   <v-flex xs12 sm6 d-flex slot="extension">
     <v-select
@@ -104,6 +104,9 @@ export default {
   methods: {
     reload() {
       this.$store.dispatch('graph/reload');
+    },
+    exportGraph() {
+      console.log("hoge");
     }
   }
 }
