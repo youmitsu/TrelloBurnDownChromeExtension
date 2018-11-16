@@ -4,6 +4,7 @@
     <v-text-field
       v-model="baseUrl"
       label="BaseUrl"
+      :rules="rules"
       required
       :append-outer-icon="loadResultIcon"
       :loading="isLoading"
@@ -17,6 +18,9 @@ export default {
   data: function() {
     return {
       valid: false,
+      rules: [
+        value => !!value || 'Required'
+      ]
     }
   },
   computed: {
