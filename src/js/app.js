@@ -48,7 +48,7 @@ const store = new Vuex.Store({
     launch: {
       server: false,
       trello: false,
-      available: false
+      board: false
     }
   },
   getters: {
@@ -57,6 +57,17 @@ const store = new Vuex.Store({
     },
     shouldShowTutorial: state => {
       return Object.keys(state.launch).filter(v => !state.launch[v]).length > 0;
+    },
+    tutorialPosition: state => {
+      let isInitial = false;
+      let position = 0;
+      Object.keys(state.launch).forEach((v, i, a) => {
+        if(!state.launch[v] && !isInitial) {
+          isInitial = true;
+          position = i + 1;
+        }
+      });
+      return position == 0 ? Object.keys(state.launch).length : position;
     }
   },
   actions: {

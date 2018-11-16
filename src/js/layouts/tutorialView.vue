@@ -43,10 +43,9 @@ import tutorialBoard from '../components/TheTutorialServer.vue';
 export default {
   data() {
     return {
-      pageNumber: 1
+      pageNumber: this.$store.getters.tutorialPosition
     }
   },
-  created: function() {},
   computed: {
     isDisabledServerNext() {
       return this.$store.state.serverAuth.status == FAILED || this.$store.state.serverAuth.loading;
