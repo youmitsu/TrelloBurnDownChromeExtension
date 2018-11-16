@@ -21,10 +21,10 @@ export default {
   computed: {
     baseUrl: {
       get() {
-        return this.$store.state.setting.serverAuth.baseUrl;
+        return this.$store.state.serverAuth.baseUrl;
       },
       set(value) {
-        // this.$store.dispatch(this.actionNameSpace, value);
+        //this.$store.dispatch(this.actionNameSpace, value);
       }
     }
   }

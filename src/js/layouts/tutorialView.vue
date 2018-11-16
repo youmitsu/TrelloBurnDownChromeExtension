@@ -21,12 +21,12 @@
         <v-btn color="primary" @click="pageNumber = 2">Next</v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
-        <tutorial-server></tutorial-server>
+        <tutorial-trello></tutorial-trello>
         <v-btn color="primary" @click="pageNumber = 3">Next</v-btn>
         <v-btn flat @click="pageNumber = 1">Previous</v-btn>
       </v-stepper-content>
       <v-stepper-content step="3">
-        <tutorial-server></tutorial-server>
+        <tutorial-board></tutorial-board>
         <v-btn color="primary" @click="">Completed!</v-btn>
         <v-btn flat @click="pageNumber = 2">Previous</v-btn>
       </v-stepper-content>
@@ -36,6 +36,9 @@
 </template>
 <script>
 import tutorialServer from '../components/TheTutorialServer.vue';
+import tutorialTrello from '../components/TheTutorialServer.vue';
+import tutorialBoard from '../components/TheTutorialServer.vue';
+
 export default {
   data() {
     return {
@@ -45,7 +48,9 @@ export default {
   created: function() {},
   methods: {},
   components: {
-    "tutorial-server": tutorialServer
+    "tutorial-server": tutorialServer,
+    "tutorial-trello": tutorialTrello,
+    "tutorial-board": tutorialBoard
   }
 }
 </script>
