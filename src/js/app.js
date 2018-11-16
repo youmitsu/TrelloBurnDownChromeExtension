@@ -18,6 +18,7 @@ import { GRAPH, SETTING } from './common/viewType.js';
 
 //Utils
 import * as DataStore from './lib/dataStore.js';
+import * as ApiClient from './lib/apiClient.js';
 
 //Stores
 import graphStore from './stores/graphStore.js';
@@ -59,6 +60,20 @@ const store = new Vuex.Store({
     }
   },
   actions: {
+    checkServer({ commit }, baseUrl) {
+      commit('START_SERVER_LOADING');
+      ApiClient.checkServerUrl(baseUrl)
+        .then(data => {
+          commit('END_SERVER_LOADING', {
+            status: SUCCESS
+          });
+        })
+        .catch(err => {
+          commit('END_SERVER_LOADING', {
+            status: FAILED
+          });
+        });
+    }
   },
   mutations: {
     SET_INITIAL_STATE(state) {
@@ -69,7 +84,15 @@ const store = new Vuex.Store({
     SET_CURRENT_VIEW(state, value) {
       state.current.isHome = value.isHome;
       state.current.view = value.view;
-    }
+    },
+    START_SERVER_LOADING(state) {
+      state.serverAuth.loading = true;
+      state.serverAuth.status = DEFAULT;
+    },
+    END_SERVER_LOADING(state, result) {
+      state.serverAuth.loading = false;
+      state.serverAuth.status = result.status;
+    },
   },
   modules: {
     graph: graphStore,
