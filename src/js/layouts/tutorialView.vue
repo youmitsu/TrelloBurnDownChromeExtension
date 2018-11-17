@@ -18,17 +18,17 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <tutorial-server></tutorial-server>
-        <v-btn color="primary" @click="pageNumber = 2" :disabled="isDisabledServerNext">Next</v-btn>
+        <v-btn color="primary" @click="movePage(2)" :disabled="isDisabledServerNext">Next</v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
         <tutorial-trello></tutorial-trello>
-        <v-btn color="primary" @click="pageNumber = 3">Next</v-btn>
-        <v-btn flat @click="pageNumber = 1">Previous</v-btn>
+        <v-btn color="primary" @click="movePage(3)">Next</v-btn>
+        <v-btn flat @click="movePage(1)">Previous</v-btn>
       </v-stepper-content>
       <v-stepper-content step="3">
         <tutorial-board></tutorial-board>
         <v-btn color="primary" @click="">Completed!</v-btn>
-        <v-btn flat @click="pageNumber = 2">Previous</v-btn>
+        <v-btn flat @click="movePage(2)">Previous</v-btn>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -51,7 +51,11 @@ export default {
       return this.$store.state.serverAuth.status == FAILED || this.$store.state.serverAuth.loading;
     }
   },
-  methods: {},
+  methods: {
+    movePage(value) {
+      this.pageNumber = value;
+    }
+  },
   components: {
     "tutorial-server": tutorialServer,
     "tutorial-trello": tutorialTrello,

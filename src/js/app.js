@@ -78,6 +78,7 @@ const store = new Vuex.Store({
           commit('END_SERVER_LOADING', {
             status: SUCCESS
           });
+          commit('SET_LAUNCH_STATE', "server");
         })
         .catch(err => {
           commit('END_SERVER_LOADING', {
@@ -92,6 +93,10 @@ const store = new Vuex.Store({
         state.launch = JSON.parse(DataStore.get('launch'));
       }
     },
+    SET_LAUNCH_STATE(state, key) {
+      state.launch[key] = true;
+      DataStore.set('launch', JSON.stringify(state.launch));
+    },
     SET_CURRENT_VIEW(state, value) {
       state.current.isHome = value.isHome;
       state.current.view = value.view;
@@ -103,7 +108,7 @@ const store = new Vuex.Store({
     END_SERVER_LOADING(state, result) {
       state.serverAuth.loading = false;
       state.serverAuth.status = result.status;
-    },
+    }
   },
   modules: {
     graph: graphStore,
