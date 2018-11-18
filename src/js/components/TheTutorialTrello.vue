@@ -4,15 +4,20 @@
     <v-text-field
       v-model="devKey"
       label="Developer Key"
-      :rules="rules"
       required
       :loading="isLoading"
     ></v-text-field>
+    <v-btn
+      v-if="!devKey"
+      @click="openKeyPage"
+    >
+       <v-icon left>input</v-icon>
+       GET YOUR DEVKEY
+    </v-btn>
     <v-text-field
       :type="tokenInputType"
       v-model="token"
       label="Token"
-      :rules="rules"
       required
       :append-icon="maskingIcon"
       :append-outer-icon="loadResultIcon"
@@ -20,6 +25,13 @@
       v-if="devKeyState"
       @click:append="toggleTrelloMask"
     ></v-text-field>
+    <v-btn
+      v-if="!token"
+      @click="openTokenPage"
+    >
+       <v-icon left>input</v-icon>
+       GET YOUR TOKEN
+    </v-btn>
   </v-form>
 </v-container>
 </template>
@@ -29,9 +41,6 @@ export default {
   data: function() {
     return {
       valid: false,
-      rules: [
-        value => !!value || 'Required'
-      ],
       shouldTokenMasking: true
     }
   },
@@ -41,7 +50,7 @@ export default {
         return this.$store.state.trelloAuth.devKey;
       },
       set(value) {
-        //this.$store.dispatch('checkServer', value);
+        this.$store.dispatch('checkServer', value);
       }
     },
     devKeyState() {
@@ -52,7 +61,7 @@ export default {
         return this.$store.state.trelloAuth.token;
       },
       set(value) {
-        //this.$store.dispatch('checkServer', value);
+        this.$store.dispatch('checkServer', value);
       }
     },
     maskingIcon() {
@@ -80,6 +89,12 @@ export default {
       } else {
         this.shouldTokenMasking = true;
       }
+    },
+    openKeyPage() {
+      this.$store.dispatch('setting/openKeyPage');
+    },
+    openTokenPage() {
+      this.$store.dispatch('setting/openTokenPage');
     }
   }
 }
