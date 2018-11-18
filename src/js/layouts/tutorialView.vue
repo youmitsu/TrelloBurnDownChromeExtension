@@ -37,8 +37,8 @@
 <script>
 import { SUCCESS, FAILED, DEFAULT } from '../common/loadStatusType.js';
 import tutorialServer from '../components/TheTutorialServer.vue';
-import tutorialTrello from '../components/TheTutorialServer.vue';
-import tutorialBoard from '../components/TheTutorialServer.vue';
+import tutorialTrello from '../components/TheTutorialTrello.vue';
+import tutorialBoard from '../components/TheTutorialBoard.vue';
 
 export default {
   data() {

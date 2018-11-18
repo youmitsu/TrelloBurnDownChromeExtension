@@ -39,7 +39,9 @@ const store = new Vuex.Store({
     },
     trelloAuth: {
       token: DataStore.get('token'),
-      devKey: DataStore.get('devKey')
+      devKey: DataStore.get('devKey'),
+      loading: false,
+      status: DEFAULT
     },
     current: {
       isHome: true,
@@ -85,6 +87,22 @@ const store = new Vuex.Store({
             status: FAILED
           });
         });
+    },
+    checkTrelloApi({ state, getters, commit }) {
+      if (getters.isTrelloAuthenticated) {
+        commit('START_TRELLO_LOADING');
+        ApiClient.getUser(state.trelloAuth.token, state.trelloAuth.devKey)
+          .then(data => {
+            commit('END_TRELLO_LOADING', {
+              status: SUCCESS
+            });
+          })
+          .catch(err => {
+            commit('END_TRELLO_LOADING', {
+              status: FAILED
+            });
+          });
+      }
     }
   },
   mutations: {
