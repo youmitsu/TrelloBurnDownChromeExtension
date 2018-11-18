@@ -73,18 +73,25 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    checkServer({ commit }, baseUrl) {
+    checkServer({ state, commit }) {
       commit('START_SERVER_LOADING');
-      ApiClient.checkServerUrl(baseUrl)
+      ApiClient.checkServerUrl(state.serverAuth.baseUrl)
         .then(data => {
           commit('END_SERVER_LOADING', {
             status: SUCCESS
           });
-          commit('SET_LAUNCH_STATE', "server");
+          commit('SET_LAUNCH_STATE', {
+            key: "server",
+            flg: true
+          });
         })
         .catch(err => {
           commit('END_SERVER_LOADING', {
             status: FAILED
+          });
+          commit('SET_LAUNCH_STATE', {
+            key: "server",
+            flg: false
           });
         });
     },
@@ -96,13 +103,25 @@ const store = new Vuex.Store({
             commit('END_TRELLO_LOADING', {
               status: SUCCESS
             });
+            commit('SET_LAUNCH_STATE', {
+              key: "trello",
+              flg: true
+            });
           })
           .catch(err => {
             commit('END_TRELLO_LOADING', {
               status: FAILED
             });
+            commit('SET_LAUNCH_STATE', {
+              key: "trello",
+              flg: false
+            });
           });
       }
+    },
+    validateBaseUrl({ commit, dispatch }, value) {
+      commit('SET_BASEURL', value);
+      dispatch('checkServer');
     },
     validateTrelloToken({ commit, dispatch }, value) {
       commit('SET_TOKEN', value);
@@ -119,8 +138,8 @@ const store = new Vuex.Store({
         state.launch = JSON.parse(DataStore.get('launch'));
       }
     },
-    SET_LAUNCH_STATE(state, key) {
-      state.launch[key] = true;
+    SET_LAUNCH_STATE(state, obj) {
+      state.launch[obj.key] = obj.flg;
       DataStore.set('launch', JSON.stringify(state.launch));
     },
     SET_CURRENT_VIEW(state, value) {
