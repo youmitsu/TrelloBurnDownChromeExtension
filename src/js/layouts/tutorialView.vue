@@ -22,7 +22,7 @@
       </v-stepper-content>
       <v-stepper-content step="2">
         <tutorial-trello></tutorial-trello>
-        <v-btn color="primary" @click="movePage(3)">Next</v-btn>
+        <v-btn color="primary" @click="movePage(3)" :disabled="isDisabledTrelloNext">Next</v-btn>
         <v-btn flat @click="movePage(1)">Previous</v-btn>
       </v-stepper-content>
       <v-stepper-content step="3">
@@ -37,8 +37,8 @@
 <script>
 import { SUCCESS, FAILED, DEFAULT } from '../common/loadStatusType.js';
 import tutorialServer from '../components/TheTutorialServer.vue';
-import tutorialTrello from '../components/TheTutorialServer.vue';
-import tutorialBoard from '../components/TheTutorialServer.vue';
+import tutorialTrello from '../components/TheTutorialTrello.vue';
+import tutorialBoard from '../components/TheTutorialBoard.vue';
 
 export default {
   data() {
@@ -49,6 +49,9 @@ export default {
   computed: {
     isDisabledServerNext() {
       return this.$store.state.serverAuth.status == FAILED || this.$store.state.serverAuth.loading;
+    },
+    isDisabledTrelloNext() {
+      return this.$store.state.trelloAuth.status == FAILED || this.$store.state.trelloAuth.loading;
     }
   },
   methods: {

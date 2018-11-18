@@ -29,7 +29,7 @@ export default {
         return this.$store.state.serverAuth.baseUrl;
       },
       set(value) {
-        this.$store.dispatch('checkServer', value);
+        this.$store.dispatch('validateBaseUrl', value);
       }
     },
     loadResultIcon() {
