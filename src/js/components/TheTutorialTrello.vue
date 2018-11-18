@@ -22,7 +22,7 @@
       :append-icon="maskingIcon"
       :append-outer-icon="loadResultIcon"
       :loading="isLoading"
-      v-if="devKeyState"
+      v-if="!!devKey"
       @click:append="toggleTrelloMask"
     ></v-text-field>
     <v-btn
@@ -50,18 +50,15 @@ export default {
         return this.$store.state.trelloAuth.devKey;
       },
       set(value) {
-        this.$store.dispatch('checkServer', value);
+        this.$store.dispatch('validateTrelloDevKey', value);
       }
-    },
-    devKeyState() {
-      return this.$store.state.setting.trelloAuth.devKey;
     },
     token: {
       get() {
         return this.$store.state.trelloAuth.token;
       },
       set(value) {
-        this.$store.dispatch('checkServer', value);
+        this.$store.dispatch('validateTrelloToken', value);
       }
     },
     maskingIcon() {
