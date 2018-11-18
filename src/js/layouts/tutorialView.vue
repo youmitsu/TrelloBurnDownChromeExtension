@@ -1,19 +1,21 @@
 <template>
 <div>
-  <v-toolbar>
-    <v-toolbar-title>First Settings</v-toolbar-title>
+  <v-toolbar
+    color="blue"
+  >
+    <v-toolbar-title>FirstSettings {{pageNumber}}: {{subTitle[pageNumber-1]}}</v-toolbar-title>
   </v-toolbar>
   <v-stepper v-model="pageNumber">
     <v-stepper-header>
-      <v-stepper-step :complete="pageNumber > 1" step="1">Name of step 1</v-stepper-step>
+      <v-stepper-step :complete="pageNumber > 1" step="1"></v-stepper-step>
 
       <v-divider></v-divider>
 
-      <v-stepper-step :complete="pageNumber > 2" step="2">Name of step 2</v-stepper-step>
+      <v-stepper-step :complete="pageNumber > 2" step="2"></v-stepper-step>
 
       <v-divider></v-divider>
 
-      <v-stepper-step step="3">Name of step 3</v-stepper-step>
+      <v-stepper-step step="3"></v-stepper-step>
     </v-stepper-header>
     <v-stepper-items>
       <v-stepper-content step="1">
@@ -43,7 +45,12 @@ import tutorialBoard from '../components/TheTutorialBoard.vue';
 export default {
   data() {
     return {
-      pageNumber: this.$store.getters.tutorialPosition
+      pageNumber: this.$store.getters.tutorialPosition,
+      subTitle: [
+        "Server side settings",
+        "Trello authentication settings",
+        "Select trello boards to use"
+      ]
     }
   },
   computed: {
