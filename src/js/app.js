@@ -49,8 +49,7 @@ const store = new Vuex.Store({
     },
     launch: {
       server: false,
-      trello: false,
-      board: false
+      trello: false
     }
   },
   getters: {

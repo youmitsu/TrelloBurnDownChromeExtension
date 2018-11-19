@@ -1,37 +1,38 @@
 <template>
 <div>
-  <v-toolbar
-    color="blue"
-  >
+  <v-toolbar color="transparent">
     <v-toolbar-title>FirstSettings {{pageNumber}}: {{subTitle[pageNumber-1]}}</v-toolbar-title>
   </v-toolbar>
-  <v-stepper v-model="pageNumber">
+  <v-stepper
+    v-model="pageNumber"
+    class="mt-2"
+  >
     <v-stepper-header>
       <v-stepper-step :complete="pageNumber > 1" step="1"></v-stepper-step>
 
       <v-divider></v-divider>
 
       <v-stepper-step :complete="pageNumber > 2" step="2"></v-stepper-step>
-
+<!--
       <v-divider></v-divider>
 
-      <v-stepper-step step="3"></v-stepper-step>
+      <v-stepper-step step="3"></v-stepper-step> -->
     </v-stepper-header>
     <v-stepper-items>
       <v-stepper-content step="1">
         <tutorial-server></tutorial-server>
-        <v-btn color="primary" @click="movePage(2)" :disabled="isDisabledServerNext">Next</v-btn>
+        <v-btn color="primary" @click="movePage(2)" :disabled="isDisabledServerNext">NEXT</v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
         <tutorial-trello></tutorial-trello>
-        <v-btn color="primary" @click="movePage(3)" :disabled="isDisabledTrelloNext">Next</v-btn>
-        <v-btn flat @click="movePage(1)">Previous</v-btn>
+        <v-btn color="primary" @click="" :disabled="isDisabledTrelloNext">START!</v-btn>
+        <v-btn flat @click="movePage(1)">BACK</v-btn>
       </v-stepper-content>
-      <v-stepper-content step="3">
+      <!-- <v-stepper-content step="3">
         <tutorial-board></tutorial-board>
         <v-btn color="primary" @click="">Completed!</v-btn>
         <v-btn flat @click="movePage(2)">Previous</v-btn>
-      </v-stepper-content>
+      </v-stepper-content> -->
     </v-stepper-items>
   </v-stepper>
 </div>
@@ -40,7 +41,6 @@
 import { SUCCESS, FAILED, DEFAULT } from '../common/loadStatusType.js';
 import tutorialServer from '../components/TheTutorialServer.vue';
 import tutorialTrello from '../components/TheTutorialTrello.vue';
-import tutorialBoard from '../components/TheTutorialBoard.vue';
 
 export default {
   data() {
@@ -48,8 +48,7 @@ export default {
       pageNumber: this.$store.getters.tutorialPosition,
       subTitle: [
         "Server side settings",
-        "Trello authentication settings",
-        "Select trello boards to use"
+        "Trello authentication settings"
       ]
     }
   },
@@ -68,8 +67,7 @@ export default {
   },
   components: {
     "tutorial-server": tutorialServer,
-    "tutorial-trello": tutorialTrello,
-    "tutorial-board": tutorialBoard
+    "tutorial-trello": tutorialTrello
   }
 }
 </script>
