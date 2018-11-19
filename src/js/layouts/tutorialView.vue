@@ -25,7 +25,7 @@
       </v-stepper-content>
       <v-stepper-content step="2">
         <tutorial-trello></tutorial-trello>
-        <v-btn color="primary" @click="" :disabled="isDisabledTrelloNext">START!</v-btn>
+        <v-btn color="primary" @click="tutorialCompleted" :disabled="isDisabledTrelloNext">START!</v-btn>
         <v-btn flat @click="movePage(1)">BACK</v-btn>
       </v-stepper-content>
       <!-- <v-stepper-content step="3">
@@ -66,6 +66,12 @@ export default {
     },
     moveToHome() {
       this.$store.commit('SET_TUTORIAL_COMPLETED');
+    },
+    tutorialCompleted() {
+      this.$store.commit('SET_LAUNCH_STATE', {
+        key: "trello",
+        flg: true
+      });
     }
   },
   components: {

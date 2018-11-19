@@ -50,15 +50,14 @@ const store = new Vuex.Store({
     launch: {
       server: false,
       trello: false
-    },
-    tutorialCompleted: false
+    }
   },
   getters: {
     isTrelloAuthenticated: state => {
       return state.trelloAuth.token && state.trelloAuth.devKey;
     },
     shouldShowTutorial: state => {
-      return Object.keys(state.launch).filter(v => !state.launch[v]).length > 0 && !state.tutorialCompleted;
+      return Object.keys(state.launch).filter(v => !state.launch[v]).length > 0;
     },
     tutorialPosition: state => {
       let isInitial = false;
@@ -103,10 +102,6 @@ const store = new Vuex.Store({
             commit('END_TRELLO_LOADING', {
               status: SUCCESS
             });
-            commit('SET_LAUNCH_STATE', {
-              key: "trello",
-              flg: true
-            });
           })
           .catch(err => {
             commit('END_TRELLO_LOADING', {
@@ -130,14 +125,13 @@ const store = new Vuex.Store({
     validateTrelloDevKey({ commit, dispatch }, value) {
       commit('SET_DEVKEY', value);
       dispatch('checkTrelloApi');
-    },
+    }
   },
   mutations: {
     SET_INITIAL_STATE(state) {
       if(DataStore.get('launch')) {
         state.launch = JSON.parse(DataStore.get('launch'));
       }
-      state.tutorialCompleted = !!DataStore.get('tutorialCompleted');
     },
     SET_LAUNCH_STATE(state, obj) {
       state.launch[obj.key] = obj.flg;
@@ -174,10 +168,6 @@ const store = new Vuex.Store({
     SET_TOKEN(state, token) {
       state.trelloAuth.token = token;
       DataStore.set('token', state.trelloAuth.token);
-    },
-    SET_TUTORIAL_COMPLETED() {
-      state.tutorialCompleted = true;
-      DataStore.set('tutorialCompleted', state.tutorialCompleted);
     }
   },
   modules: {

@@ -1,5 +1,8 @@
   <template>
 <v-container>
+  <v-icon>
+    {{loadResultIcon}}
+  </v-icon>
   <v-form v-model="valid">
     <v-text-field
       v-model="devKey"
@@ -20,13 +23,12 @@
       label="Token"
       required
       :append-icon="maskingIcon"
-      :append-outer-icon="loadResultIcon"
       :loading="isLoading"
       v-if="!!devKey"
       @click:append="toggleTrelloMask"
     ></v-text-field>
     <v-btn
-      v-if="!token"
+      v-if="devKey && !token"
       @click="openTokenPage"
     >
        <v-icon left>input</v-icon>
@@ -36,6 +38,7 @@
 </v-container>
 </template>
 <script>
+import * as Tab from '../lib/tabUtil.js';
 import { SUCCESS, FAILED, DEFAULT } from '../common/loadStatusType.js';
 export default {
   data: function() {
@@ -87,12 +90,12 @@ export default {
         this.shouldTokenMasking = true;
       }
     },
-    openKeyPage() {
-      this.$store.dispatch('setting/openKeyPage');
+    openKeyPage(context) {
+      Tab.openOuterBrowser("https://trello.com/1/appKey/generate");
     },
-    openTokenPage() {
-      this.$store.dispatch('setting/openTokenPage');
-    }
+    openTokenPage({state}) {
+      Tab.openOuterBrowser(`https://trello.com/1/authorize?expiration=never&name=&scope=read,write&response_type=token&key=${this.$store.state.trelloAuth.devKey}`);
+    },
   }
 }
 </script>
