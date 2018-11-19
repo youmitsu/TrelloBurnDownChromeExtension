@@ -49,8 +49,7 @@ const store = new Vuex.Store({
     },
     launch: {
       server: false,
-      trello: false,
-      board: false
+      trello: false
     }
   },
   getters: {
@@ -103,10 +102,6 @@ const store = new Vuex.Store({
             commit('END_TRELLO_LOADING', {
               status: SUCCESS
             });
-            commit('SET_LAUNCH_STATE', {
-              key: "trello",
-              flg: true
-            });
           })
           .catch(err => {
             commit('END_TRELLO_LOADING', {
@@ -130,7 +125,7 @@ const store = new Vuex.Store({
     validateTrelloDevKey({ commit, dispatch }, value) {
       commit('SET_DEVKEY', value);
       dispatch('checkTrelloApi');
-    },
+    }
   },
   mutations: {
     SET_INITIAL_STATE(state) {
