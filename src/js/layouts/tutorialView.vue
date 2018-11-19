@@ -63,6 +63,9 @@ export default {
   methods: {
     movePage(value) {
       this.pageNumber = value;
+    },
+    moveToHome() {
+      this.$store.commit('SET_TUTORIAL_COMPLETED');
     }
   },
   components: {

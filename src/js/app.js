@@ -50,14 +50,15 @@ const store = new Vuex.Store({
     launch: {
       server: false,
       trello: false
-    }
+    },
+    tutorialCompleted: false
   },
   getters: {
     isTrelloAuthenticated: state => {
       return state.trelloAuth.token && state.trelloAuth.devKey;
     },
     shouldShowTutorial: state => {
-      return Object.keys(state.launch).filter(v => !state.launch[v]).length > 0;
+      return Object.keys(state.launch).filter(v => !state.launch[v]).length > 0 && !state.tutorialCompleted;
     },
     tutorialPosition: state => {
       let isInitial = false;
@@ -136,6 +137,7 @@ const store = new Vuex.Store({
       if(DataStore.get('launch')) {
         state.launch = JSON.parse(DataStore.get('launch'));
       }
+      state.tutorialCompleted = !!DataStore.get('tutorialCompleted');
     },
     SET_LAUNCH_STATE(state, obj) {
       state.launch[obj.key] = obj.flg;
@@ -172,6 +174,10 @@ const store = new Vuex.Store({
     SET_TOKEN(state, token) {
       state.trelloAuth.token = token;
       DataStore.set('token', state.trelloAuth.token);
+    },
+    SET_TUTORIAL_COMPLETED() {
+      state.tutorialCompleted = true;
+      DataStore.set('tutorialCompleted', state.tutorialCompleted);
     }
   },
   modules: {
