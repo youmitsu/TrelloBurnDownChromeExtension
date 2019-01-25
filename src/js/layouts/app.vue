@@ -1,46 +1,31 @@
 <template>
 <div>
-  <v-tabs
-    v-model="active"
-    color="cyan"
-    dark
-    slider-color="yellow"
-    centered>
-    <v-tab v-for="view in viewList" :key="view.id">
-      {{ view.name }}
-      <v-icon v-if="view.name == viewType.GRAPH.name">show_chart</v-icon>
-      <v-icon v-if="view.name == viewType.SETTING.name">settings</v-icon>
-    </v-tab>
-    <v-tab-item :key="viewType.GRAPH.id">
-      <graph-view></graph-view>
-    </v-tab-item>
-    <v-tab-item :key="viewType.SETTING.id">
-      <setting-view></setting-view>
-    </v-tab-item>
-  </v-tabs>
+  <home-view v-show="isHome"></home-view>
+  <sprint-new v-show="isSprintNew"></sprint-new>
 </div>
 </template>
-
 <script>
+import * as DataStore from '../lib/dataStore.js';
 import viewType from '../common/viewType.js';
-import graphView from './graphView.vue';
-import settingView from './settingView.vue';
+import homeView from './home.vue';
+import sprintNew from './sprintNew.vue';
 
 export default {
-  data() {
-    return {
-      active: null,
-      "viewType": viewType
-    }
+  created() {
+    this.$store.commit('setting/SET_INITIAL_STATE');
+    this.$store.commit('graph/SET_INITIAL_STATE');
   },
   computed: {
-    viewList() {
-      return viewType.items;
+    isHome() {
+      return this.$store.state.current.isHome;
+    },
+    isSprintNew() {
+      return !this.$store.state.current.isHome && this.$store.state.current.view == viewType.SPRINT_NEW.name;
     }
   },
   components: {
-    "graph-view": graphView,
-    "setting-view": settingView
+    "home-view": homeView,
+    "sprint-new": sprintNew
   }
 }
 </script>

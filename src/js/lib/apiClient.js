@@ -32,7 +32,7 @@ export function getBoards(username, token, devKey) {
 
 export function getChartData(token, key, boardId, startDate, endDate, holidays) {
   return new Promise((resolve, reject) => {
-    fetch(`${localStorage.getItem('baseUrl')}/getSprintPoint?token=${encodeURIComponent(token)}&key=${encodeURIComponent(key)}&boardId=${boardId}&startDate=${startDate}&endDate=${endDate}&holidays=${holidays}`, {
+    fetch(`${localStorage.getItem('baseUrl')}/getSprintPoint?token=${encodeURIComponent(token)}&key=${encodeURIComponent(key)}&boardId=${boardId}&startDate=${startDate}&endDate=${endDate}&holidays=${holidays.join(',')}`, {
         method: 'GET'
       })
       .then(res => res.json())

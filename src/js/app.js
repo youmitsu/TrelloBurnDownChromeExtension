@@ -4,7 +4,6 @@ import Vuetify from 'vuetify'
 import Vuex from 'vuex';
 import Chart from 'chartjs';
 import "semantic-ui/dist/semantic.min.js";
-import "semantic-ui-calendar/dist/calendar.min.js";
 
 //css
 import "material-design-icons-iconfont/dist/material-design-icons.css";
@@ -15,6 +14,7 @@ import "semantic-ui-calendar/dist/calendar.min.css";
 
 //common
 import { SUCCESS, FAILED, DEFAULT } from './common/loadStatusType.js';
+import { GRAPH, SETTING } from './common/viewType.js';
 
 //Utils
 import * as DataStore from './lib/dataStore.js';
@@ -37,8 +37,12 @@ const store = new Vuex.Store({
       status: DEFAULT
     },
     trelloAuth: {
-      token: localStorage.getItem('token'),
-      devKey: localStorage.getItem('devKey')
+      token: DataStore.get('token'),
+      devKey: DataStore.get('devKey')
+    },
+    current: {
+      isHome: true,
+      view: 'graph'
     }
   },
   getters: {
@@ -49,6 +53,10 @@ const store = new Vuex.Store({
   actions: {
   },
   mutations: {
+    SET_CURRENT_VIEW(state, value) {
+      state.current.isHome = value.isHome;
+      state.current.view = value.view;
+    }
   },
   modules: {
     graph: graphStore,
