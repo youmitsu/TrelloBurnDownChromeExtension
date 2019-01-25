@@ -1,4 +1,5 @@
 ![versionBadge](https://img.shields.io/badge/latest-v0.1.12-green.svg)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 # Trello Burndown Chrome Extension
 
