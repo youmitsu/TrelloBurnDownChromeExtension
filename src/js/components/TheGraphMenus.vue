@@ -34,6 +34,11 @@
       return-object
       ></v-select>
   </v-flex>
+  <v-flex d-flex slot="extension">
+    <v-btn icon>
+      <v-icon @click="showSprintNew">add</v-icon>
+    </v-btn>
+  </v-flex>
 </v-toolbar>
 </template>
 <script>
@@ -102,6 +107,12 @@ export default {
     }
   },
   methods: {
+    showSprintNew() {
+      this.$store.commit('SET_CURRENT_VIEW', {
+        view: 'sprintNew',
+        isHome: false
+      });
+    },
     reload() {
       this.$store.dispatch('graph/reload');
     },
