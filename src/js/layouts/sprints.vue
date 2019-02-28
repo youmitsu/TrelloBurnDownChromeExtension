@@ -11,7 +11,7 @@
       <v-icon @click="showSprintNew">add</v-icon>
     </v-btn>
   </v-toolbar>
-  <v-container id="scrolling-target">
+  <v-container id="scrolling-target" class="pb-5">
     <v-select
       :items="boardList"
       label="Board"
